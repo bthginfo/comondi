@@ -1,8 +1,8 @@
 {
   "template": "https://github.com/bthginfo/website-starter",
-  "version": "1.47.1",
-  "sourceCommit": "8092c63409886bad4161c811594de81f51402301",
+  "version": "1.47.2",
+  "sourceCommit": "069a428056d2e2b56b13b45127c4448b25a2a605",
   "profile": "consulting",
-  "note": "Am 2026-11-26 mit scripts/upgrade-site.mjs von 1.36.0 auf 1.46.0 (CMS-Bedienung) aktualisiert. Teile des CMS waren bereits aus 1.40 bis 1.45 übernommen; Design Kosmos/Atlas, Inhalte und eigene Abschnitte bleiben unverändert. Am 2026-11-26 auf 1.47.0 (CMS im Liquid-Glass-Look, Bereich „Design“) aktualisiert: CMS-Akzent aus dem co:mondi-Pink, im Design-Bereich Kosmos/Atlas statt der Starter-Layouts, eigenes Logo in Kopf- und Fußzeile; öffentliche Seiten ohne Auswahl unverändert. Danach 1.47.1 (lesbare Hilfe-Anleitungen) übernommen.",
+  "note": "Am 2026-11-26 mit scripts/upgrade-site.mjs von 1.36.0 auf 1.46.0 (CMS-Bedienung) aktualisiert. Teile des CMS waren bereits aus 1.40 bis 1.45 übernommen; Design Kosmos/Atlas, Inhalte und eigene Abschnitte bleiben unverändert. Am 2026-11-26 auf 1.47.0 (CMS im Liquid-Glass-Look, Bereich „Design“) aktualisiert: CMS-Akzent aus dem co:mondi-Pink, im Design-Bereich Kosmos/Atlas statt der Starter-Layouts, eigenes Logo in Kopf- und Fußzeile; öffentliche Seiten ohne Auswahl unverändert. Danach 1.47.1 (lesbare Hilfe-Anleitungen) und 1.47.2 (KI-Assistent als runder Knopf unten rechts) übernommen.",
   "upgradedAt": "2026-11-26"
 }

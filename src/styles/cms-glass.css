@@ -1063,3 +1063,30 @@
 }
 .cms-app--glass .cms-help-aside .cms-text-link { color: var(--cms-accent-text); }
 @media (max-width: 700px) { .cms-app--glass .cms-help-aside dl { grid-template-columns: 1fr; } }
+
+/* KI-Assistent: one round floating action button, always in the bottom-right corner of the screen (not of the
+   scrolling page area, which put it in the middle of content), above the phone tab bar and above a pending
+   save bar. The panel opens from the same corner. Inline, embedded and demo assistants keep their own place. */
+.cms-app.cms-app--glass { --cms-fab-size: 56px; --cms-fab-gap: 24px; --cms-fab-bottom: 24px; }
+@media (max-width: 1180px) {
+  .cms-app.cms-app--glass { --cms-fab-size: 52px; --cms-fab-gap: 16px; --cms-fab-bottom: calc(max(10px, env(safe-area-inset-bottom)) + 62px + 14px); }
+}
+.cms-app.cms-app--glass:has(.cms-settings-save--dirty) { --cms-fab-bottom: 104px; }
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) { position: fixed; inset: 0; z-index: 170; }
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) .assistant-launcher {
+  position: absolute; inset: auto var(--cms-fab-gap) var(--cms-fab-bottom) auto; width: var(--cms-fab-size); height: var(--cms-fab-size);
+  min-height: 0; max-width: none; padding: 0; justify-content: center; border: 0; border-radius: 50%;
+  background: var(--cms-accent); color: var(--cms-on-accent); box-shadow: var(--cms-shadow-3);
+  -webkit-backdrop-filter: none; backdrop-filter: none; transition: transform var(--cms-fast), background var(--cms-fast);
+}
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) .assistant-launcher:hover { background: var(--cms-accent-hover); transform: translateY(-1px); }
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) .assistant-launcher:focus-visible { outline: 3px solid var(--cms-ring); outline-offset: 3px; }
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) .assistant-launcher svg { width: 22px; height: 22px; }
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) .assistant-launcher > :is(span, small) {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0;
+}
+.cms-app.cms-app--glass .assistant-host:not(.assistant-host--inline):not(.assistant-host--embedded):not(.assistant-host--demo) .assistant-panel {
+  right: var(--cms-fab-gap); bottom: calc(var(--cms-fab-bottom) + var(--cms-fab-size) + 12px);
+  max-height: calc(100dvh - var(--cms-fab-bottom) - var(--cms-fab-size) - 40px);
+}
+@media (prefers-reduced-motion: reduce) { .cms-app.cms-app--glass .assistant-launcher { transition: none; } }

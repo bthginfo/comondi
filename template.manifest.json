@@ -1,6 +1,6 @@
 {
   "id": "website-starter",
-  "version": "1.47.1",
+  "version": "1.47.2",
   "repository": "https://github.com/bthginfo/website-starter",
   "stack": "nextjs-react-typescript",
   "runtime": "node-24",

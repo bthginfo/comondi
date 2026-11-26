@@ -154,3 +154,9 @@ Beim Übernehmen mit `npm run upgrade:site` sind keine Datenänderungen nötig. 
 - **Hilfe: Anleitungen und Tastenkürzel gut lesbar.** Die Anleitungen unter „Hilfe“ sind ruhige Karten mit Innenabstand, Titel in Schriftfarbe und einem Pfeil zum Aufklappen. „Gut zu wissen“ zeigt Tastenkürzel als Tasten neben ihrer Beschreibung. Vorher klebte der Titel am Kartenrand und war im dunklen Modus in Linkfarbe gesetzt.
 
 Nur `src/styles/cms-glass.css`; keine Daten- oder Schemaänderung.
+
+## Korrekturen · 1.47.2
+
+- **KI-Assistent immer unten rechts.** Der Assistent ist ein runder Knopf, fest in der rechten unteren Bildschirmecke (Desktop 24 px Abstand, Handy über der Tab-Leiste, über einer offenen Speicherleiste). Vorher hing er am Ende des scrollenden Seitenbereichs und tauchte je nach Seite mitten im Inhalt auf. Der Bereich öffnet sich aus derselben Ecke; ein Tooltip nennt „KI-Assistent“.
+
+Nur `src/styles/cms-glass.css` und ein `title` in `assistant.tsx`; keine Daten- oder Schemaänderung. Eingebettete, Inline- und Demo-Assistenten behalten ihren Platz.
