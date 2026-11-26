@@ -372,7 +372,7 @@ export function buildSubpages(current: WebsiteContent): Record<SubpageSlug, Subp
             item('safe', 'SAFe®', '', { meta: 'Agile Transformation' }),
             item('aspice', 'A-SPICE', '', { meta: 'Projekte & Prozesse' }),
             item('systems', 'Systems Engineering', '', { meta: 'Projekte & Prozesse' }),
-            item('coaching', 'Systemisches Coaching', '', { meta: 'Menschen & Kultur' }),
+            item('coaching', 'Systemisches Coaching', '', { meta: 'Agile Transformation' }),
           ],
         }),
         section('standorte', 'comondi-places', 'Standorte', {
