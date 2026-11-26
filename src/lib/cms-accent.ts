@@ -208,8 +208,16 @@ export function cmsAccentVariables(palette: CmsAccentPalette): Record<string, st
   return result;
 }
 
+type BrandColors = { primary?: string; accent?: string; background?: string };
+
+/** A "primary" colour that is practically the page background (dark sites) is a surface, not what the brand is recognised by. */
+function surfaceColor(color: string | undefined, background: string | undefined): boolean {
+  return isHexColor(color) && isHexColor(background) && contrast(color, background) < 1.3;
+}
+
 /** The colours of a site that represent its brand, most important first. */
-export function brandCandidates(theme: { brandColor?: string; primary?: string; accent?: string; palettes?: Partial<Record<number, { primary?: string; accent?: string }>> }, variant = 1): string[] {
+export function brandCandidates(theme: { brandColor?: string; palettes?: Partial<Record<number, BrandColors>> } & BrandColors, variant = 1): string[] {
   const palette = theme.palettes?.[variant];
-  return [theme.brandColor, palette?.primary, theme.primary, palette?.accent, theme.accent].filter((value): value is string => isHexColor(value));
+  const primary = [palette?.primary, theme.primary].filter(color => !surfaceColor(color, palette?.background ?? theme.background));
+  return [theme.brandColor, ...primary, palette?.accent, theme.accent].filter((value): value is string => isHexColor(value));
 }
