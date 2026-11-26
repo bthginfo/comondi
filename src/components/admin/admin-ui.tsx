@@ -74,11 +74,13 @@ export class ApiError extends Error {
     this.name = "ApiError";
   }
 }
+/** Fired (cancelable) when an admin request finds the session expired. A workspace with unsaved changes cancels it and asks for the password in place. */
+export const sessionExpiredEvent = "cms:session-expired";
 export async function api<T>(url: string, options?: RequestInit): Promise<T> {
   const response = await fetch(url, { ...options, headers: { ...(options?.body instanceof FormData ? {} : { "Content-Type": "application/json" }), ...options?.headers } });
   const result = await response.json().catch(() => ({}));
   if (!response.ok) {
-    if (response.status === 401 && url !== "/api/admin/login") window.location.assign("/admin/login");
+    if (response.status === 401 && url !== "/api/admin/login" && window.dispatchEvent(new Event(sessionExpiredEvent, { cancelable: true }))) window.location.assign("/admin/login");
     const messages = Array.isArray(result.messages) ? result.messages.filter((item: unknown): item is AdminMessage =>
       typeof item === "object" && item !== null && "message" in item && typeof item.message === "string") : undefined;
     throw new ApiError(result.error || "Die Änderung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.", response.status, messages);

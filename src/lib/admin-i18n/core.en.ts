@@ -1246,5 +1246,9 @@ export const adminCoreEnglish: Readonly<Record<string, string>> = {
   "Bitte wählen Sie für den Blog eine freie Seitenadresse.": "Choose an available address for the blog.",
   "Blogbeiträge benötigen eindeutige Adressen und IDs.": "Posts need unique addresses and IDs.",
   "Die Website ist noch nicht eingerichtet.": "The website has not been set up yet.",
-  "Die Datenbank ist noch nicht eingerichtet.": "The database has not been set up yet."
+  "Die Datenbank ist noch nicht eingerichtet.": "The database has not been set up yet.",
+  "Bitte erneut anmelden": "Please sign in again",
+  "Ihre Sitzung ist abgelaufen. Ihre ungespeicherten Änderungen bleiben in diesem Fenster erhalten. Melden Sie sich an und speichern Sie danach erneut.": "Your session has expired. Your unsaved changes stay in this window. Sign in, then save again.",
+  "Sie sind wieder angemeldet. Speichern Sie Ihre Änderungen jetzt erneut.": "You are signed in again. Save your changes now.",
+  "Für einen anderen SMTP-Server oder ein anderes Konto geben Sie bitte das SMTP-Passwort erneut ein.": "Enter the SMTP password again for a different SMTP server or account."
 };
