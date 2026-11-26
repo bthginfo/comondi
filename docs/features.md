@@ -148,3 +148,9 @@ Die Verwaltung ist neu gestaltet: Sie sehen Ihre echte Seite, tippen an, was sic
 - **Handy.** Tab-Leiste mit Übersicht, Website, Design, Medien und Mehr; im Editor liegt die Aktionsleiste im Daumenbereich, Bild-Knöpfe sind am gewählten Abschnitt sichtbar.
 
 Beim Übernehmen mit `npm run upgrade:site` sind keine Datenänderungen nötig. Die neuen Felder in `config.theme` sind optional; ohne Auswahl bleibt jede Website wie bisher. Projekte mit eigenen Anpassungen an `admin-app.tsx`, `page-editor.tsx`, `canvas-editor-tools.tsx`, `publication-review.tsx`, `section-inspector-controls.tsx`, `guided-tour.tsx`, `site-view.tsx` oder `validation.ts` prüfen die zusammengeführten Stellen. Eigene Admin-Stylesheets mit festen Farben sollten Tokens wie `var(--cms-surface)` und `var(--cms-ink)` verwenden, damit der dunkle Modus lesbar bleibt. Details und Tokens: [CMS-Gestaltung](cms-design.md).
+
+## Korrekturen · 1.47.1
+
+- **Hilfe: Anleitungen und Tastenkürzel gut lesbar.** Die Anleitungen unter „Hilfe“ sind ruhige Karten mit Innenabstand, Titel in Schriftfarbe und einem Pfeil zum Aufklappen. „Gut zu wissen“ zeigt Tastenkürzel als Tasten neben ihrer Beschreibung. Vorher klebte der Titel am Kartenrand und war im dunklen Modus in Linkfarbe gesetzt.
+
+Nur `src/styles/cms-glass.css`; keine Daten- oder Schemaänderung.

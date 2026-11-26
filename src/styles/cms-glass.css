@@ -352,14 +352,6 @@
 .cms-app--glass .cms-blog-feature-status strong { color: var(--cms-ink); }
 .cms-app--glass .cms-blog-manager > .cms-empty { background: var(--cms-surface); border: 0; border-radius: var(--cms-r-lg); box-shadow: var(--cms-shadow-1); color: var(--cms-muted); }
 .cms-app--glass .cms-blog-manager > .cms-empty :is(h2, h3) { color: var(--cms-ink); }
-/* Help: guides and the "Gut zu wissen" column follow the tokens, so dark mode has no light island. */
-.cms-app--glass .cms-help-guide summary { color: var(--cms-ink); }
-.cms-app--glass .cms-help-guide summary::after { color: var(--cms-accent-text); }
-.cms-app--glass .cms-help-guide p { color: var(--cms-muted); }
-.cms-app--glass .cms-help-aside { background: var(--cms-surface); color: var(--cms-ink); border-radius: var(--cms-r-lg); box-shadow: var(--cms-shadow-1); }
-.cms-app--glass .cms-help-aside > div + div { border-top-color: var(--cms-line); }
-.cms-app--glass .cms-help-aside :is(dt, dd) { color: var(--cms-ink-2); }
-.cms-app--glass .cms-help-aside kbd { background: var(--cms-fill); border-color: var(--cms-line-strong); color: var(--cms-ink); }
 .cms-app--glass .cms-design-entry { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 20px 22px; margin: 0 0 14px; border-radius: var(--cms-r-lg); background: linear-gradient(135deg, var(--cms-accent-tint), var(--cms-surface)); box-shadow: var(--cms-shadow-1); }
 .cms-app--glass .cms-design-entry h3 { margin: 0 0 4px; font-size: 17px; }
 .cms-app--glass .cms-design-entry p { margin: 0; color: var(--cms-muted); }
@@ -1033,3 +1025,41 @@
   .cms-app--glass .cms-editor--glass .cms-editor-panes:not(.cms-editor-panes--outline)[data-outline] > .cms-outline,
   .cms-app--glass .cms-editor--glass .cms-editor-panes:not(.cms-editor-panes--properties)[data-inspector] > .cms-inspector { visibility: hidden; pointer-events: none; transform: translateY(105%); }
 }
+
+/* Help: guides as calm cards with real inner padding, the aside as a quiet panel. Tokens only, so light and dark
+   both work and no site stylesheet colours (links, legacy greens) leak into titles or shortcut labels. */
+.cms-app--glass .cms-help-layout { gap: 28px; }
+.cms-app--glass .cms-help-guides { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.cms-app--glass .cms-help-guides > h2 { margin: 0 0 6px; font-size: 19px; color: var(--cms-ink); }
+.cms-app--glass .cms-help-guide { padding: 0; border: 0; }
+.cms-app--glass .cms-help-guide:last-child { border-bottom: 0; }
+.cms-app--glass .cms-help-guide > summary {
+  display: flex; align-items: center; min-height: 52px; padding: 14px 52px 14px 20px; position: relative;
+  color: var(--cms-ink); font-size: 15px; font-weight: 560; line-height: 1.35; cursor: pointer; list-style: none;
+  border-radius: var(--cms-r-lg);
+}
+.cms-app--glass .cms-help-guide > summary::-webkit-details-marker { display: none; }
+.cms-app--glass .cms-help-guide > summary::after {
+  content: ""; position: absolute; right: 22px; top: 50%; width: 8px; height: 8px; margin-top: -6px;
+  border-right: 2px solid var(--cms-muted); border-bottom: 2px solid var(--cms-muted); transform: rotate(45deg);
+  transition: transform 260ms var(--cms-ease);
+}
+.cms-app--glass .cms-help-guide[open] > summary::after { content: ""; transform: rotate(-135deg); margin-top: -2px; }
+.cms-app--glass .cms-help-guide > summary:hover { background: var(--cms-fill); }
+.cms-app--glass .cms-help-guide > summary:focus-visible { outline: 2px solid var(--cms-ring); outline-offset: 2px; }
+.cms-app--glass .cms-help-guide > div { padding: 0 20px 18px; }
+.cms-app--glass .cms-help-guide p { color: var(--cms-ink-2); font-size: 14px; line-height: 1.6; margin: 0 0 12px; max-width: 68ch; }
+.cms-app--glass .cms-help-aside { background: var(--cms-fill); color: var(--cms-ink); border: 0; border-radius: var(--cms-r-lg); padding: 22px; box-shadow: none; }
+.cms-app--glass .cms-help-aside :is(h2, h3) { color: var(--cms-ink); font-size: 15px; margin: 0 0 10px; }
+.cms-app--glass .cms-help-aside p { color: var(--cms-ink-2); font-size: 13px; line-height: 1.6; }
+.cms-app--glass .cms-help-aside > div + div { border-top: 1px solid var(--cms-line); margin-top: 20px; padding-top: 18px; }
+.cms-app--glass .cms-help-aside dl { gap: 10px; }
+.cms-app--glass .cms-help-aside dl > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cms-app--glass .cms-help-aside dt { color: var(--cms-ink-2); font-size: 12px; order: 2; }
+.cms-app--glass .cms-help-aside dd { color: var(--cms-ink); font-size: 13px; order: 1; }
+.cms-app--glass .cms-help-aside kbd {
+  background: var(--cms-surface); color: var(--cms-ink); border: 1px solid var(--cms-line-strong); border-bottom-width: 2px;
+  border-radius: 6px; padding: 1px 7px; font: 600 12px/1.6 inherit; min-width: 24px; text-align: center;
+}
+.cms-app--glass .cms-help-aside .cms-text-link { color: var(--cms-accent-text); }
+@media (max-width: 700px) { .cms-app--glass .cms-help-aside dl { grid-template-columns: 1fr; } }
