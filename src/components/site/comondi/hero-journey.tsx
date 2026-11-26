@@ -287,7 +287,7 @@ function Journey({ worlds, copy, scene, headingLevel, onFail }: {
       <nav className={styles.journeyRail} aria-label="Welten im Überblick">
         <span className={styles.journeyLine} aria-hidden="true"><span ref={fill} /></span>
         <ol>{worlds.map((world, index) => <li key={world.id} data-world={world.planet}>
-          <button type="button" aria-current={active === index + 1 ? "step" : undefined} onClick={() => choose(index)}>
+          <button type="button" title={world.title} aria-current={active === index + 1 ? "step" : undefined} onClick={() => choose(index)}>
             <span className={styles.journeyLabel}>{world.title}</span><span className={styles.journeyDot} aria-hidden="true" />
           </button>
         </li>)}</ol>

@@ -805,6 +805,10 @@
   .journeyLine { position: absolute; top: 17px; bottom: 17px; right: 4px; width: 1px; background: #c8d7ff26; }
   .journeyLine > span { display: block; height: 100%; transform: scaleY(0); transform-origin: top; background: linear-gradient(color-mix(in srgb, var(--cm-global-accent) 55%, #fff), #bdd2ff); }
 }
+@media (prefers-reduced-motion: no-preference) and (min-height: 520px) and (max-width: 1199px) {
+  /* Narrower screens give the planet the room: the rail keeps its dots, the titles stay as accessible names. */
+  .journeyLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
 @media (prefers-reduced-motion: no-preference) and (min-height: 520px) and (max-width: 760px) {
   /* Smartphone: the planet above, the copy at the bottom; the opening text may reach into the overview on short screens. */
   .journeyStage::before {
@@ -824,6 +828,5 @@
   .journeyStage .journeyRail { top: var(--cm-journey-focus-y, 30%); right: 2px; }
   .journeyRail ol { gap: 0; }
   .journeyRail button { min-height: 30px; padding: 0 10px; }
-  .journeyLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .journeyLine { top: 15px; bottom: 15px; right: 14px; }
 }
