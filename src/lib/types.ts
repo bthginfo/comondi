@@ -79,7 +79,10 @@ export interface ComondiMotionSettings {
   parallaxStrength: number;
   revealDuration: number;
   starDensity: "sparse" | "balanced" | "dense";
+  /** Which co:mondi design the site shows by default: the dark space scene or the daylight atlas. */
+  design?: ComondiDesign;
 }
+export type ComondiDesign = "kosmos" | "atlas";
 export interface SiteConfig {
   comondiMotion?: ComondiMotionSettings;
   defaultAdminLanguage?: SiteLanguage;

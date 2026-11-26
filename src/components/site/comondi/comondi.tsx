@@ -14,12 +14,18 @@ import { ProcessExplorer, WorldExplorer } from "./comondi-explorers";
 import { PlanetScene } from "./planet-scene";
 import { SpaceBackground } from "./space-background";
 import { installComondiMotion } from "./motion-runtime";
-import styles from "./comondi.module.css";
+import { AtlasMap } from "./atlas-map";
+import { atlasDisplay, atlasText } from "./atlas-fonts";
+import { DesignSwitch, designReview, useComondiDesign } from "./design-switch";
+import type { ComondiDesign } from "@/lib/types";
+import { styles } from "./styles";
 
 export function ComondiSite({ page, site, editable, selectedSectionId, onSectionSelect, onSectionChange, fallback }: VariantSiteProps) {
   const root = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
   const settings = useMemo(() => comondiMotion(site.comondiMotion), [site.comondiMotion]);
+  const [design, setDesign] = useComondiDesign(settings.design, editable);
+  const atlas = design === "atlas";
   useEffect(() => {
     try { setPaused(sessionStorage.getItem("comondi-space-paused") === "1"); } catch {}
   }, []);
@@ -51,19 +57,22 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
   const pageType = page.slug.startsWith("leistungen/") ? "service" : page.slug.startsWith("aktuelles/") ? "article" : page.slug || "home";
   const sections = page.sections.filter(section => section.visible || editable);
   const firstSectionId = sections[0]?.id;
+  // The Atlas map places the page's service worlds as pins around the opening.
+  const worldPins = (sections.find(section => section.type === "comondi-worlds")?.content.items ?? []).filter(entry => entry.href).map(entry => ({ id: entry.id, title: entry.title, href: entry.href }));
 
-  return <div id="seitenanfang" ref={root} className={styles.site} style={style} data-cm-page={pageType}
+  return <div id="seitenanfang" ref={root} className={`${styles.site}${atlas ? ` ${atlasDisplay.variable} ${atlasText.variable}` : ""}`} style={style} data-cm-page={pageType} data-cm-design={design}
     data-cm-motion={settings.enabled && !editable ? "on" : "off"}
     data-cm-feedback={settings.enabled && settings.interactionFeedback && !editable ? "on" : "off"}
     data-cm-editable={editable ? "true" : undefined}>
-    <SpaceBackground settings={settings} paused={paused} editable={editable} />
+    {!atlas && <SpaceBackground settings={settings} paused={paused} editable={editable} />}
+    {!editable && designReview && <DesignSwitch design={design} onChange={setDesign} />}
     <ComondiNavigation site={site} slug={page.slug} editable={editable} motionEnabled={settings.enabled} paused={paused} onToggleMotion={toggleMotion} />
     <Main id="hauptinhalt" tabIndex={editable ? undefined : -1} data-site-main={editable ? "" : undefined}>
       {parent && <nav aria-label="Übergeordnete Seite" className={styles.backNav}>
         <ContentLink href={parent.href} editable={editable} className={styles.textLink}><ArrowLeft size={17} aria-hidden="true" /> {parent.label}</ContentLink>
       </nav>}
       {sections.map(section => section.type.startsWith("comondi-") ? <SectionHeadingProvider key={`${page.id}-${section.id}`} sectionId={section.id}>
-        <ComondiSection ambientPaused={paused} section={section} site={site} editable={editable} selected={selectedSectionId === section.id}
+        <ComondiSection ambientPaused={paused} design={design} worldPins={worldPins} section={section} site={site} editable={editable} selected={selectedSectionId === section.id}
           onSelect={() => onSectionSelect?.(section.id)} onChange={onSectionChange}
           pageId={page.id} hideSecondary={parent?.href === section.content.secondaryHref && firstSectionId === section.id} />
       </SectionHeadingProvider> : fallback(section))}
@@ -97,8 +106,8 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
   </div>;
 }
 
-export function ComondiSection({ section, site, editable = false, selected, onSelect, onChange, ambientPaused = false, pageId, hideSecondary }: VariantSectionProps & {
-  ambientPaused?: boolean; pageId?: string; hideSecondary?: boolean;
+export function ComondiSection({ section, site, editable = false, selected, onSelect, onChange, ambientPaused = false, pageId, hideSecondary, design = "kosmos", worldPins = [] }: VariantSectionProps & {
+  ambientPaused?: boolean; pageId?: string; hideSecondary?: boolean; design?: ComondiDesign; worldPins?: { id: string; title: string; href?: string }[];
 }) {
   const { content: c, design: d } = section;
   const level = useSectionHeadingLevel(section.id);
@@ -172,7 +181,7 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
         </div>
         <div className={styles.heroVisual}>
           <div className={styles.heroGlow} aria-hidden="true" />
-          {editable ? <div className={styles.sceneEdit}>
+          {design === "atlas" ? <AtlasMap editable={editable} label={c.image?.alt} links={related.length ? related.map(({ entry }) => ({ id: entry.id, title: entry.title, href: entry.href })) : worldPins} /> : editable ? <div className={styles.sceneEdit}>
             <EditableImage image={c.image} editable priority className={styles.sceneEditImage} onChange={value => update("image",value)} />
             {hint && <div className={styles.heroEditHint} data-item-id={hint.id}>{itemText(hint,hintIndex,"title","span")}{itemText(hint,hintIndex,"text")}</div>}
           </div> : <PlanetScene motionSettings={settings} poster={c.image?.src} label={c.image?.alt}

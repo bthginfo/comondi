@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState, type MouseEvent } from "react";
 import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
 import type { SiteConfig } from "@/lib/types";
 import { ContentLink, safeHref } from "../editable";
-import styles from "./comondi.module.css";
+import { styles } from "./styles";
 
 export function ComondiNavigation({ site, slug, editable, motionEnabled, paused, onToggleMotion }: {
   site: SiteConfig;

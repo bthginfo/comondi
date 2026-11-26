@@ -1,0 +1,250 @@
+/*
+ * co:mondi · Atlas
+ * The daylight design: two worlds drawn like a map, connected in the brand colour.
+ * Indigo ink on morning white, Syne for headings, Archivo for text. Everything below
+ * the site root only applies while data-cm-design="atlas" is set; the design switch
+ * and the map elements are used by Atlas alone or by both designs.
+ */
+
+/* Design switch, shown while the site is in review. Works on both designs. */
+.designSwitch {
+  position: fixed;
+  z-index: 60;
+  right: max(14px, env(safe-area-inset-right, 0px));
+  bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid #ffffff26;
+  background: #0d1222d9;
+  color: #f2f3f8;
+  font: 600 13px/1 var(--cm-atlas-text, 'Manrope Variable'), sans-serif;
+  box-shadow: 0 12px 30px #0006;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.designSwitch > span { padding: 0 8px 0 10px; color: #b9c2d8; font-weight: 500; }
+.designSwitch button { min-height: 36px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.designSwitch button:hover { background: #ffffff14; }
+.designSwitch button[aria-pressed="true"] { background: #f2f3f8; color: #0d1222; }
+
+.site[data-cm-design="atlas"] {
+  --at-paper: #f2f4f9;
+  --at-paper-deep: #e4e8f2;
+  --at-card: #ffffff;
+  --at-ink: #1a1640;
+  --at-ink-2: #46426c;
+  --at-ink-3: #5f5b84;
+  --at-pink: color-mix(in srgb, var(--cm-global-accent, #ed62b9) 88%, #b5006c);
+  --at-pink-ink: color-mix(in srgb, var(--cm-global-accent, #ed62b9) 58%, #4a0030);
+  --at-line: color-mix(in srgb, var(--at-ink) 14%, transparent);
+  --at-display: var(--cm-atlas-display), 'Avenir Next', system-ui, sans-serif;
+  --cm-background: var(--at-paper) !important;
+  --cm-global-text: var(--at-ink) !important;
+  --cm-muted: var(--at-ink-2);
+  --cm-subtle: var(--at-ink-3);
+  --cm-stroke: var(--at-line);
+  --cm-surface: var(--at-card);
+  --cm-base-surface: var(--at-card) !important;
+  --cm-base-border: var(--at-line) !important;
+  --cm-shadow: 0 1px 0 #1a16400a, 0 22px 48px -34px #1a164073;
+  --cm-world-light: var(--at-pink);
+  color-scheme: light;
+  background:
+    radial-gradient(70vw 50vw at 100% -10%, color-mix(in srgb, var(--at-pink) 10%, transparent), transparent 60%),
+    var(--at-paper);
+  font-family: var(--cm-atlas-text), 'Segoe UI', system-ui, sans-serif;
+}
+.site[data-cm-design="atlas"] ::selection { background: var(--at-pink); color: #fff; }
+.site[data-cm-design="atlas"] :is(a, button, summary, input, textarea, [tabindex]):focus-visible { outline-color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .designSwitch { border-color: var(--at-line); background: #ffffffe0; color: var(--at-ink); box-shadow: 0 12px 30px #1a164026; }
+.site[data-cm-design="atlas"] .designSwitch > span { color: var(--at-ink-3); }
+.site[data-cm-design="atlas"] .designSwitch button:hover { background: #1a16400d; }
+.site[data-cm-design="atlas"] .designSwitch button[aria-pressed="true"] { background: var(--at-ink); color: #fff; }
+
+/* Type: wide geometric headings, a sturdy grotesk for reading. */
+.site[data-cm-design="atlas"] .section :is(h1, h2, h3) { font-family: var(--at-display); font-weight: 700; letter-spacing: -.035em; line-height: 1.05; }
+.site[data-cm-design="atlas"] .section h3 { font-weight: 650; letter-spacing: -.02em; line-height: 1.15; }
+.site[data-cm-design="atlas"] .section p { color: var(--cm-section-muted, var(--at-ink-2)); }
+.site[data-cm-design="atlas"] .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--at-pink-ink);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  /* Editors write these labels in mixed case; small capitals give them one calm form. */
+  text-transform: none;
+  font-variant-caps: all-small-caps;
+}
+.site[data-cm-design="atlas"] .eyebrow:not(:empty)::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--at-pink); box-shadow: 0 0 0 4px color-mix(in srgb, var(--at-pink) 18%, transparent); }
+
+/* Header */
+.site[data-cm-design="atlas"] > .header { background: color-mix(in srgb, var(--at-paper) 82%, transparent); border-bottom-color: var(--at-line); }
+.site[data-cm-design="atlas"][data-cm-scrolled="true"] > .header { background: color-mix(in srgb, #fff 88%, transparent); border-bottom-color: var(--at-line); box-shadow: 0 10px 30px #1a16400f; }
+.site[data-cm-design="atlas"] .brand img { filter: none; }
+.site[data-cm-design="atlas"] .navLink { color: var(--at-ink-2); font-weight: 600; }
+.site[data-cm-design="atlas"] :is(.navLink:hover, .navLink[aria-current="page"], .navParent) { background: #1a16400d; color: var(--at-ink); }
+.site[data-cm-design="atlas"] :is(.headerCta, .outlineButton) { border-color: color-mix(in srgb, var(--at-ink) 24%, transparent); background: transparent; box-shadow: none; color: var(--at-ink); }
+.site[data-cm-design="atlas"] :is(.headerCta:hover, .headerCta[aria-current="page"], .outlineButton:hover) { background: #1a16400d; border-color: var(--at-ink); }
+.site[data-cm-design="atlas"] .button {
+  background-color: var(--cm-button-fill, var(--at-ink));
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--cm-button-text, #fff) !important;
+}
+.site[data-cm-design="atlas"] .button:hover { background-color: var(--cm-button-fill, color-mix(in srgb, var(--at-ink) 82%, var(--at-pink))); box-shadow: 0 10px 24px -12px #1a164099; }
+.site[data-cm-design="atlas"] .textLink:hover { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] :is(.menuToggle, .menuClose, .processControls button) { border-color: var(--at-line); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .mobileMenuSheet { background: #fff; color: var(--at-ink); border-color: var(--at-line); }
+.site[data-cm-design="atlas"] .mobileMenuLinks a { border-color: var(--at-line); }
+.site[data-cm-design="atlas"] .backNav a { color: var(--at-ink-2); }
+
+/* Opening: copy on the left, the map of two worlds on the right. */
+.site[data-cm-design="atlas"] .heroInner { min-height: clamp(560px, 46vw, 720px); }
+.site[data-cm-design="atlas"] .section .heroHeading { font-size: calc(clamp(44px, 5.4vw, 84px) * var(--cm-scale, 1)); font-weight: 700; line-height: 1; letter-spacing: -.045em; }
+.site[data-cm-design="atlas"] .heroGlow { display: none; }
+.site[data-cm-design="atlas"] .heroLocation { color: var(--at-ink-3); }
+.site[data-cm-design="atlas"]:not([data-cm-editable="true"]) .heroRelated { display: none; }
+.site[data-cm-design="atlas"] .heroDown { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .heroDown:hover { color: var(--at-ink); }
+
+.atlasMap { position: relative; width: 100%; max-width: 640px; margin-inline: auto; aspect-ratio: 600 / 520; }
+.atlasMap > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.atlasTerrain > circle { fill: #fff; }
+.atlasTerrain > path { fill: none; stroke: var(--at-ink); stroke-opacity: .3; stroke-width: 1.1; }
+.atlasGrid > circle { fill: var(--at-paper-deep); }
+.atlasGrid > :is(ellipse, line) { fill: none; stroke: var(--at-ink); stroke-opacity: .26; stroke-width: 1; }
+.atlasBridge { fill: var(--at-pink); fill-opacity: .88; mix-blend-mode: multiply; }
+.atlasRim { fill: none; stroke: var(--at-ink); stroke-width: 2; }
+.atlasOrbit { fill: none; stroke: var(--at-pink-ink); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 0; animation: atlasDraw 1.9s cubic-bezier(.4, .1, .2, 1) .2s both; }
+@keyframes atlasDraw { from { stroke-dashoffset: 1; } }
+.atlasPins { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.atlasPins li { position: absolute; translate: -19px -50%; pointer-events: auto; animation: atlasPin 520ms cubic-bezier(.2, .8, .2, 1) both; }
+/* The dot sits exactly on the orbit; labels on the right half extend to the left so they stay inside the page. */
+.atlasPins li[data-side="right"] { translate: calc(-100% + 19px) -50%; }
+.atlasPins li[data-side="right"] .atlasPin { flex-direction: row-reverse; padding: 6px 9px 6px 12px; }
+@keyframes atlasPin { from { opacity: 0; scale: .85; } }
+.atlasPin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 12px 6px 9px;
+  border: 1px solid var(--at-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--at-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px -14px #1a164080;
+  transition: background-color .25s, color .25s, border-color .25s;
+}
+.atlasPin::before { content: ""; width: 10px; height: 10px; flex: none; border-radius: 50%; background: var(--at-pink); box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--at-pink); }
+.atlasPin:hover { background: var(--at-ink); border-color: var(--at-ink); color: #fff; }
+
+/* Methods strip */
+.site[data-cm-design="atlas"] .section:has(> .proofInner) { border-color: var(--at-line); background: #fff; }
+.site[data-cm-design="atlas"] .proofInner :is(h1, h2) { color: var(--at-ink-3); font-family: var(--cm-atlas-text); font-weight: 600; letter-spacing: 0; }
+.site[data-cm-design="atlas"] .proofInner li { border-color: var(--at-line); background: var(--at-paper); color: var(--at-ink); }
+
+/* Panels: white sheets with a hairline, no glow. */
+.site[data-cm-design="atlas"] :is(.worldExplorer, .processCard, .formCard, .faqList, .personCard, .articleCard, .principles article) { background-image: none; }
+
+/* Service worlds: flat map discs instead of planets. */
+.site[data-cm-design="atlas"] [data-world="0"] { --cm-world-light: var(--at-pink); --cm-world-tint: var(--at-pink); }
+.site[data-cm-design="atlas"] [data-world="1"] { --cm-world-light: #3d5bd6; --cm-world-tint: #3d5bd6; }
+.site[data-cm-design="atlas"] [data-world="2"] { --cm-world-light: #7a4fd1; --cm-world-tint: #7a4fd1; }
+.site[data-cm-design="atlas"] [data-world="3"] { --cm-world-light: #12817f; --cm-world-tint: #12817f; }
+.site[data-cm-design="atlas"] .worldTab { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .worldTab:hover { background: #1a16400a; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .worldTab[data-active="true"] { background: var(--at-paper); border-color: var(--at-line); box-shadow: none; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .worldDot { box-shadow: none; }
+.site[data-cm-design="atlas"] .worldPanel { border-color: var(--at-line); background: linear-gradient(118deg, #fff, var(--at-paper)); }
+.site[data-cm-design="atlas"] .worldArt { background: none; }
+.site[data-cm-design="atlas"] .worldPlanet {
+  background: repeating-radial-gradient(circle at 42% 46%, transparent 0 13px, color-mix(in srgb, var(--cm-world-tint) 40%, transparent) 13px 14.2px), color-mix(in srgb, var(--cm-world-tint) 12%, #fff);
+  border: 2px solid var(--at-ink);
+  box-shadow: 10px 10px 0 color-mix(in srgb, var(--cm-world-tint) 85%, transparent);
+}
+.site[data-cm-design="atlas"] .worldArt > span { border-color: color-mix(in srgb, var(--at-ink) 20%, transparent); border-style: dashed; }
+.site[data-cm-design="atlas"] .worldCopy .eyebrow { color: color-mix(in srgb, var(--cm-world-light) 72%, var(--at-ink)); }
+.site[data-cm-design="atlas"] .tags li { border-color: var(--at-line); color: var(--at-ink-2); background: #fff; }
+
+/* Road2Goat: six stops on one route. */
+.site[data-cm-design="atlas"] .processSteps { position: relative; }
+.site[data-cm-design="atlas"] .processSteps::before { content: ""; position: absolute; top: 26px; bottom: 26px; left: 27px; border-left: 2px dashed color-mix(in srgb, var(--at-ink) 28%, transparent); }
+.site[data-cm-design="atlas"] .step { position: relative; border-color: transparent; background: transparent; color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .step:hover { background: #1a16400a; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .step[data-active="true"] { border-color: var(--at-line); background: #fff; color: var(--at-ink); box-shadow: 0 12px 26px -20px #1a164099; }
+.site[data-cm-design="atlas"] .stepNumber { border: 2px solid var(--at-ink); background: var(--at-paper); color: var(--at-ink); font-weight: 700; }
+.site[data-cm-design="atlas"] .step[data-completed="true"] .stepNumber { background: var(--at-ink); color: #fff; }
+.site[data-cm-design="atlas"] .step[data-active="true"] .stepNumber { background: var(--at-pink); border-color: var(--at-pink); color: #fff; }
+.site[data-cm-design="atlas"] .stepArrow { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .processProgress { background: #1a164014; }
+.site[data-cm-design="atlas"] .processProgress span { background: var(--at-pink); }
+.site[data-cm-design="atlas"] .processControls { color: var(--at-ink-2); }
+
+/* People */
+.site[data-cm-design="atlas"] .personArt::before { inset: -5%; background: none; border: 2px solid var(--at-pink); }
+.site[data-cm-design="atlas"] .initials { background: var(--at-paper-deep); color: var(--at-ink); }
+.site[data-cm-design="atlas"] :is(.personLinks, .contactPerson, .faq + .faq, .legalItems article) { border-color: var(--at-line); }
+.site[data-cm-design="atlas"] :is(.personLink svg, .contactAddress svg, .contactEmail svg, .faqQuestion svg, .articleTitle svg) { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .personLink:hover { color: var(--at-pink-ink); }
+
+/* Closing call: the one dark plate on the page, with contour lines in the brand colour. */
+.site[data-cm-design="atlas"] .ctaPanel {
+  border-color: transparent;
+  background-color: var(--cm-panel-override, var(--at-ink));
+  background-image: repeating-radial-gradient(circle at 92% 118%, transparent 0 22px, color-mix(in srgb, var(--at-pink) 34%, transparent) 22px 23.4px);
+  color: #fff;
+  box-shadow: 0 30px 60px -40px #1a1640;
+}
+.site[data-cm-design="atlas"] .ctaPanel :is(h1, h2, h3) { color: #fff; }
+.site[data-cm-design="atlas"] .ctaPanel p { color: #ffffffc7; }
+.site[data-cm-design="atlas"] .ctaPanel .eyebrow { color: color-mix(in srgb, var(--at-pink) 45%, #fff); }
+.site[data-cm-design="atlas"] .ctaPanel .button { background-color: var(--cm-button-fill, var(--at-pink)); color: var(--cm-button-text, #fff) !important; }
+.site[data-cm-design="atlas"] .ctaPanel .outlineButton { border-color: #ffffff52; color: #fff; }
+.site[data-cm-design="atlas"] .ctaPanel .outlineButton:hover { background: #ffffff14; border-color: #fff; }
+
+/* Contact form on white */
+.site[data-cm-design="atlas"] .formCard :global(.ws-contact-form) label { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .formCard :global(.ws-contact-form) :is(input:not([type='checkbox']), textarea) { background-color: var(--at-paper); color: var(--at-ink); border-color: color-mix(in srgb, var(--at-ink) 20%, transparent); caret-color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .formCard :global(.ws-contact-form) :is(input:not([type='checkbox']), textarea):focus { border-color: var(--at-ink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--at-pink) 25%, transparent); }
+.site[data-cm-design="atlas"] .formCard :global(.ws-contact-form) :is(input, textarea)::placeholder { color: #75719a; }
+.site[data-cm-design="atlas"] .formCard :global(.ws-checkbox-label) input { accent-color: var(--at-ink); }
+.site[data-cm-design="atlas"] .formCard :global(.ws-contact-form .ws-button) { background: var(--at-ink); color: #fff !important; }
+.site[data-cm-design="atlas"] .formCard :global(.ws-form-error) { color: #8a1236; background: #ffe5eb; border-color: #e88b9e; }
+.site[data-cm-design="atlas"] .formCard :global(.ws-success-icon) { background: #d8f3e6; color: #12603e; }
+.site[data-cm-design="atlas"] .formCard :global(.ws-contact-optional) { border-color: var(--at-line); }
+.site[data-cm-design="atlas"] .contactAddress { color: var(--at-ink-2); }
+
+/* Articles and legal pages */
+.site[data-cm-design="atlas"] .articleArt { background: var(--at-paper-deep); }
+.site[data-cm-design="atlas"] .articleTitle:hover { color: var(--at-pink-ink); }
+
+/* Footer: deep indigo, the logo in white. */
+.site[data-cm-design="atlas"] .footer { border-top: 0; background: var(--at-ink); color: #fff; }
+.site[data-cm-design="atlas"] .footer .brand img { filter: brightness(0) invert(1); }
+.site[data-cm-design="atlas"] .footerTop p, .site[data-cm-design="atlas"] .footerContact :is(address, span) { color: #ffffffb8; }
+.site[data-cm-design="atlas"] .footerBottom { border-color: #ffffff24; color: #ffffffa6; }
+.site[data-cm-design="atlas"] .footer :is(a, button):hover { color: color-mix(in srgb, var(--at-pink) 45%, #fff); }
+
+@media (max-width: 760px) {
+  .site[data-cm-design="atlas"] .section .heroHeading { font-size: calc(clamp(34px, 9.6vw, 58px) * var(--cm-scale, 1)); letter-spacing: -.04em; }
+  .site[data-cm-design="atlas"] .heroInner { min-height: 0; }
+  .site[data-cm-design="atlas"] .heroVisual { margin-top: 18px; }
+  .site[data-cm-design="atlas"] .atlasPins { display: none; }
+  .site[data-cm-design="atlas"] .heroRelated { display: flex !important; }
+  .site[data-cm-design="atlas"] .processSteps::before { display: none; }
+  .designSwitch { right: 50%; translate: 50% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlasOrbit, .atlasPins li { animation: none; }
+}

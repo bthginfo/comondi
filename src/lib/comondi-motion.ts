@@ -13,6 +13,8 @@ export const defaultComondiMotion: ComondiMotionSettings = {
   starDensity: "balanced",
 };
 
+export const comondiDesignNames = { kosmos: "Kosmos", atlas: "Atlas" } as const;
+
 export function comondiMotion(settings?: Partial<ComondiMotionSettings>): ComondiMotionSettings {
   return { ...defaultComondiMotion, ...settings };
 }

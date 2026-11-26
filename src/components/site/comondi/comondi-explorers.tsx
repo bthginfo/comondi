@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import type { ContentItem } from "@/lib/types";
 import { ContentLink, EditableChoice, EditableImage, EditableText } from "../editable";
-import styles from "./comondi.module.css";
+import { styles } from "./styles";
 
 interface ExplorerProps {
   items: ContentItem[];
