@@ -15,6 +15,7 @@ import { PlanetScene } from "./planet-scene";
 import { SpaceBackground } from "./space-background";
 import { installComondiMotion } from "./motion-runtime";
 import { AtlasMap } from "./atlas-map";
+import { AtlasPlanet } from "./atlas-planet";
 import { atlasDisplay, atlasText } from "./atlas-fonts";
 import { DesignSwitch, designReview, useComondiDesign } from "./design-switch";
 import type { ComondiDesign } from "@/lib/types";
@@ -275,7 +276,7 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
     case "comondi-articles":
       content = <div className={styles.sectionInner}>{intro()}<div className={styles.articleGrid}>
         {items.map((entry,i) => <article key={entry.id} data-item-id={entry.id} data-cm-tilt="" className={styles.articleCard} data-world={(i+1)%4}>
-          <div className={styles.articleArt}>{entry.image || editable ? <EditableImage image={entry.image} editable={editable} className={styles.articleImage} onChange={value => updateItem(i,"image",value)} /> : <div className={styles.worldPlanet} aria-hidden="true" />}</div>
+          <div className={styles.articleArt}>{entry.image || editable ? <EditableImage image={entry.image} editable={editable} className={styles.articleImage} onChange={value => updateItem(i,"image",value)} /> : <><div className={styles.worldPlanet} aria-hidden="true" /><AtlasPlanet world={(i+1)%4} /></>}</div>
           <div className={styles.articleCopy}>{itemText(entry,i,"meta","span",styles.eyebrow)}
             <ContentLink href={entry.href} editable={editable} editField="href" editItemId={entry.id} className={styles.articleTitle}>
               {itemText(entry,i,"title","h3")}<ArrowUpRight size={22} aria-hidden="true" />

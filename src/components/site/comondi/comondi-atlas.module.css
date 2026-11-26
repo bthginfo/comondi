@@ -168,11 +168,31 @@
 .site[data-cm-design="atlas"] .worldDot { box-shadow: none; }
 .site[data-cm-design="atlas"] .worldPanel { border-color: var(--at-line); background: linear-gradient(118deg, #fff, var(--at-paper)); }
 .site[data-cm-design="atlas"] .worldArt { background: none; }
-.site[data-cm-design="atlas"] .worldPlanet {
-  background: repeating-radial-gradient(circle at 42% 46%, transparent 0 13px, color-mix(in srgb, var(--cm-world-tint) 40%, transparent) 13px 14.2px), color-mix(in srgb, var(--cm-world-tint) 12%, #fff);
-  border: 2px solid var(--at-ink);
-  box-shadow: 10px 10px 0 color-mix(in srgb, var(--cm-world-tint) 85%, transparent);
-}
+/* Engraved service planets: ink outline, flat offset shadow, hatched night side; Kosmos keeps its textures. */
+.atlasPlanet { display: none; }
+.site[data-cm-design="atlas"] :is(.worldArt, .articleArt) .worldPlanet { display: none; }
+.site[data-cm-design="atlas"] .atlasPlanet { display: block; position: relative; z-index: 1; width: min(94%, 420px); height: auto; overflow: visible; }
+.site[data-cm-design="atlas"] .articleArt .atlasPlanet { width: 168px; margin-block: 6px; }
+.site[data-cm-design="atlas"] .worldPanel[data-active="true"] .atlasPlanet { animation: atlasPlanetIn 640ms cubic-bezier(.18, .88, .26, 1) both; }
+@keyframes atlasPlanetIn { from { opacity: .4; transform: translateX(14px) rotate(-4deg) scale(.95); } to { opacity: 1; transform: none; } }
+.apDrop { fill: color-mix(in srgb, var(--cm-world-tint) 88%, transparent); }
+.apBody { fill: color-mix(in srgb, var(--cm-world-tint) 9%, #fff); }
+.apBandSoft { fill: color-mix(in srgb, var(--cm-world-tint) 17%, transparent); }
+.apBandStrong { fill: color-mix(in srgb, var(--cm-world-tint) 34%, transparent); stroke: color-mix(in srgb, var(--at-ink) 22%, transparent); stroke-width: 1; }
+.apLine { fill: none; stroke: color-mix(in srgb, var(--at-ink) 26%, transparent); stroke-width: 1; }
+.apSpot { fill: color-mix(in srgb, var(--cm-world-tint) 78%, #fff); stroke: var(--at-ink); stroke-width: 1.4; }
+.apSpotCore { fill: color-mix(in srgb, #fff 55%, transparent); }
+.apSwirl { fill: none; stroke: color-mix(in srgb, var(--at-ink) 62%, transparent); stroke-width: 1.6; stroke-linecap: round; }
+.apMare { fill: color-mix(in srgb, var(--cm-world-tint) 20%, transparent); }
+.apCrater { fill: color-mix(in srgb, var(--cm-world-tint) 12%, #fff); stroke: var(--at-ink); stroke-width: 1.3; }
+.apCraterShade { fill: none; stroke: color-mix(in srgb, var(--cm-world-tint) 70%, transparent); stroke-width: 1.6; stroke-linecap: round; }
+.apHatch { stroke: var(--at-ink); stroke-width: 1.05; opacity: .3; }
+.apGlint { fill: none; stroke: #fff; stroke-width: 4.5; stroke-linecap: round; opacity: .95; }
+.apOutline { fill: none; stroke: var(--at-ink); stroke-width: 2.4; }
+.apRing { fill: color-mix(in srgb, var(--cm-world-tint) 24%, #fff); stroke: var(--at-ink); stroke-width: 1.6; }
+.apRingLine { fill: none; stroke: color-mix(in srgb, var(--at-ink) 42%, transparent); stroke-width: .9; }
+.apOrbit { fill: none; stroke: color-mix(in srgb, var(--at-ink) 32%, transparent); stroke-width: 1.2; stroke-dasharray: 4 5; }
+.apMoonlet { fill: color-mix(in srgb, var(--cm-world-tint) 85%, transparent); stroke: var(--at-ink); stroke-width: 1.6; }
 .site[data-cm-design="atlas"] .worldArt > span { border-color: color-mix(in srgb, var(--at-ink) 20%, transparent); border-style: dashed; }
 .site[data-cm-design="atlas"] .worldCopy .eyebrow { color: color-mix(in srgb, var(--cm-world-light) 72%, var(--at-ink)); }
 .site[data-cm-design="atlas"] .tags li { border-color: var(--at-line); color: var(--at-ink-2); background: #fff; }
@@ -248,5 +268,5 @@
   .designSwitch button { min-height: 34px; padding: 0 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .atlasOrbit, .atlasPins li { animation: none; }
+  .atlasOrbit, .atlasPins li, .site[data-cm-design="atlas"] .worldPanel[data-active="true"] .atlasPlanet { animation: none; }
 }
