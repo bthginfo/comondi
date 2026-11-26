@@ -1498,5 +1498,8 @@ export const adminCoreEnglish: Readonly<Record<string, string>> = {
   "Handy": "Phone",
   "Website-Inhalte": "Website content",
   "Design geändert": "Design changed",
-  "Ihr aktuelles Design zeigt den Namen als Schriftzug und kein Logo in der Kopfzeile. Das Logo erscheint in „Panorama“ und „Liquid Glass“; als Favicon können Sie es in jedem Design verwenden.": "Your current design shows the name as lettering and no logo in the header. The logo appears in “Panorama” and “Liquid Glass”; you can use it as a favicon in every design."
+  "Ihr aktuelles Design zeigt den Namen als Schriftzug und kein Logo in der Kopfzeile. Das Logo erscheint in „Panorama“ und „Liquid Glass“; als Favicon können Sie es in jedem Design verwenden.": "Your current design shows the name as lettering and no logo in the header. The logo appears in “Panorama” and “Liquid Glass”; you can use it as a favicon in every design.",
+  // co:mondi design area
+  "Kosmos zeigt die dunkle Weltraumszene, Atlas den hellen Kartenentwurf. Texte und Bilder bleiben erhalten.": "Kosmos shows the dark space scene, Atlas the light map design. Text and images are kept.",
+  "Erscheint oben links und im Fußbereich jeder Seite, in Kosmos und Atlas. Ohne eigenes Logo zeigt die Website das co:mondi-Zeichen. Am besten eine PNG- oder WebP-Datei mit transparentem Hintergrund.": "Appears top left and in the footer of every page, in Kosmos and Atlas. Without your own logo the website shows the co:mondi mark. Ideally a PNG or WebP file with a transparent background."
 };

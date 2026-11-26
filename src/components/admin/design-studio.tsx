@@ -16,6 +16,7 @@ import { DraftStatus } from "./editor-feedback";
 import { MediaPicker, type MediaActions } from "./media-manager";
 import { PreviewFrame, usePreviewDevice } from "./preview-frame";
 import { useSheetGesture } from "./sheet-gesture";
+import { ComondiDesignTiles, comondiOriginalColors, comondiOriginalPalette, isComondiSite } from "./comondi-design-options";
 
 export type DesignStudioProps = {
   content: WebsiteContent; media: MediaAsset[]; onUpload: MediaActions["onUpload"]; onChange: (content: WebsiteContent) => void;
@@ -55,6 +56,8 @@ export function DesignStudio({ content, media, onUpload, onChange, dirty, busy, 
   const config = content.config; const theme = config.theme;
   const variant = (config.designVariant ?? 1) as DesignVariant;
   const creator = config.modules?.creator?.enabled === true;
+  // co:mondi renders its own designs Kosmos and Atlas; the starter layouts do not apply there.
+  const comondi = isComondiSite(config);
   const palette = paletteFor(config, variant);
   const [panel, setPanel] = useState<Panel>("colors");
   const [device, setDevice] = usePreviewDevice();
@@ -156,7 +159,7 @@ export function DesignStudio({ content, media, onUpload, onChange, dirty, busy, 
       </div>
       {check.ok ? <p className="cms-contrast-ok"><Check size={15} aria-hidden="true" />{t("Alle Kombinationen sind gut lesbar (Text {p1}:1, Schaltflächen {p2}:1).", { p1: check.text.toFixed(1), p2: check.button.toFixed(1) })}</p>
         : <Notice tone="error"><div className="cms-design-fix"><span>{t("Einige Farben sind schwer zu lesen (Text {p1}:1, Schaltflächen {p2}:1).", { p1: check.text.toFixed(1), p2: check.button.toFixed(1) })}</span><Button onClick={() => applyPalette(fixed.palette, theme.paletteStyle, theme.brandColor ?? brand)}><Wand2 size={15} aria-hidden="true" />{t("Automatisch korrigieren")}</Button></div></Notice>}
-      <Button variant="quiet" onClick={() => { const palettes = { ...theme.palettes }; delete palettes[variant]; setTheme({ palettes, paletteStyle: undefined, brandColor: undefined }); setBrandText(defaultPalettes[variant].primary); }}><RotateCcw size={15} aria-hidden="true" />{t("Originalfarben des Designs")}</Button>
+      <Button variant="quiet" onClick={() => { if (comondi) { setConfig(comondiOriginalColors(config)); setBrandText(comondiOriginalPalette.accent); return; } const palettes = { ...theme.palettes }; delete palettes[variant]; setTheme({ palettes, paletteStyle: undefined, brandColor: undefined }); setBrandText(defaultPalettes[variant].primary); }}><RotateCcw size={15} aria-hidden="true" />{t("Originalfarben des Designs")}</Button>
     </details>
   </>;
 
@@ -185,7 +188,8 @@ export function DesignStudio({ content, media, onUpload, onChange, dirty, busy, 
 
   const radius = radiusPreset(theme.radius);
   const style = <>
-    {!creator && <section className="cms-design-group" aria-labelledby="cms-variant-heading">
+    {comondi && <ComondiDesignTiles config={config} onChange={setConfig} />}
+    {!creator && !comondi && <section className="cms-design-group" aria-labelledby="cms-variant-heading">
       <h3 id="cms-variant-heading">{t("Design")}</h3>
       <p className="cms-hint">{t("Der Grundaufbau Ihrer Website. Texte und Bilder bleiben erhalten.")}</p>
       <div className="cms-design-tiles cms-design-tiles--variants" role="radiogroup" aria-labelledby="cms-variant-heading">
@@ -212,7 +216,7 @@ export function DesignStudio({ content, media, onUpload, onChange, dirty, busy, 
       <div className="cms-design-tiles" role="radiogroup" aria-labelledby="cms-density-heading">
         {DENSITIES.map(entry => <Tile key={entry.id} label={t(entry.name)} selected={(theme.density ?? "balanced") === entry.id} onSelect={() => setTheme({ density: entry.id === "balanced" ? undefined : entry.id })}><span className={"cms-density-sample cms-density-sample--" + entry.id}><i /><i /><i /></span></Tile>)}
       </div>
-      {variant !== 1 && <p className="cms-hint">{t("Abstände wirken im Design „Panorama“. Andere Designs behalten ihren eigenen Rhythmus.")}</p>}
+      {(variant !== 1 || comondi) && <p className="cms-hint">{t("Abstände wirken im Design „Panorama“. Andere Designs behalten ihren eigenen Rhythmus.")}</p>}
     </section>
     <section className="cms-design-group" aria-labelledby="cms-image-heading">
       <h3 id="cms-image-heading">{t("Bilder")}</h3>
@@ -222,7 +226,7 @@ export function DesignStudio({ content, media, onUpload, onChange, dirty, busy, 
     </section>
   </>;
 
-  const logo = <LogoPanel config={config} palette={palette} logoVisible={!creator && variant === 1} onChange={patch => setTheme(patch)} onPick={() => setPicker("logo")} />;
+  const logo = <LogoPanel config={config} palette={palette} logoVisible={!creator && (variant === 1 || comondi)} hint={comondi ? t("Erscheint oben links und im Fußbereich jeder Seite, in Kosmos und Atlas. Ohne eigenes Logo zeigt die Website das co:mondi-Zeichen. Am besten eine PNG- oder WebP-Datei mit transparentem Hintergrund.") : undefined} onChange={patch => setTheme(patch)} onPick={() => setPicker("logo")} />;
 
   return <div className={`cms-editor cms-editor--glass cms-design-studio${sheetOpen ? " cms-design-studio--sheet" : ""}`}>
     <h1 className="cms-visually-hidden">{t("Design")}</h1>
@@ -268,7 +272,7 @@ export function DesignStudio({ content, media, onUpload, onChange, dirty, busy, 
   </div>;
 }
 
-function LogoPanel({ config, palette, logoVisible, onChange, onPick }: { config: SiteConfig; palette: ColorPalette; logoVisible: boolean; onChange: (patch: Partial<SiteConfig["theme"]>) => void; onPick: () => void }) {
+function LogoPanel({ config, palette, logoVisible, hint, onChange, onPick }: { config: SiteConfig; palette: ColorPalette; logoVisible: boolean; hint?: string; onChange: (patch: Partial<SiteConfig["theme"]>) => void; onPick: () => void }) {
   const { t } = useAdminLanguage();
   const logo = config.theme.logo;
   const [zoom, setZoom] = useState(1);
@@ -311,7 +315,7 @@ function LogoPanel({ config, palette, logoVisible, onChange, onPick }: { config:
   return <>
     <section className="cms-design-group" aria-labelledby="cms-logo-heading">
       <h3 id="cms-logo-heading">{t("Logo")}</h3>
-      <p className="cms-hint">{t("Erscheint oben links auf jeder Seite im Design „Panorama“. Am besten eine PNG- oder WebP-Datei mit transparentem Hintergrund.")}</p>
+      <p className="cms-hint">{hint ?? t("Erscheint oben links auf jeder Seite im Design „Panorama“. Am besten eine PNG- oder WebP-Datei mit transparentem Hintergrund.")}</p>
       {!logoVisible && <Notice>{t("Ihr aktuelles Design zeigt den Namen als Schriftzug und kein Logo in der Kopfzeile. Das Logo erscheint in „Panorama“ und „Liquid Glass“; als Favicon können Sie es in jedem Design verwenden.")}</Notice>}
       <div className="cms-logo-stage" style={{ background: palette.background, color: palette.text }}>
         {logo?.url ? <img src={logo.url} alt={logo.alt || config.name} /> : <span className="cms-logo-empty"><ImageIcon size={22} aria-hidden="true" />{t("Noch kein Logo")}</span>}

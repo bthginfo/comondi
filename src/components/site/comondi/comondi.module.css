@@ -67,6 +67,9 @@
 }
 .brand { display: inline-flex; align-items: center; width: fit-content; min-height: 44px; }
 .brand img { width: 112px; height: auto; filter: brightness(0) invert(1); }
+/* A logo chosen in the CMS design area keeps its own colours in both designs. */
+.brand img.customLogo { width: auto; height: 40px; max-width: min(46vw, 200px); object-fit: contain; filter: none !important; }
+.brandName { margin-left: 10px; font-size: 17px; font-weight: 650; letter-spacing: -.01em; white-space: nowrap; }
 .desktopNav { display: flex; align-items: center; gap: 5px; }
 .navLink {
   display: inline-flex;

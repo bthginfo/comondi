@@ -9,7 +9,7 @@ import { SectionHeadingProvider, useSectionHeadingLevel } from "../heading-level
 import { ContactForm } from "../contact-form";
 import { consentEvent } from "../consent";
 import type { VariantSectionProps, VariantSiteProps } from "../variants/types";
-import { ComondiNavigation } from "./comondi-navigation";
+import { ComondiLogo, ComondiNavigation } from "./comondi-navigation";
 import { ProcessExplorer, WorldExplorer, worldIndex } from "./comondi-explorers";
 import { PlanetScene } from "./planet-scene";
 import { HeroJourney, type JourneyWorld } from "./hero-journey";
@@ -93,7 +93,7 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
     <footer className={styles.footer}>
       <div className={styles.footerTop}>
         <div>
-          <ContentLink editable={editable} href="/" className={styles.brand}><img src="/comondi/logo.svg" width="140" height="50" alt={site.name} /></ContentLink>
+          <ContentLink editable={editable} href="/" className={styles.brand}><ComondiLogo site={site} width={140} height={50} /></ContentLink>
           <p>{footer?.brandText || site.tagline}</p>
         </div>
         <div className={styles.footerLinks}>

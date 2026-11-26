@@ -90,6 +90,7 @@ export function designChanges(before: SiteConfig, after: SiteConfig): DesignChan
   if ((a.density ?? "balanced") !== (b.density ?? "balanced")) changes.push({ key: "density", label: "Abstände" });
   if ((a.imageStyle ?? "natural") !== (b.imageStyle ?? "natural")) changes.push({ key: "images", label: "Bilder" });
   if (!sameJson(a.logo, b.logo)) changes.push({ key: "logo", label: "Logo" });
-  if ((before.designVariant ?? 1) !== (after.designVariant ?? 1) || (a.aesthetic ?? "standard") !== (b.aesthetic ?? "standard") || !sameJson(a.glass, b.glass)) changes.push({ key: "design", label: "Design" });
+  if ((before.designVariant ?? 1) !== (after.designVariant ?? 1) || (a.aesthetic ?? "standard") !== (b.aesthetic ?? "standard") || !sameJson(a.glass, b.glass)
+    || (before.comondiMotion?.design ?? "kosmos") !== (after.comondiMotion?.design ?? "kosmos")) changes.push({ key: "design", label: "Design" });
   return changes;
 }

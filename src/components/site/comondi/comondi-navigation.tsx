@@ -6,6 +6,14 @@ import type { SiteConfig } from "@/lib/types";
 import { ContentLink, safeHref } from "../editable";
 import { styles } from "./styles";
 
+/** The co:mondi mark, or the logo chosen in the CMS design area (shown in its own colours, optionally with the name). */
+export function ComondiLogo({ site, width, height }: { site: SiteConfig; width: number; height: number }) {
+  const logo = site.theme.logo;
+  if (!logo?.url) return <img src="/comondi/logo.svg" width={width} height={height} alt={site.name} />;
+  const showName = logo.showName !== false;
+  return <><img className={styles.customLogo} src={logo.url} alt={showName ? "" : logo.alt || site.name} />{showName && <span className={styles.brandName}>{site.name}</span>}</>;
+}
+
 export function ComondiNavigation({ site, slug, editable, motionEnabled, paused, onToggleMotion }: {
   site: SiteConfig;
   slug: string;
@@ -45,7 +53,7 @@ export function ComondiNavigation({ site, slug, editable, motionEnabled, paused,
     if (event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && (event.target as Element).closest("a[href]")) dialog.current?.close();
   };
   const brand = () => <ContentLink href="/" editable={editable} className={styles.brand} label={`${site.name} – Startseite`}>
-    <img src="/comondi/logo.svg" width="128" height="46" alt={site.name} />
+    <ComondiLogo site={site} width={128} height={46} />
   </ContentLink>;
   const links = (mobile = false) => site.navigation.map((link, index) => {
     const parent = link.href !== "/" && path.startsWith(`${link.href}/`);
