@@ -16,6 +16,7 @@ export function ComondiMotionEditor({ config, onChange }: { config: SiteConfig; 
     <Toggle label="Bewegung aktivieren" checked={settings.enabled} onChange={enabled => update({ enabled })} />
     <Toggle label="Dezenten Space-Hintergrund zeigen" checked={settings.background} onChange={background => update({ background })} hint="Sterne, weiche Lichtnebel und ruhige Orbitlinien hinter dem Inhalt." />
     <Toggle label="Planeten beim Scrollen bewegen" checked={settings.planetScroll} onChange={planetScroll => update({ planetScroll })} />
+    <Toggle label="Scroll-Reise durch die Welten" checked={settings.heroJourney !== false} onChange={heroJourney => update({ heroJourney })} hint="Nur im Entwurf Kosmos: Beim Scrollen fliegt die Startseite nacheinander zu den Planeten und zeigt dazu die Themen aus dem Abschnitt „Leistungen“. Ohne Bewegung, ohne diesen Abschnitt und in der Bearbeitung bleibt der Einstieg statisch." />
     <Toggle label="Texte beim Scrollen sanft einblenden" checked={settings.textReveal} onChange={textReveal => update({ textReveal })} hint="Unter Gestaltung lässt sich die Bewegung zusätzlich für jeden Abschnitt einzeln ausschalten." />
     <Toggle label="Interaktionen und Übergänge animieren" checked={settings.interactionFeedback} onChange={interactionFeedback => update({ interactionFeedback })} />
     {range("Stärke des Hintergrunds", "intensity")}

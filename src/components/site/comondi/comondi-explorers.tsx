@@ -15,6 +15,8 @@ interface ExplorerProps {
 
 const twoDigits = (number: number) => String(number).padStart(2, "0");
 const worldOrder = ["proven", "modern", "hybrid", "next"];
+/** The planet of a service world: 0 Jupiter, 1 Neptune, 2 Saturn, 3 Moon. The opening journey uses the same pairing. */
+export const worldIndex = (item: ContentItem, index: number) => worldOrder.includes(item.id) ? worldOrder.indexOf(item.id) : index % 4;
 
 function useExplorer({ items, editable, feedback }: ExplorerProps, storageKey?: string) {
   const id = useId();
@@ -80,7 +82,7 @@ export function WorldExplorer({ storageKey, ...props }: ExplorerProps & { storag
   return <div className={styles.worldExplorer}>
     <div className={styles.worldTabs} role={editable ? undefined : "tablist"} aria-label="Leistungen auswählen">
       {items.map((item, index) => {
-        const world = worldOrder.includes(item.id) ? worldOrder.indexOf(item.id) : index % 4;
+        const world = worldIndex(item, index);
         return <EditableChoice key={item.id} type="button" editable={editable} role="tab" id={`${id}-tab-${index}`}
           aria-selected={current === index} aria-controls={`${id}-world-${index}`} tabIndex={current === index ? 0 : -1}
           className={styles.worldTab} data-world={world} data-active={current === index} data-item-id={item.id}
@@ -93,7 +95,7 @@ export function WorldExplorer({ storageKey, ...props }: ExplorerProps & { storag
     </div>
     <div className={styles.worldPanels}>
       {items.map((item, index) => {
-        const world = worldOrder.includes(item.id) ? worldOrder.indexOf(item.id) : index % 4;
+        const world = worldIndex(item, index);
         const active = current === index;
         return <div key={item.id} id={`${id}-world-${index}`} role={editable ? undefined : "tabpanel"} className={styles.worldPanel}
           data-world={world} data-active={active} aria-labelledby={`${id}-tab-${index}`} aria-hidden={!active || undefined}

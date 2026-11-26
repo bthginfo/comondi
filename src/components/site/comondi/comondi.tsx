@@ -10,8 +10,10 @@ import { ContactForm } from "../contact-form";
 import { consentEvent } from "../consent";
 import type { VariantSectionProps, VariantSiteProps } from "../variants/types";
 import { ComondiNavigation } from "./comondi-navigation";
-import { ProcessExplorer, WorldExplorer } from "./comondi-explorers";
+import { ProcessExplorer, WorldExplorer, worldIndex } from "./comondi-explorers";
 import { PlanetScene } from "./planet-scene";
+import { HeroJourney, type JourneyWorld } from "./hero-journey";
+import { maxJourneyWorlds } from "@/lib/comondi-journey";
 import { SpaceBackground } from "./space-background";
 import { installComondiMotion } from "./motion-runtime";
 import { AtlasMap } from "./atlas-map";
@@ -59,6 +61,11 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
   const firstSectionId = sections[0]?.id;
   // The Atlas map places the page's service worlds as pins around the opening.
   const worldPins = (sections.find(section => section.type === "comondi-worlds")?.content.items ?? []).filter(entry => entry.href).map(entry => ({ id: entry.id, title: entry.title, href: entry.href }));
+  // The Kosmos opening travels through the same service worlds, each with the planet it has in the explorer.
+  const worldsSection = sections.find(section => section.type === "comondi-worlds");
+  const journeyWorlds = useMemo<JourneyWorld[]>(() => (worldsSection?.content.items ?? [])
+    .map((entry, index) => ({ id: entry.id, title: entry.title?.trim(), meta: entry.meta, text: entry.text, href: entry.href, planet: worldIndex(entry, index) }))
+    .filter(world => world.title).slice(0, maxJourneyWorlds), [worldsSection?.content.items]);
 
   return <div id="seitenanfang" ref={root} className={`${styles.site}${atlas ? ` ${atlasDisplay.variable} ${atlasText.variable}` : ""}`} style={style} data-cm-page={pageType} data-cm-design={design}
     data-cm-motion={settings.enabled && !editable ? "on" : "off"}
@@ -72,7 +79,7 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
         <ContentLink href={parent.href} editable={editable} className={styles.textLink}><ArrowLeft size={17} aria-hidden="true" /> {parent.label}</ContentLink>
       </nav>}
       {sections.map(section => section.type.startsWith("comondi-") ? <SectionHeadingProvider key={`${page.id}-${section.id}`} sectionId={section.id}>
-        <ComondiSection ambientPaused={paused} design={design} worldPins={worldPins} section={section} site={site} editable={editable} selected={selectedSectionId === section.id}
+        <ComondiSection ambientPaused={paused} design={design} worldPins={worldPins} journeyWorlds={journeyWorlds} section={section} site={site} editable={editable} selected={selectedSectionId === section.id}
           onSelect={() => onSectionSelect?.(section.id)} onChange={onSectionChange}
           pageId={page.id} hideSecondary={parent?.href === section.content.secondaryHref && firstSectionId === section.id} />
       </SectionHeadingProvider> : fallback(section))}
@@ -106,8 +113,9 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
   </div>;
 }
 
-export function ComondiSection({ section, site, editable = false, selected, onSelect, onChange, ambientPaused = false, pageId, hideSecondary, design = "kosmos", worldPins = [] }: VariantSectionProps & {
+export function ComondiSection({ section, site, editable = false, selected, onSelect, onChange, ambientPaused = false, pageId, hideSecondary, design = "kosmos", worldPins = [], journeyWorlds = [] }: VariantSectionProps & {
   ambientPaused?: boolean; pageId?: string; hideSecondary?: boolean; design?: ComondiDesign; worldPins?: { id: string; title: string; href?: string }[];
+  journeyWorlds?: JourneyWorld[];
 }) {
   const { content: c, design: d } = section;
   const level = useSectionHeadingLevel(section.id);
@@ -168,17 +176,22 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
       const hintIndex = items.findIndex(entry => entry.id === "planet-interaction-hint");
       const hint = items[hintIndex];
       const related = items.map((entry,index) => ({ entry,index })).filter(({entry}) => entry.id !== "planet-interaction-hint" && entry.href);
-      content = <div className={styles.heroInner}>
-        <div className={styles.heroCopy}>
-          {text("subheading", "span", styles.eyebrow)}
-          {text("heading", "h1", styles.heroHeading)}
-          {text("text", "p", styles.heroText)}
-          <div className={styles.actions}>{action()}{action(true)}</div>
-          {c.caption && <div className={styles.heroLocation}><MapPin size={16} aria-hidden="true" />{text("caption", "span")}</div>}
-          {related.length > 0 && <div className={styles.heroRelated}>{related.map(({entry,index}) => <ContentLink key={entry.id} href={entry.href} editable={editable} editField="href" editItemId={entry.id} className={styles.textLink}>
-            {itemText(entry,index,"title","span")}<ArrowUpRight size={15} aria-hidden="true" />
-          </ContentLink>)}</div>}
-        </div>
+      const copy = <>
+        {text("subheading", "span", styles.eyebrow)}
+        {text("heading", "h1", styles.heroHeading)}
+        {text("text", "p", styles.heroText)}
+        <div className={styles.actions}>{action()}{action(true)}</div>
+        {c.caption && <div className={styles.heroLocation}><MapPin size={16} aria-hidden="true" />{text("caption", "span")}</div>}
+        {related.length > 0 && <div className={styles.heroRelated}>{related.map(({entry,index}) => <ContentLink key={entry.id} href={entry.href} editable={editable} editField="href" editItemId={entry.id} className={styles.textLink}>
+          {itemText(entry,index,"title","span")}<ArrowUpRight size={15} aria-hidden="true" />
+        </ContentLink>)}</div>}
+      </>;
+      const down = c.attribution && <ContentLink editable={editable} href={c.secondaryHref} editField="secondaryHref" className={styles.heroDown}>
+        <ArrowDown size={19} aria-hidden="true" />{text("attribution", "span")}
+      </ContentLink>;
+      const quote = c.quote && text("quote", "p", styles.heroQuote);
+      const staticHero = <div className={styles.heroInner}>
+        <div className={styles.heroCopy}>{copy}</div>
         <div className={styles.heroVisual}>
           <div className={styles.heroGlow} aria-hidden="true" />
           {design === "atlas" ? <AtlasMap editable={editable} label={c.image?.alt} links={related.length ? related.map(({ entry }) => ({ id: entry.id, title: entry.title, href: entry.href })) : worldPins} /> : editable ? <div className={styles.sceneEdit}>
@@ -187,11 +200,16 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
           </div> : <PlanetScene motionSettings={settings} poster={c.image?.src} label={c.image?.alt}
             ambientPaused={ambientPaused} interactionHint={hint?.title} desktopHint={hint?.text} />}
         </div>
-        {c.attribution && <ContentLink editable={editable} href={c.secondaryHref} editField="secondaryHref" className={styles.heroDown}>
-          <ArrowDown size={19} aria-hidden="true" />{text("attribution", "span")}
-        </ContentLink>}
-        {c.quote && text("quote", "p", styles.heroQuote)}
+        {down}
+        {quote}
       </div>;
+      // Kosmos opening as a scroll journey through the service worlds of this page. The CMS canvas,
+      // Atlas, disabled motion and pages without the worlds section keep the static opening.
+      const journey = design === "kosmos" && !editable && journeyWorlds.length > 0 && settings.enabled && settings.heroJourney !== false;
+      content = journey ? <HeroJourney sectionId={section.id} worlds={journeyWorlds} paused={ambientPaused} headingLevel={level === "h1" ? "h2" : "h3"} staticHero={staticHero}
+        copy={<>{copy}{down}{quote}</>}
+        scene={handle => <PlanetScene journey={handle} motionSettings={settings} poster={c.image?.src} label={c.image?.alt}
+          ambientPaused={ambientPaused} interactionHint={hint?.title} desktopHint={hint?.text} />} /> : staticHero;
       break;
     }
     case "comondi-proof":

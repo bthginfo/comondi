@@ -4,6 +4,7 @@ export const defaultComondiMotion: ComondiMotionSettings = {
   enabled: true,
   background: true,
   planetScroll: true,
+  heroJourney: true,
   textReveal: true,
   interactionFeedback: true,
   intensity: 45,

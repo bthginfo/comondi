@@ -704,3 +704,129 @@
   .planetPoster { translate: none; }
   .menuMotion, .footerBottom button[data-motion-control] { display: none; }
 }
+
+/*
+ * Opening journey (Kosmos only). The opening becomes a pinned stage; scrolling through the track
+ * flies the camera to each service world while the copy changes. Without the journey (reduced
+ * motion, short screens, before hydration on such devices) the same markup falls back to the
+ * static opening above.
+ */
+.journeyWorld, .journeyRail, .journeyGlow { display: none; }
+@media (prefers-reduced-motion: no-preference) and (min-height: 520px) {
+  .journeyTrack {
+    --cm-vh: 1vh;
+    --cm-stage: calc(100 * var(--cm-vh) - var(--cm-header) - env(safe-area-inset-top, 0px));
+    position: relative;
+    height: calc(var(--cm-stage) + var(--cm-journey-units, 10) * 40 * var(--cm-vh));
+  }
+  @supports (height: 1svh) { .journeyTrack { --cm-vh: 1svh; } }
+  .journeyStage {
+    position: sticky;
+    top: calc(var(--cm-header) + env(safe-area-inset-top, 0px));
+    height: var(--cm-stage);
+    overflow: clip;
+    isolation: isolate;
+  }
+  /* A quiet shade behind the copy while a world is in focus; the opening itself looks as before. */
+  .journeyStage::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--cm-background) 70%, transparent), color-mix(in srgb, var(--cm-background) 38%, transparent) 36%, transparent 58%);
+    opacity: calc(1 - var(--cm-journey-opening, 1));
+  }
+  .journeyStage .journeyGlow { display: block; inset: 2% -8% 4% 44%; opacity: calc(.25 + .75 * var(--cm-journey-opening, 1)); }
+  .journeyStage .journeyInner { height: 100%; min-height: 0; padding-block: clamp(16px, 3vh, 36px); }
+  .journeyCopy { position: relative; z-index: 2; display: grid; align-self: stretch; align-items: center; min-width: 0; pointer-events: none; }
+  .journeyPanel { grid-area: 1 / 1; min-width: 0; pointer-events: auto; will-change: opacity, transform; }
+  .journeyPanel:focus { outline: none; }
+  .journeyStage .journeyWorld { display: block; opacity: 0; pointer-events: none; padding-block: 20px; }
+  .journeyStage .journeyVisual { position: static; isolation: auto; min-height: 0; align-self: stretch; }
+  .journeyStage .journeyScene { position: static; }
+  .journeyStage .journeyCanvas { z-index: 0; border-radius: 0; }
+  .journeyHint { opacity: var(--cm-journey-opening, 1); }
+
+  .journeyWorld .eyebrow { display: flex; align-items: center; gap: 11px; margin-bottom: 20px; color: var(--cm-world-light); }
+  .section .journeyTitle {
+    max-width: 14ch;
+    font-weight: 620;
+    font-size: calc(clamp(44px, 4.75vw, 76px) * var(--cm-scale, 1));
+    line-height: 1.03;
+    letter-spacing: -.05em;
+    word-spacing: .07em;
+    overflow-wrap: break-word;
+  }
+  .section .journeyText { max-width: 40ch; margin: 22px 0 26px; font-size: calc(clamp(16px, 1.3vw, 19px) * var(--cm-scale, 1)); line-height: 1.6; }
+
+  /* The four worlds at the edge: a line that fills while travelling, the current world lit in its planet's colour. */
+  .journeyStage .journeyRail { display: block; position: absolute; z-index: 3; top: 50%; right: clamp(12px, 2vw, 34px); translate: 0 -50%; }
+  .journeyRail ol { position: relative; display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+  .journeyRail button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    width: 100%;
+    min-height: 34px;
+    padding: 0 0 0 10px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--cm-muted);
+    font-size: 11px;
+    font-weight: 680;
+    line-height: 1.2;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  /* The titles join in once the first world is reached; on the opening only the dots wait at the edge. */
+  .journeyRail ol { --cm-rail-titles: calc(1 - var(--cm-journey-opening, 1)); }
+  .journeyLabel { opacity: calc(.62 * var(--cm-rail-titles)); text-shadow: 0 0 14px var(--cm-background), 0 0 4px var(--cm-background); transition: color .35s; }
+  .journeyRail button[aria-current] .journeyLabel { opacity: var(--cm-rail-titles); color: var(--cm-global-text); }
+  .journeyRail button:is(:hover, :focus-visible) .journeyLabel { opacity: 1; color: var(--cm-global-text); }
+  .journeyDot {
+    width: 9px;
+    height: 9px;
+    flex: none;
+    border: 1px solid #c8d7ff70;
+    border-radius: 50%;
+    background: var(--cm-background);
+    transition: background-color .35s, border-color .35s, box-shadow .35s, scale .35s var(--cm-ease);
+  }
+  .journeyRail button[aria-current] .journeyDot {
+    border-color: transparent;
+    background: var(--cm-world-light);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--cm-world-light) 70%, transparent);
+    scale: 1.3;
+  }
+  .journeyLine { position: absolute; top: 17px; bottom: 17px; right: 4px; width: 1px; background: #c8d7ff26; }
+  .journeyLine > span { display: block; height: 100%; transform: scaleY(0); transform-origin: top; background: linear-gradient(color-mix(in srgb, var(--cm-global-accent) 55%, #fff), #bdd2ff); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 520px) and (max-width: 1199px) {
+  /* Narrower screens give the planet the room: the rail keeps its dots, the titles stay as accessible names. */
+  .journeyLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 520px) and (max-width: 760px) {
+  /* Smartphone: the planet above, the copy at the bottom; the opening text may reach into the overview on short screens. */
+  .journeyStage::before {
+    background: linear-gradient(0deg, color-mix(in srgb, var(--cm-background) 82%, transparent), color-mix(in srgb, var(--cm-background) 52%, transparent) 38%, transparent 62%);
+    opacity: 1;
+  }
+  .journeyStage .journeyGlow { inset: -4% -12% 48% -12%; }
+  .journeyStage .journeyInner { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); padding-block: 4px calc(30px + env(safe-area-inset-bottom, 0px)); }
+  .journeyStage .journeyVisual { grid-area: 1 / 1; align-self: start; display: grid; place-items: center; width: 100%; height: max(38%, calc(100% - var(--cm-journey-copy, 60%) - 10px)); }
+  .journeyStage .planetViewport { max-height: 100%; }
+  .journeyCopy { grid-area: 1 / 1; align-self: end; align-items: end; }
+  .journeyStage .journeyWorld { padding-block: 8px 0; }
+  .journeyHint { display: none; }
+  .journeyWorld .eyebrow { margin-bottom: 12px; }
+  .section .journeyTitle { font-size: calc(clamp(32px, 8.8vw, 48px) * var(--cm-scale, 1)); letter-spacing: -.045em; }
+  .section .journeyText { margin: 12px 0 16px; font-size: calc(16px * var(--cm-scale, 1)); }
+  .journeyStage .journeyRail { top: var(--cm-journey-focus-y, 30%); right: 2px; }
+  .journeyRail ol { gap: 0; }
+  .journeyRail button { min-height: 30px; padding: 0 10px; }
+  .journeyLine { top: 15px; bottom: 15px; right: 14px; }
+}
