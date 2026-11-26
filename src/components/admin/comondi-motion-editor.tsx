@@ -1,0 +1,26 @@
+"use client";
+
+import type { ComondiMotionSettings, SiteConfig } from "@/lib/types";
+import { comondiMotion } from "@/lib/comondi-motion";
+import { Field, Select, Toggle } from "./admin-ui";
+
+export function ComondiMotionEditor({ config, onChange }: { config: SiteConfig; onChange: (config: SiteConfig) => void }) {
+  const settings = comondiMotion(config.comondiMotion);
+  const update = (patch: Partial<ComondiMotionSettings>) => onChange({ ...config, comondiMotion: { ...settings, ...patch } });
+  const range = (label: string, field: "intensity" | "speed" | "parallaxStrength" | "revealDuration", min = 0, max = 100, step = 1) => <Field label={label} hint={`${settings[field]}${field === "revealDuration" ? " ms" : " %"}`}><input aria-label={label} type="range" min={min} max={max} step={step} value={settings[field]} onChange={event => update({ [field]: Number(event.target.value) })} style={{ width: "100%", accentColor: "#bc5e9b" }} /></Field>;
+  return <div className="cms-form-section" data-comondi-motion-editor="">
+    <h3>Space & Bewegung</h3>
+    <p>Der Hintergrund bleibt hinter dem Inhalt. Änderungen bleiben bis zum Speichern im Entwurf; veröffentlichte Einstellungen gelten auf allen Seiten.</p>
+    <Toggle label="Bewegung aktivieren" checked={settings.enabled} onChange={enabled => update({ enabled })} />
+    <Toggle label="Dezenten Space-Hintergrund zeigen" checked={settings.background} onChange={background => update({ background })} hint="Sterne, weiche Lichtnebel und ruhige Orbitlinien hinter dem Inhalt." />
+    <Toggle label="Planeten beim Scrollen bewegen" checked={settings.planetScroll} onChange={planetScroll => update({ planetScroll })} />
+    <Toggle label="Texte beim Scrollen sanft einblenden" checked={settings.textReveal} onChange={textReveal => update({ textReveal })} hint="Unter Gestaltung lässt sich die Bewegung zusätzlich für jeden Abschnitt einzeln ausschalten." />
+    <Toggle label="Interaktionen und Übergänge animieren" checked={settings.interactionFeedback} onChange={interactionFeedback => update({ interactionFeedback })} />
+    {range("Stärke des Hintergrunds", "intensity")}
+    {range("Geschwindigkeit im Hintergrund", "speed")}
+    {range("Scrollbewegung der Planeten", "parallaxStrength")}
+    {range("Dauer der Texteinblendung", "revealDuration", 350, 1400, 50)}
+    <Field label="Sterne im Hintergrund"><Select aria-label="Sterne im Hintergrund" value={settings.starDensity} onChange={event => update({ starDensity: event.target.value as ComondiMotionSettings["starDensity"] })}><option value="sparse">Wenige Sterne</option><option value="balanced">Ausgewogen</option><option value="dense">Mehr Sterne</option></Select></Field>
+    <p>Die Einstellung „Bewegung reduzieren“ des Geräts wird berücksichtigt. In der Bearbeitung bleibt die Vorschau ruhig, damit Texte und Bilder zuverlässig ausgewählt werden können.</p>
+  </div>;
+}

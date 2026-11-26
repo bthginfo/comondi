@@ -1,0 +1,37 @@
+@import '@fontsource-variable/manrope';
+@import '../styles/site.css';
+@import '../styles/site-motion.css';
+
+:root{--font-display:'Manrope Variable','Manrope',sans-serif;--font-body:'DM Sans Variable','DM Sans',sans-serif;--font-editorial:'Bodoni Moda Variable',serif;--font-cinematic:'Barlow Condensed',sans-serif;color-scheme:light;font-family:var(--font-body);background:#f4f5f0;color:#142b27}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0}button,input,textarea,select{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button{cursor:pointer}img{max-width:100%}a{color:inherit}::selection{background:#d6f478;color:#142b27}:focus-visible{outline:3px solid #587a22;outline-offset:4px}input,textarea{caret-color:#315b32}body::-webkit-scrollbar{width:10px}body::-webkit-scrollbar-track{background:#eef0e8}body::-webkit-scrollbar-thumb{background:#a3b0a7;border-radius:12px;border:2px solid #eef0e8}
+.system-page{min-height:100dvh;display:grid;place-items:center;padding:32px}.system-page>div{max-width:650px}.system-page h1{font-family:var(--font-display);font-size:clamp(2rem,6vw,4rem);letter-spacing:-.035em;line-height:1.12}.system-page p{line-height:1.7}.system-page a,.system-page button{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;background:#142b27;color:white;text-decoration:none;padding:14px 24px;margin-top:16px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* The co:mondi footer includes the native privacy-settings action. */
+.comondi-site-root .ws-native-consent-entry{display:none}
+.comondi-site-root .ws-consent{border-color:#d7d4ed30;background:linear-gradient(135deg,#171c2ef5,#0e1324fa);color:#eef0f8;backdrop-filter:blur(24px);box-shadow:0 18px 80px #0006,inset 0 1px 0 #ffffff10;border-radius:20px}
+.comondi-site-root .ws-consent .ws-button{border-radius:24px;border-color:#cad4f23d}
+
+/* Keep the first mobile screen useful while both consent choices stay equally prominent. */
+html:has(.comondi-site-root:not(.ws-site-editable)) { background: #060a15; }
+.comondi-site-root .ws-consent-wrap { left: 16px; bottom: max(16px, env(safe-area-inset-bottom)); width: min(610px, calc(100vw - 32px)); }
+.comondi-site-root .ws-consent { border-color: #d4dfff43; background: #111a2bef; padding: 18px 20px; }
+.comondi-site-root .ws-consent-heading { gap: 10px; }
+.comondi-site-root .ws-consent-heading h2 { margin: 0; font-size: 18px; font-weight: 680; }
+.comondi-site-root .ws-consent-heading > svg { width: 20px; flex: none; }
+.comondi-site-root .ws-consent > p { margin: 8px 0 0; font-size: 14px; line-height: 1.48; color: #cbd4e7; }
+.comondi-site-root .ws-consent-actions { gap: 8px; margin-top: 12px; }
+.comondi-site-root .ws-consent-actions .ws-button { min-height: 44px; background: #c9d8fd12; color: #f2f5ff; border-color: #cbd8ff51; }
+.comondi-site-root .ws-consent-actions .ws-button:hover { background: #c9d8fd24; color: #fff; border-color: #dde7ff87; }
+.comondi-site-root .ws-consent-actions .ws-text-button { min-height: 44px; padding: 0; }
+.comondi-site-root .ws-consent-links { margin-top: 0; font-size: 12px; }
+.comondi-site-root .ws-consent-links > a { display: inline-flex; align-items: center; min-height: 40px; }
+.comondi-site-root .ws-consent :is(a,button,input):focus-visible { outline: 2px solid #cbdafe; outline-offset: 3px; }
+@media (max-width: 540px) {
+  .comondi-site-root .ws-consent-wrap { left: 10px; bottom: max(10px, env(safe-area-inset-bottom)); width: calc(100vw - 20px); }
+  .comondi-site-root .ws-consent { padding: 12px 14px 8px; }
+  .comondi-site-root .ws-consent-actions .ws-button { flex: 1 1 calc(50% - 5px); justify-content: center; padding-inline: 5px; }
+  .comondi-site-root .ws-consent-wrap .ws-consent { display: grid; grid-template-columns: 1fr; }
+  .comondi-site-root .ws-consent-wrap .ws-consent-links { margin-top: -39px; margin-right: 105px; gap: 0 12px; }
+  .comondi-site-root .ws-consent-wrap .ws-consent-actions .ws-text-button { margin-left: auto; }
+}

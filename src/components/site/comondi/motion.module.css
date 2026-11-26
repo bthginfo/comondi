@@ -1,0 +1,51 @@
+.spaceBackground {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  opacity: var(--cm-space-visibility, .8);
+}
+.starfield { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .82; }
+.nebulaBlue, .nebulaPink, .nebulaDeep { position: absolute; border-radius: 50%; }
+.nebulaBlue {
+  width: 95vw; height: 88vh; left: 28%; top: 4%;
+  background: radial-gradient(ellipse, #40528336, #26365b19 37%, transparent 70%);
+  animation: blue var(--cm-nebula-duration, 62s) ease-in-out infinite alternate;
+}
+.nebulaPink {
+  width: 80vw; height: 90vh; left: -40%; top: 25%;
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--cm-global-accent) 17%, transparent), transparent 65%);
+  animation: pink calc(var(--cm-nebula-duration, 62s) * 1.2) ease-in-out infinite alternate;
+}
+.nebulaDeep {
+  width: 75vw; height: 75vh; right: -29%; top: -25%;
+  background: radial-gradient(ellipse, #19445f25, transparent 68%);
+  animation: blue calc(var(--cm-nebula-duration, 62s) * .9) ease-in-out infinite alternate-reverse;
+}
+.distantOrbit, .distantOrbitSecond {
+  position: absolute;
+  border: 1px solid #abc7f012;
+  width: 127vw;
+  height: 55vw;
+  min-height: 380px;
+  border-radius: 50%;
+  top: 28vh;
+  left: 5vw;
+  transform: rotate(-28deg);
+  animation: orbit 125s ease-in-out infinite alternate;
+}
+.distantOrbitSecond { left: -75vw; top: 5vh; opacity: .45; animation-direction: alternate-reverse; }
+.spaceBackground[data-paused="true"] > * { animation-play-state: paused !important; }
+:global([data-cm-editable="true"]) .spaceBackground { position: absolute; height: 900px; max-height: 100%; bottom: auto; }
+@keyframes blue { to { transform: translate3d(8%, 9%, 0) scale(1.15); } }
+@keyframes pink { to { transform: translate3d(12%, -12%, 0) scale(1.16); } }
+@keyframes orbit { to { transform: rotate(-20deg) translate3d(3%, 5%, 0); } }
+@media (max-width: 640px) {
+  .nebulaBlue,.nebulaPink,.nebulaDeep { width: 140vw; height: 85vh; }
+  .nebulaBlue { left: 5%; }
+  .nebulaPink { left: -80%; }
+  .distantOrbit { width: 200vw; left: -10vw; }
+}
+@media (prefers-reduced-motion: reduce) { .spaceBackground * { animation: none !important; } }

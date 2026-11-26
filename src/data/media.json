@@ -1,0 +1,116 @@
+[
+  {
+    "id": "comondi-comondi-logo",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/comondi/comondi-logo.svg",
+    "name": "comondi-logo",
+    "alt": "Logo von co:mondi",
+    "type": "image/svg+xml",
+    "size": 3003,
+    "createdAt": "2026-11-15T14:54:28.629Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "comondi-comondi-og",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/comondi/comondi-og.png",
+    "name": "comondi-og",
+    "alt": "co:mondi: Wir verbinden Welten. Damit Wandel wirkt.",
+    "type": "image/png",
+    "size": 97570,
+    "createdAt": "2026-11-15T14:54:29.902Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "comondi-saturn",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/comondi/saturn.webp",
+    "name": "saturn",
+    "alt": "Planetentextur saturn – Solar System Scope, CC BY 4.0",
+    "type": "image/webp",
+    "size": 30428,
+    "createdAt": "2026-11-15T14:54:30.892Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "comondi-jupiter",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/comondi/jupiter.webp",
+    "name": "jupiter",
+    "alt": "Planetentextur jupiter – Solar System Scope, CC BY 4.0",
+    "type": "image/webp",
+    "size": 121062,
+    "createdAt": "2026-11-15T14:54:32.070Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "comondi-moon",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/comondi/moon.webp",
+    "name": "moon",
+    "alt": "Planetentextur moon – Solar System Scope, CC BY 4.0",
+    "type": "image/webp",
+    "size": 168080,
+    "createdAt": "2026-11-15T14:54:33.495Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "comondi-neptune",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/comondi/neptune.webp",
+    "name": "neptune",
+    "alt": "Planetentextur neptune – Solar System Scope, CC BY 4.0",
+    "type": "image/webp",
+    "size": 7598,
+    "createdAt": "2026-11-15T14:54:34.410Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "placeholder-landscape",
+    "url": "/media/placeholder-landscape.svg",
+    "name": "Bildplatzhalter landscape",
+    "alt": "Abstrakter Bildplatzhalter",
+    "type": "image/svg+xml",
+    "size": 427,
+    "createdAt": "2026-10-30T00:00:00Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "placeholder-portrait",
+    "url": "/media/placeholder-portrait.svg",
+    "name": "Bildplatzhalter portrait",
+    "alt": "Abstrakter Bildplatzhalter",
+    "type": "image/svg+xml",
+    "size": 399,
+    "createdAt": "2026-10-30T00:00:00Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "placeholder-detail",
+    "url": "/media/placeholder-detail.svg",
+    "name": "Bildplatzhalter detail",
+    "alt": "Abstrakter Bildplatzhalter",
+    "type": "image/svg+xml",
+    "size": 427,
+    "createdAt": "2026-10-30T00:00:00Z",
+    "position": "50% 50%"
+  },
+  {
+    "id": "ae7962e7-28d1-4e95-8394-5a08ecc7dc4d",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+    "name": "eva-lohmueller.webp",
+    "alt": "Eva Lohmüller",
+    "type": "image/webp",
+    "size": 25208,
+    "position": "50% 50%",
+    "width": 522,
+    "height": 527,
+    "createdAt": "2026-11-15T16:03:29.748Z"
+  },
+  {
+    "id": "88af3ae6-4c5f-4685-8a28-2de0a99d24b4",
+    "url": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+    "name": "sebastian-kunerl.webp",
+    "alt": "Sebastian Kunerl",
+    "type": "image/webp",
+    "size": 15980,
+    "position": "50% 50%",
+    "width": 342,
+    "height": 348,
+    "createdAt": "2026-11-15T16:03:31.002Z"
+  }
+]

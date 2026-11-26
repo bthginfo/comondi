@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "website": "https://comondi.vercel.app",
+  "vercel": {
+    "projectId": "prj_jlIGrYazXNuX8RY0dVKVvGYYu7il",
+    "projectName": "comondi",
+    "sourceDeploymentId": "dpl_DmZ3Pw7m3idvNDFJmNMqn4t9QHo2"
+  },
+  "neon": {
+    "resourceId": "store_hPThUVRdloRKFbvi",
+    "resourceName": "comondi-db",
+    "requiredPlan": "free",
+    "verifiedPlan": "free_v3"
+  },
+  "blob": {
+    "storeId": "store_LZivon9Se7ZrNxWu",
+    "storeName": "comondi-media",
+    "access": "public",
+    "region": "fra1"
+  },
+  "verifiedAt": "2026-11-26"
+}
