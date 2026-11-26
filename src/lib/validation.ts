@@ -1,3 +1,4 @@
+import './zod-config';
 import { cmsAppearanceSchema } from "./cms-appearance-schema";
 import { CLUB_FIXTURE_MODES, isClubTimeZone } from './club/fixtures';
 import {catalogRuleIssues,DELIVERY_COUNTRIES} from './commerce/pricing';

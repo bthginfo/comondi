@@ -183,5 +183,5 @@ const route=handler(async(request:Request)=>{
     const state=await getState();return new Response(JSON.stringify({format:'ws-content-backup-v1',exportedAt:new Date().toISOString(),draft:state.draft,published:state.published},null,2),{headers:{'Content-Type':'application/json; charset=utf-8','Content-Disposition':'attachment; filename="website-inhalte.json"','Cache-Control':'no-store'}});
   }
   throw new AppError('Diese Funktion wurde nicht gefunden.',404);
-});
+},{describeFields:true});
 export {route as GET,route as POST,route as PUT,route as PATCH,route as DELETE};
