@@ -600,6 +600,10 @@
             "heading": "Vier Welten.\nAlle Leistungen im Überblick.",
             "text": "Projekt- und Prozessmanagement, agile Transformation, hybride Zusammenarbeit und KI im Arbeitsalltag: Hier seht ihr alle Themen, bei denen wir euch unterstützen, und wie sie zusammenhängen.",
             "caption": "Die Verbindung zwischen Welten",
+            "primaryLabel": "Über euer Vorhaben sprechen",
+            "primaryHref": "/kontakt",
+            "secondaryLabel": "So arbeiten wir",
+            "secondaryHref": "/zusammenarbeit",
             "items": [
               {
                 "id": "proven",

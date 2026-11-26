@@ -12,7 +12,7 @@ const ring = { outer: [124, 31], inner: [94, 21], gap: [110, 26.5], tilt: -15 } 
  * world colour, hatched night side and one highlight. 0 Jupiter (bands and spot), 1 Neptune (storm),
  * 2 Saturn (ring in front of and behind the sphere), 3 Moon (craters and a small companion).
  */
-export function AtlasPlanet({ world }: { world: number }) {
+export function AtlasPlanet({ world, companion = true }: { world: number; companion?: boolean }) {
   const id = useId().replace(/:/g, "");
   const sphere = `${id}-sphere`, hatch = `${id}-hatch`, front = `${id}-front`;
   const ringBand = `${ellipse(cx, cy, ring.outer[0], ring.outer[1])}${ellipse(cx, cy, ring.inner[0], ring.inner[1])}`;
@@ -68,7 +68,7 @@ export function AtlasPlanet({ world }: { world: number }) {
       <path d={ringBand} fillRule="evenodd" className={styles.apRing} />
       <path d={ellipse(cx, cy, ring.gap[0], ring.gap[1])} className={styles.apRingLine} />
     </g>}
-    {world === 3 && <g className={styles.apCompanion}>
+    {world === 3 && companion && <g className={styles.apCompanion}>
       <ellipse cx={cx} cy={cy} rx="118" ry="40" transform={`rotate(-24 ${cx} ${cy})`} className={styles.apOrbit} />
       <circle cx="226" cy="56" r="9" className={styles.apMoonlet} />
     </g>}

@@ -81,6 +81,8 @@ export function buildSubpages(current: WebsiteContent): Record<SubpageSlug, Subp
           heading: 'Vier Welten.\nAlle Leistungen im Überblick.',
           text: 'Projekt- und Prozessmanagement, agile Transformation, hybride Zusammenarbeit und KI im Arbeitsalltag: Hier seht ihr alle Themen, bei denen wir euch unterstützen, und wie sie zusammenhängen.',
           caption: 'Die Verbindung zwischen Welten',
+          primaryLabel: 'Über euer Vorhaben sprechen', primaryHref: '/kontakt',
+          secondaryLabel: 'So arbeiten wir', secondaryHref: '/zusammenarbeit',
           items: [
             item('proven', 'Projekte & Prozesse', 'Wenn ein Vorhaben ein gemeinsames Ziel, Struktur und klare Zuständigkeiten braucht.', { meta: 'Bewährte Welt', details: ['Projekt- & Programmmanagement', 'Prozessmanagement', 'Organisationsaufbau', 'Anforderungsmanagement'], tags: ['A-SPICE', 'Systems Engineering'], href: '/leistungen/projektmanagement', label: 'Projekte & Prozesse im Detail' }),
             item('modern', 'Agile Transformation', 'Wenn neue Arbeitsweisen entstehen sollen, die Menschen im Alltag mittragen.', { meta: 'Moderne Welt', details: ['Agile Transformation', 'Change Management', 'Systemisches Coaching', 'Kultur & Kommunikation'], tags: ['SCRUM', 'SAFe®'], href: '/leistungen/agile-transformation', label: 'Agile Transformation im Detail' }),

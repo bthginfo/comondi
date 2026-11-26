@@ -27,10 +27,10 @@ const pad = (value: number) => String(value).padStart(2, "0");
 const reducedMotion = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /** A service-world planet: a textured sphere in Kosmos, the engraved drawing in Atlas. */
-export function Planet({ world, className = "" }: { world: number; className?: string }) {
+export function Planet({ world, className = "", small = false }: { world: number; className?: string; small?: boolean }) {
   return <span className={`${styles.cmOrb} ${className}`} data-world={world} aria-hidden="true">
     <span className={styles.cmSphere} />
-    <AtlasPlanet world={world} />
+    <AtlasPlanet world={world} companion={!small} />
   </span>;
 }
 
@@ -142,8 +142,8 @@ function PairsSection(props: ComondiPageSectionProps) {
       const b = worldForText(names[1]) ?? (a + 1) % 4;
       return <li key={entry.id} data-item-id={entry.id} className={styles.pair}>
         <div className={styles.pairArt} aria-hidden="true">
-          <span className={styles.pairA} data-world={a}><Planet world={a} /></span>
-          <span className={styles.pairB} data-world={b}><Planet world={b} /></span>
+          <span className={styles.pairA} data-world={a}><Planet world={a} small /></span>
+          <span className={styles.pairB} data-world={b}><Planet world={b} small /></span>
           <span className={styles.pairLens} />
         </div>
         <div className={styles.pairQuestion}>
@@ -310,7 +310,7 @@ function RelatedSection(props: ComondiPageSectionProps) {
     <ul className={styles.relatedList}>{k.items.map((entry, index) => {
       const world = worldForText(entry.meta) ?? worldForText(entry.title) ?? index % 4;
       return <li key={entry.id} data-item-id={entry.id} data-world={world} className={styles.relatedItem}>
-        <Planet world={world} className={styles.relatedPlanet} />
+        <Planet world={world} className={styles.relatedPlanet} small />
         <div>
           {k.itemText(entry, index, "meta", "span", styles.eyebrow)}
           <ContentLink href={entry.href} editable={props.editable} editField="href" editItemId={entry.id} className={styles.relatedTitle}>
@@ -581,7 +581,7 @@ function MagazineSection(props: ComondiPageSectionProps) {
         <ContentLink href={entry.href} editable={props.editable} editField="href" editItemId={entry.id} className={styles.magTitle}>{k.itemText(entry, index, "title", "h2")}</ContentLink>
         {k.itemText(entry, index, "text", "p", styles.magTeaser)}
       </div>
-      <Planet world={worldForText(entry.meta) ?? index % 4} className={styles.magRowPlanet} />
+      <Planet world={worldForText(entry.meta) ?? index % 4} className={styles.magRowPlanet} small />
       <ArrowUpRight className={styles.magArrow} size={24} aria-hidden="true" />
     </li>)}</ol>}
   </div></div>;
