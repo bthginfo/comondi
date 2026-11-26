@@ -144,14 +144,16 @@ function tokensFor(seed: Oklch, scheme: "light" | "dark"): CmsAccentTokens {
     let fill = { l: clamp(seed.l, 0.42, 0.56), c: chroma, h };
     fill = nudge(fill, -1, hex => contrast(hex, "#ffffff") >= 4.6 && contrast(hex, CMS_LIGHT_CANVAS) >= 3.2, 0.2);
     const accent = oklchToHex(fill);
-    const text = oklchToHex(nudge(fill, -1, hex => contrast(hex, LIGHT_SURFACE) >= 4.8 && contrast(hex, CMS_LIGHT_CANVAS) >= 4.6, 0.2));
+    // Accent text also sits on the tint (current tab, badges, selected rows), so it must read there as well.
+    const tint = oklchToHex({ l: 0.955, c: Math.min(chroma * 0.28, 0.035), h });
+    const text = oklchToHex(nudge(fill, -1, hex => contrast(hex, LIGHT_SURFACE) >= 4.8 && contrast(hex, CMS_LIGHT_CANVAS) >= 4.6 && contrast(hex, tint) >= 4.6, 0.2));
     return {
       accent,
       accentHover: oklchToHex({ ...fill, l: fill.l - 0.05 }),
       accentPressed: oklchToHex({ ...fill, l: fill.l - 0.09 }),
       onAccent: "#ffffff",
       accentText: text,
-      tint: oklchToHex({ l: 0.955, c: Math.min(chroma * 0.28, 0.035), h }),
+      tint,
       tintStrong: oklchToHex({ l: 0.915, c: Math.min(chroma * 0.45, 0.06), h }),
       ring: accent,
       glow: alpha(accent, 0.22),
@@ -165,14 +167,15 @@ function tokensFor(seed: Oklch, scheme: "light" | "dark"): CmsAccentTokens {
   const on = oklchToHex({ l: 0.2, c: Math.min(chroma * 0.4, 0.04), h });
   fill = nudge(fill, 1, hex => contrast(hex, on) >= 4.8 && contrast(hex, CMS_DARK_CANVAS) >= 3.2, 0.95);
   const accent = oklchToHex(fill);
-  const text = oklchToHex(nudge(fill, 1, hex => contrast(hex, DARK_SURFACE) >= 4.8 && contrast(hex, CMS_DARK_CANVAS) >= 4.6, 0.97));
+  const tint = oklchToHex({ l: 0.3, c: Math.min(chroma * 0.35, 0.045), h });
+  const text = oklchToHex(nudge(fill, 1, hex => contrast(hex, DARK_SURFACE) >= 4.8 && contrast(hex, CMS_DARK_CANVAS) >= 4.6 && contrast(hex, tint) >= 4.6, 0.97));
   return {
     accent,
     accentHover: oklchToHex({ ...fill, l: Math.min(0.92, fill.l + 0.05) }),
     accentPressed: oklchToHex({ ...fill, l: fill.l - 0.04 }),
     onAccent: on,
     accentText: text,
-    tint: oklchToHex({ l: 0.3, c: Math.min(chroma * 0.35, 0.045), h }),
+    tint,
     tintStrong: oklchToHex({ l: 0.36, c: Math.min(chroma * 0.5, 0.07), h }),
     ring: accent,
     glow: alpha(accent, 0.26),

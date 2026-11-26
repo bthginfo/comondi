@@ -17,6 +17,7 @@ test("the CMS accent follows the brand hue and always meets the contrast floors"
       assert.ok(contrast(tokens.onAccent, tokens.accent) >= 4.5, `${name} ${scheme}: text on accent`);
       assert.ok(contrast(tokens.ring, canvas) >= 3, `${name} ${scheme}: focus ring`);
       assert.ok(contrast(tokens.accentText, scheme === "light" ? "#ffffff" : "#232428") >= 4.5, `${name} ${scheme}: accent text`);
+      assert.ok(contrast(tokens.accentText, tokens.tint) >= 4.5, `${name} ${scheme}: accent text on the tint`);
     }
   }
   for (const brand of [brands.darkBlue, brands.orange, brands.green, brands.pink]) {
