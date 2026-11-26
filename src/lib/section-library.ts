@@ -8,6 +8,7 @@ import { createJourneyContent } from './creator/journey';
 import { motionStoryStudioPoster } from './motion-story';
 import { createStarterVisualContent } from './starter-visuals.mjs';
 import { ContentItem, Section, SectionContent, SectionDesign, SectionType, SiteConfig } from './types';
+import { comondiPageSectionTypes } from './comondi-sections';
 
 export const sectionLibrary: {type:SectionType;name:string;description:string;category:string;icon:string}[] = [
   {type:'comondi-hero',name:'co:mondi · Planeten-Auftakt',description:'Einstieg mit Three.js-Planeten, bearbeitbaren Texten und Glasflächen.',category:'co:mondi',icon:'Orbit'},
@@ -23,6 +24,23 @@ export const sectionLibrary: {type:SectionType;name:string;description:string;ca
   {type:'comondi-faq',name:'co:mondi · Fragen',description:'Aufklappbare Antworten.',category:'co:mondi',icon:'CircleHelp'},
   {type:'comondi-articles',name:'co:mondi · Perspektiven',description:'Bearbeitbare Beiträge mit Links.',category:'co:mondi',icon:'BookOpen'},
   {type:'comondi-legal',name:'co:mondi · Rechtliches und Artikel',description:'Gliederbare Texte mit Links.',category:'co:mondi',icon:'FileText'},
+  {type:'comondi-map',name:'co:mondi · Landkarte der Welten',description:'Alle Leistungswelten mit Teilleistungen auf einer Karte.',category:'co:mondi',icon:'Map'},
+  {type:'comondi-pairs',name:'co:mondi · Kombinationen',description:'Zwei Welten, die sich bei einer Frage verbinden.',category:'co:mondi',icon:'Combine'},
+  {type:'comondi-formats',name:'co:mondi · Formen der Begleitung',description:'Begleitformen als Umlaufbahnen um euer Team.',category:'co:mondi',icon:'Orbit'},
+  {type:'comondi-planet-hero',name:'co:mondi · Planeten-Einstieg',description:'Einstieg einer Leistungsseite mit eigenem Planeten.',category:'co:mondi',icon:'Globe2'},
+  {type:'comondi-questions',name:'co:mondi · Ausgangslage & Einstieg',description:'Fragen zum Markieren und ein klarer erster Schritt.',category:'co:mondi',icon:'ListChecks'},
+  {type:'comondi-service-work',name:'co:mondi · Leistungsbild',description:'Was co:mondi tut, als Strukturplan, Kreislauf, Brücke oder Phasen.',category:'co:mondi',icon:'Workflow'},
+  {type:'comondi-related',name:'co:mondi · Weiterlesen',description:'Passende Beiträge aus den Perspektiven.',category:'co:mondi',icon:'BookOpen'},
+  {type:'comondi-next',name:'co:mondi · Nächster Schritt',description:'Kontaktaufruf mit Ansprechpersonen.',category:'co:mondi',icon:'Send'},
+  {type:'comondi-route',name:'co:mondi · Road2Goat-Route',description:'Der gemeinsame Weg als ausführliche Route.',category:'co:mondi',icon:'Route'},
+  {type:'comondi-terms',name:'co:mondi · Erwartungen & Tempo',description:'Was beide Seiten einbringen, dazu das Tempo.',category:'co:mondi',icon:'Handshake'},
+  {type:'comondi-portraits',name:'co:mondi · Porträts',description:'Menschen hinter co:mondi mit Porträt und Kontakt.',category:'co:mondi',icon:'UserRound'},
+  {type:'comondi-values',name:'co:mondi · Haltung',description:'Leitworte der Zusammenarbeit.',category:'co:mondi',icon:'Heart'},
+  {type:'comondi-constellation',name:'co:mondi · Kompetenz-Sternbild',description:'Kompetenzen im Team als Sternbild.',category:'co:mondi',icon:'Sparkles'},
+  {type:'comondi-places',name:'co:mondi · Standorte',description:'Orte auf einer gezeichneten Karte.',category:'co:mondi',icon:'MapPin'},
+  {type:'comondi-magazine',name:'co:mondi · Magazin',description:'Beitragsübersicht mit Leitbeitrag und Themenfilter.',category:'co:mondi',icon:'Newspaper'},
+  {type:'comondi-article',name:'co:mondi · Beitrag',description:'Leselayout mit Fortschritt und Inhaltsverzeichnis.',category:'co:mondi',icon:'FileText'},
+  {type:'comondi-after',name:'co:mondi · Nach dem Absenden',description:'Was nach einer Anfrage passiert.',category:'co:mondi',icon:'MailCheck'},
   {type:'newsletter-signup',name:'Newsletter-Anmeldung',description:'Anmeldeformular mit Einwilligung und Bestätigungs-E-Mail. Optional für eine bestimmte Empfängergruppe.',category:'Kontakt',icon:'Mail'},
   {type:'newsletter-showcase',name:'Newsletter und Webanalyse · Vorschau',description:'Bedienbares Beispiel mit fiktiven Ausgaben, Empfängergruppen und Besucherzahlen.',category:'Service',icon:'LayoutDashboard'},
   {type:'assistant-showcase',name:'KI-Assistent · eigenständiges Beispiel',description:'Optionale CMS-Hilfe für Texte, Seiten, Social-Posts und Content-Ideen mit lokal prüfbaren Vorschlägen.',category:'Service',icon:'MessageSquareText'},
@@ -195,7 +213,24 @@ const defaults:Partial<Record<SectionType,()=>SectionContent>>={
   cards:()=>({heading:'Mehr erfahren.',items:[]}),
   columns:()=>({heading:'Was Sie wissen sollten.',items:[]}),
   accordion:()=>({heading:'Weitere Informationen.',items:[]}),
-  richtext:()=>({heading:'Wissen und Informationen.',text:''})
+  richtext:()=>({heading:'Wissen und Informationen.',text:''}),
+  'comondi-map':()=>({heading:'Unsere Leistungen im Überblick.',text:'Ergänzen Sie für jede Welt die tatsächlichen Teilleistungen.',items:[]}),
+  'comondi-pairs':()=>({heading:'Wie sich Themen verbinden.',items:[]}),
+  'comondi-formats':()=>({heading:'Formen der Begleitung.',attribution:'Euer Team',items:[]}),
+  'comondi-planet-hero':()=>({heading:'Eine Leistung.',text:'Beschreiben Sie, was diese Leistung umfasst.',primaryLabel:'Über euer Vorhaben sprechen',primaryHref:'/kontakt'}),
+  'comondi-questions':()=>({heading:'Kommt euch das bekannt vor?',attribution:'So steigen wir ein',quote:'',primaryLabel:'Mit dieser Auswahl anfragen',primaryHref:'/kontakt',items:[point('Ihre erste Frage'),point('Ihre zweite Frage')]}),
+  'comondi-service-work':()=>({heading:'Was wir konkret tun.',items:[]}),
+  'comondi-related':()=>({heading:'Weiterlesen.',items:[]}),
+  'comondi-next':()=>({heading:'Lasst uns sprechen.',text:'Beschreiben Sie den nächsten sinnvollen Schritt.',primaryLabel:'Kontakt aufnehmen',primaryHref:'/kontakt',items:[]}),
+  'comondi-route':()=>({heading:'Unser gemeinsamer Weg.',items:[point('Erste Etappe','Beschreiben Sie den tatsächlichen Ablauf.'),point('Zweite Etappe','Beschreiben Sie den tatsächlichen Ablauf.')]}),
+  'comondi-terms':()=>({heading:'Was beide Seiten einbringen.',items:[]}),
+  'comondi-portraits':()=>({heading:'Die Menschen hinter dem Angebot.',items:[]}),
+  'comondi-values':()=>({heading:'Unsere Haltung.',items:[]}),
+  'comondi-constellation':()=>({heading:'Kompetenzen im Team.',items:[]}),
+  'comondi-places':()=>({heading:'Standorte.',items:[]}),
+  'comondi-magazine':()=>({heading:'Beiträge.',caption:'Alle',attribution:'Nach Thema filtern',items:[]}),
+  'comondi-article':()=>({heading:'Titel des Beitrags.',text:'',items:[point('Erstes Kapitel','')]}),
+  'comondi-after':()=>({heading:'Was nach eurer Nachricht passiert.',items:[]}),
 };
 export function createSection(type:SectionType):Section {
   const definition=sectionLibrary.find(x=>x.type===type)!;
@@ -210,6 +245,8 @@ export function createSection(type:SectionType):Section {
   if (base === 'cta') design.theme = 'accent';
   if (base === 'hero' || type === 'showcase-hero') design.spacing = 'compact';
   if (base === 'announcement') Object.assign(design, {spacing:'compact',theme:'soft'});
+  if (comondiPageSectionTypes.includes(type)) Object.assign(design, {theme:'dark',headingFont:'sans',radius:24,animation:['comondi-map','comondi-planet-hero','comondi-route','comondi-portraits','comondi-magazine','comondi-article'].includes(type)?'none':'reveal'});
+  if (type === 'comondi-planet-hero' || type === 'comondi-service-work') design.comondiPlanet = 'jupiter';
   if (type === 'scene-sequence') Object.assign(design, {theme:'dark',width:'full',spacing:'compact'});
   if (type === 'workflow-demo') design.theme = 'soft';
   if (visual || ['statement', 'services', 'team', 'split', 'cta', 'cards', 'gallery', 'quote', 'steps', 'comparison', 'columns', 'timeline'].includes(base) ||

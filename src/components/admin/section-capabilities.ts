@@ -1,7 +1,9 @@
 import type { SectionType } from "@/lib/types";
+import { comondiSectionGuides } from "@/lib/comondi-sections";
 
 const aliases: Partial<Record<SectionType, SectionType>> = {
   "comondi-hero":"hero", "comondi-proof":"logos", "comondi-intro":"cards", "comondi-worlds":"services", "comondi-process":"steps", "comondi-culture":"cards", "comondi-cta":"cta", "comondi-inner":"hero", "comondi-team":"team", "comondi-contact":"contact", "comondi-faq":"faq", "comondi-articles":"cards", "comondi-legal":"richtext",
+  "comondi-map":"services", "comondi-pairs":"cards", "comondi-formats":"cards", "comondi-planet-hero":"statement", "comondi-questions":"faq", "comondi-service-work":"services", "comondi-related":"cards", "comondi-next":"cta", "comondi-route":"steps", "comondi-terms":"columns", "comondi-portraits":"team", "comondi-values":"statement", "comondi-constellation":"list", "comondi-places":"list", "comondi-magazine":"cards", "comondi-article":"richtext", "comondi-after":"steps",
   "assistant-showcase":"cards",
   "creator-engagement":"gallery","creator-journey":"cards",
   "creator-scroll-story":"cards","creator-demo":"cards","creator-remix":"cards","creator-lens":"cards","creator-orbit":"cards",
@@ -17,6 +19,11 @@ const aliases: Partial<Record<SectionType, SectionType>> = {
 export function sectionBaseType(type: SectionType): SectionType { return aliases[type] || type; }
 export function sectionCapabilities(type: SectionType) {
   const base = sectionBaseType(type); const feed = ["blog-cards", "blog-editorial", "blog-list"].includes(type);
+  // The co:mondi subpage sections list exactly the fields their renderer shows.
+  const guide = comondiSectionGuides[type];
+  if (guide) return { base, feed: false, restaurantMenu: false, reservation: false, heroLayout: false, newsletter: false, showcase: false,
+    items: guide.maxItems > 0, image: type === "comondi-article", gallery: false, quote: typeof guide.section.quote === "string",
+    itemImages: typeof guide.item?.image === "string", icons: false, columns: false, imageSide: false };
   const creatorEditorial = type === "creator-media-kit" || type === "creator-shop";
   const visualItems = ["scroll-story", "scene-sequence", "workflow-demo", "project-stage", "project-index", "editorial-index"].includes(type);
   return {
