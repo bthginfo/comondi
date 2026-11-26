@@ -44,8 +44,14 @@ export async function PublishedPage({ path, query }: { path: string; query?: str
   const language = languageForSlug(page.slug);
   const sections = page.sections.map(section => fixtures && section.type === 'timeline' && section.content.clubFixtures
     ? { ...section, content: { ...section.content, items: clubTimelineItems(fixtures, section.content.clubFixtures, language, Date.now(), club?.timeZone) } } : section);
+  const post = content.posts?.find(post => page.id === 'post-' + post.id);
+  const { scripts = [], ...banner } = content.config.consent;
+  const tracking = publicConsentScriptPage(page);
+  // The public statistics settings are rendered with the page instead of being requested on every visit.
+  // Changing them revalidates all pages (api/admin/analytics); measurement itself still starts only after consent.
+  const statistics = tracking || page.slug === 'datenschutz' ? await analytics.publicConfig() : undefined;
   if (page.slug === 'datenschutz') {
-    const disclosures = await Promise.all([analytics.publicConfig().then(analyticsPrivacy), newsletter.disclosure()]);
+    const disclosures = await Promise.all([analyticsPrivacy(statistics!), newsletter.disclosure()]);
     for (const [index, anchor] of ['webstatistik', 'newsletter'].entries()) {
       const disclosure = disclosures[index];
       if (disclosure) sections.push({
@@ -54,15 +60,13 @@ export async function PublishedPage({ path, query }: { path: string; query?: str
       });
     }
   }
-  const post = content.posts?.find(post => page.id === 'post-' + post.id);
-  const { scripts = [], ...banner } = content.config.consent;
-  const tracking = publicConsentScriptPage(page);
   const enabled = tracking && banner.enabled ? scripts.filter(script => script.enabled) : [];
   // Page-context code runs with this document's origin. Keep it out of signed-in CMS sessions.
   const cmsSession = enabled.some(script => script.context === 'page') && (await cookies()).has(SESSION_COOKIE);
   const items = cmsSession ? enabled.filter(script => script.context === 'sandbox') : enabled;
   const consent = {
     tracking,
+    analytics: tracking ? statistics : undefined,
     legalLinks: consentLegalLinks(content.config, language, index.pages),
     scripts: items.length ? { items, generation: digest(consentScriptDefinitionKey(items)) } : undefined,
   };
