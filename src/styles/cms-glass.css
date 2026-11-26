@@ -342,6 +342,24 @@
   border: 0; border-radius: var(--cms-r-lg); box-shadow: var(--cms-shadow-2), var(--cms-specular); margin: 12px 0 0; padding: 12px 14px 12px 20px;
 }
 .cms-app--glass .cms-settings-save small { color: var(--cms-muted); }
+/* Dashboard details and shortcuts with fixed colours: readable in dark mode too. */
+.cms-app--glass .cms-dashboard :is([class*="statusDetail"], .cms-dashboard-inbox-empty, .cms-dashboard-inbox-empty p) { color: var(--cms-muted); }
+.cms-app--glass .cms-dashboard [class*="allDone"] { color: var(--cms-success); }
+.cms-app--glass .cms-dashboard-shortcuts strong { color: var(--cms-ink); }
+/* Blog: hint bar and empty state follow the tokens, so dark mode has no light island. */
+.cms-app--glass :is(.cms-blog-feature-status, .cms-blog-feature-status--enabled) { background: var(--cms-surface); color: var(--cms-muted); box-shadow: var(--cms-shadow-1); }
+.cms-app--glass .cms-blog-feature-status > div { color: var(--cms-muted); }
+.cms-app--glass .cms-blog-feature-status strong { color: var(--cms-ink); }
+.cms-app--glass .cms-blog-manager > .cms-empty { background: var(--cms-surface); border: 0; border-radius: var(--cms-r-lg); box-shadow: var(--cms-shadow-1); color: var(--cms-muted); }
+.cms-app--glass .cms-blog-manager > .cms-empty :is(h2, h3) { color: var(--cms-ink); }
+/* Help: guides and the "Gut zu wissen" column follow the tokens, so dark mode has no light island. */
+.cms-app--glass .cms-help-guide summary { color: var(--cms-ink); }
+.cms-app--glass .cms-help-guide summary::after { color: var(--cms-accent-text); }
+.cms-app--glass .cms-help-guide p { color: var(--cms-muted); }
+.cms-app--glass .cms-help-aside { background: var(--cms-surface); color: var(--cms-ink); border-radius: var(--cms-r-lg); box-shadow: var(--cms-shadow-1); }
+.cms-app--glass .cms-help-aside > div + div { border-top-color: var(--cms-line); }
+.cms-app--glass .cms-help-aside :is(dt, dd) { color: var(--cms-ink-2); }
+.cms-app--glass .cms-help-aside kbd { background: var(--cms-fill); border-color: var(--cms-line-strong); color: var(--cms-ink); }
 .cms-app--glass .cms-design-entry { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 20px 22px; margin: 0 0 14px; border-radius: var(--cms-r-lg); background: linear-gradient(135deg, var(--cms-accent-tint), var(--cms-surface)); box-shadow: var(--cms-shadow-1); }
 .cms-app--glass .cms-design-entry h3 { margin: 0 0 4px; font-size: 17px; }
 .cms-app--glass .cms-design-entry p { margin: 0; color: var(--cms-muted); }
@@ -956,6 +974,9 @@
 .cms-login.cms-app--glass .cms-login-panel > p { color: var(--cms-muted); font-size: 14px; line-height: 1.6; }
 .cms-login.cms-app--glass .cms-login-panel form > .cms-button { min-height: 46px; font-size: 15px; }
 .cms-login.cms-app--glass .cms-login-panel > .cms-text-link { color: var(--cms-accent-text); font-size: 13px; }
+/* "Mit Teamzugang anmelden" is a button: it reads as a link like "Zur öffentlichen Website", with room between both. */
+.cms-login.cms-app--glass .cms-login-panel > button.cms-text-link { background: none; border: 0; padding: 0; min-height: 24px; margin-right: 18px; font: inherit; font-size: 13px; font-weight: 550; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cms-login.cms-app--glass .cms-login-panel > button.cms-text-link:disabled { opacity: .6; cursor: default; }
 
 /* ---------- 17 · Bridges for shared components --------------------------------------------------- */
 /* The website preview keeps the site's own light rendering, also when the workspace is dark. */
