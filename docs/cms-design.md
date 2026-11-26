@@ -80,3 +80,10 @@ Datenformat: optionale Felder in `config.theme` (`brandColor`, `paletteStyle`, `
 2. Eigene Admin-Stylesheets mit festen Farben auf Tokens umstellen (`var(--cms-surface)`, `var(--cms-ink)` …), sonst bleiben im dunklen Modus helle Inseln mit hellem Text.
 3. Eigene Website-Kopfzeilen (andere Designs als „Panorama“) können `theme.logo` selbst darstellen.
 4. Keine Daten- oder Schemaänderung. Der Browserlauf `cms-e2e-glass.mjs` prüft Fokusmodus, Design-Bereich und dunkle Darstellung.
+
+## co:mondi
+
+- Der CMS-Akzent entsteht aus dem co:mondi-Pink (`#ed62b9`). Das Navy der Palette ist Seitenhintergrund und wird deshalb übersprungen (`brandCandidates`: eine „Markenfarbe“ mit weniger als 1,3:1 Kontrast zum Hintergrund zählt als Fläche).
+- „Design → Stil“ bietet die beiden co:mondi-Entwürfe Kosmos und Atlas statt der Starter-Layouts; „Originalfarben des Designs“ stellt Navy und Pink wieder her.
+- Ein im Design-Bereich gewähltes Logo ersetzt das co:mondi-Zeichen in Kopf- und Fußzeile (eigene Farben, Name optional). Schriftkombination und Schriftgröße wirken auf den öffentlichen Seiten über `ComondiPublicSite`.
+- Abstände, Bildstil und Ecken der Starter-Layouts gelten für die co:mondi-Abschnitte nur teilweise; der Hinweis unter „Abstände“ sagt das.

@@ -3,6 +3,6 @@
   "version": "1.47.0",
   "sourceCommit": "8fcc4cbb9c4b7f40d1c3e33cf5198c41a02186d8",
   "profile": "consulting",
-  "note": "Am 2026-11-26 mit scripts/upgrade-site.mjs von 1.36.0 auf 1.46.0 (CMS-Bedienung) aktualisiert. Teile des CMS waren bereits aus 1.40 bis 1.45 übernommen; Design Kosmos/Atlas, Inhalte und eigene Abschnitte bleiben unverändert.",
+  "note": "Am 2026-11-26 mit scripts/upgrade-site.mjs von 1.36.0 auf 1.46.0 (CMS-Bedienung) aktualisiert. Teile des CMS waren bereits aus 1.40 bis 1.45 übernommen; Design Kosmos/Atlas, Inhalte und eigene Abschnitte bleiben unverändert. Am 2026-11-26 auf 1.47.0 (CMS im Liquid-Glass-Look, Bereich „Design“) aktualisiert: CMS-Akzent aus dem co:mondi-Pink, im Design-Bereich Kosmos/Atlas statt der Starter-Layouts, eigenes Logo in Kopf- und Fußzeile; öffentliche Seiten ohne Auswahl unverändert.",
   "upgradedAt": "2026-11-26"
 }
