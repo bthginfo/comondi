@@ -1,6 +1,7 @@
 @import '@fontsource-variable/manrope';
 @import '../styles/site.css';
 @import '../styles/site-motion.css';
+@import '../styles/cms-typefaces.css';
 @import '../styles/site-style-presets.css';
 
 :root{--font-display:'Manrope Variable','Manrope',sans-serif;--font-body:'DM Sans Variable','DM Sans',sans-serif;--font-editorial:'Bodoni Moda Variable',serif;--font-cinematic:'Barlow Condensed',sans-serif;color-scheme:light;font-family:var(--font-body);background:#f4f5f0;color:#142b27}

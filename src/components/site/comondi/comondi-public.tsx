@@ -8,6 +8,7 @@ import { ContentLink, SiteInteractionContext } from "../editable";
 import { PageHeadingProvider, SectionHeadingProvider } from "../heading-level";
 import type { SiteViewProps } from "../site-view";
 import type { Section } from "@/lib/types";
+import { siteStyleAttributes } from "@/lib/site-style";
 import { ComondiSection, ComondiSite } from "./comondi";
 
 const GenericSection = dynamic(() => import("../site-view").then(module => module.SectionRenderer));
@@ -18,9 +19,11 @@ export function ComondiPublicSite(props: Pick<SiteViewProps, "page" | "site" | "
   const appearanceId = useId();
   const appearance = cmsAppearanceCss(appearanceId, props.page.sections);
   const firstHeadingId = props.page.sections.find(section => section.visible && section.content.heading.trim())?.id || null;
-  const style = { "--ws-ink": "#eef0f8", "--ws-paper": props.site.theme.background, "--ws-accent": props.site.theme.accent, "--font-body": "'Manrope Variable',sans-serif", "--ws-radius": "24px" } as CSSProperties;
+  // Choices from the CMS design area (fonts, type size …); without a choice nothing is added.
+  const styleChoices = siteStyleAttributes(props.site.theme);
+  const style = { "--ws-ink": "#eef0f8", "--ws-paper": props.site.theme.background, "--ws-accent": props.site.theme.accent, "--font-body": "'Manrope Variable',sans-serif", "--ws-radius": "24px", ...styleChoices.vars } as CSSProperties;
   const fallback = (section: Section) => <SectionHeadingProvider key={section.id} sectionId={section.id}>{section.type === "richtext" ? <ComondiSection section={{ ...section, type: "comondi-legal" }} site={props.site} /> : <GenericSection section={section} site={props.site} />}</SectionHeadingProvider>;
-  return <SiteInteractionContext.Provider value={publicInteraction}><PageHeadingProvider firstSectionId={firstHeadingId}><div className="ws-site comondi-site-root" lang="de" style={style} data-cms-style-scope={appearanceId}>
+  return <SiteInteractionContext.Provider value={publicInteraction}><PageHeadingProvider firstSectionId={firstHeadingId}><div className="ws-site comondi-site-root" lang="de" style={style} data-cms-style-scope={appearanceId} {...styleChoices.data}>
     {appearance && <style>{appearance}</style>}
     <ContentLink className="ws-skip-link" href="#hauptinhalt">Zum Inhalt springen</ContentLink>
     <ComondiSite {...props} fallback={fallback} />
