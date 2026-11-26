@@ -171,7 +171,11 @@
 .cms-section-list > li { border: 1px solid #e0e6d9; border-radius: 7px; background: #fff; min-width: 0; overflow: hidden; }
 .cms-section-list > li:hover { border-color: #b9c9a9; }
 .cms-section-list > .cms-section-row--active { border-color: #94ac72; background: #f0f5e7; }
-.cms-section-row--hidden { opacity: .65; }
+/* Hidden sections: only the diagram is dimmed, the name keeps its full contrast and a text marker says why. */
+.cms-section-list > .cms-section-row--hidden { border-style: dashed; }
+.cms-section-list > .cms-section-row--hidden:not(.cms-section-row--active) { background: #fafbf8; }
+.cms-section-row--hidden .cms-section-diagram--mini { opacity: .45; }
+.cms-section-select .cms-section-hidden-note { display: inline-flex; align-items: center; gap: 4px; color: #5d6857; }
 .cms-section-select { padding: 10px 9px 5px; display: flex; align-items: center; gap: 9px; text-align: left; background: transparent; color: #203f2c; border: 0; width: 100%; }
 .cms-section-select > span:last-child { min-width: 0; display: grid; gap: 3px; }
 .cms-section-select strong { font-size: 12px; font-weight: 550; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
