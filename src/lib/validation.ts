@@ -1,5 +1,6 @@
 import './zod-config';
 import { cmsAppearanceSchema } from "./cms-appearance-schema";
+import { siteStyleSchema } from "./site-style";
 import { CLUB_FIXTURE_MODES, isClubTimeZone } from './club/fixtures';
 import {catalogRuleIssues,DELIVERY_COUNTRIES} from './commerce/pricing';
 import { z } from 'zod';
@@ -60,7 +61,7 @@ export const websiteSchema = z.object({version:z.literal(1),config:z.object({com
   defaultAdminLanguage:z.enum(['de','en']).optional(),defaultWebsiteLanguage:z.enum(['de','en']).optional(),
   name:short.min(1),legalName:short,tagline:short,phone:short,email:z.email(),fax:short,address:short,city:short,postalCode:short,
   navigation:z.array(z.object({label:short,href:link})).max(20),footerText:text,openingHours:z.array(z.object({day:short,hours:short})).max(14),
-  theme:z.object({aesthetic:z.enum(['standard','liquid-glass','photo-atlas']).optional(),glass:liquidGlassSchema.optional(),primary:color,accent:color,background:color,radius:z.number().min(0).max(60),font:z.enum(['manrope','dm-sans']),presentation:z.enum(['services','portfolio','consulting','editorial']).optional(),palettes:z.object({'1':palette.optional(),'2':palette.optional(),'3':palette.optional(),'4':palette.optional(),'5':palette.optional()}).optional()}),
+  theme:z.object({aesthetic:z.enum(['standard','liquid-glass','photo-atlas']).optional(),glass:liquidGlassSchema.optional(),primary:color,accent:color,background:color,radius:z.number().min(0).max(60),font:z.enum(['manrope','dm-sans']),presentation:z.enum(['services','portfolio','consulting','editorial']).optional(),palettes:z.object({'1':palette.optional(),'2':palette.optional(),'3':palette.optional(),'4':palette.optional(),'5':palette.optional()}).optional(),...siteStyleSchema.shape}),
   designVariant:z.union([z.literal(1),z.literal(2),z.literal(3),z.literal(4),z.literal(5)]).optional(),
   consent:consentConfigSchema,analytics:z.object({googleId:z.string().max(40).refine(s=>!s||/^G-[A-Z0-9]+$/.test(s),'Bitte eine GA4-ID im Format G-… angeben.'),matomoUrl:z.string().max(500).refine(s=>!s||(/^https:\/\//.test(s)&&safeLink(s)),'Matomo benötigt eine HTTPS-Adresse.'),matomoSiteId:z.string().max(20).regex(/^\d*$/)}),footer:footer.optional(),blog:blog.optional()
 }),pages:z.array(z.object({id:short.min(1),slug:z.string().max(250).regex(/^(?:[a-z0-9-]+(?:\/[a-z0-9-]+)*)?$/),title:short.min(1),locale:z.string().max(10),translationKey:z.string().max(80).regex(/^[a-z0-9-]+$/).optional(),seo:z.object({title:short,description:z.string().max(2000),image:link.optional(),noindex:z.boolean().optional()}),sections:z.array(sectionSchema).max(100)})).min(1).max(100),posts:z.array(blogPostSchema).max(200).optional(),templates:routeTemplates.optional()}).superRefine((site,ctx)=>{

@@ -9,7 +9,7 @@ export const workspaceShellClass = styles.workspaceShell;
 type NavigationItem<View extends string> = { id: View; label: string; icon: LucideIcon };
 
 const groups = [
-  { title: ["Website", "Website"], ids: ["editor", "pages", "blog", "media", "brand-kit", "restaurant-menu", "templates"], expanded: true },
+  { title: ["Website", "Website"], ids: ["editor", "design", "pages", "blog", "media", "brand-kit", "restaurant-menu", "templates"], expanded: true },
   { title: ["Tagesgeschäft", "Daily work"], ids: ["inquiries", "appointments", "reservations", "commerce", "orders", "documents", "cards"], expanded: true },
   { title: ["Verein & Training", "Club & training"], ids: ["club", "coach"], expanded: true },
   { title: ["Kommunikation", "Communications"], ids: ["social", "planner", "newsletter"], expanded: false },

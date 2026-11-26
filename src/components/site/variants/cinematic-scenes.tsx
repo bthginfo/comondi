@@ -83,5 +83,5 @@ export function CinematicTopicViewport(props: VariantSectionProps) {
 
 export function CinematicContactDock({ site, editable }: Pick<VariantSectionProps, "site" | "editable">) {
   const contact = site.navigation.find((item) => /kontakt/.test(item.href));
-  return <nav className="iv-live-contact-dock" aria-label="Schneller Kontakt">{contact && <ContentLink href={contact.href} editable={editable}>{contact.label}<ArrowUpRight size={18} /></ContentLink>}<ContentLink href={`tel:${site.phone.replace(/[^+\d]/g, "")}`} editable={editable} label={`${site.phone} anrufen`}><span>{site.phone}</span><Phone size={17} /></ContentLink></nav>;
+  return <nav className="iv-live-contact-dock" aria-label="Schneller Kontakt">{contact && <ContentLink href={contact.href} editable={editable}>{contact.label}<ArrowUpRight size={18} /></ContentLink>}{site.phone && <ContentLink href={`tel:${site.phone.replace(/[^+\d]/g, "")}`} editable={editable} label={`${site.phone} anrufen`}><span>{site.phone}</span><Phone size={17} /></ContentLink>}</nav>;
 }

@@ -1,8 +1,8 @@
 # Admin-Arbeitsbereich
 
-Stand 26. November 2026 · Template 1.46.0.
+Stand 26. November 2026 · Template 1.46.1.
 
-Die Verwaltung nutzt eine gemeinsame helle Arbeitsoberfläche mit gruppierter Navigation, einer Bereichssuche (Strg/⌘ K), klaren Speicherzuständen und einer mobilen Schnellnavigation. Website-Inhalte, Social-Studio und Planer sind direkt erreichbar. Lange Einrichtungsanleitungen werden erst über Hilfe oder aufklappbare Hinweise angezeigt. Das öffentliche Website-Design bleibt unabhängig.
+Seit 1.47.0 folgt die Verwaltung dem Liquid-Glass-Konzept in [CMS-Gestaltung](cms-design.md): Akzent aus der Markenfarbe, gläserne schwebende Ebenen, Fokusmodus für „Seiten bearbeiten“ und „Design“, hell und dunkel. Die Verwaltung nutzt eine gemeinsame Arbeitsoberfläche mit gruppierter Navigation, einer Bereichssuche (Strg/⌘ K), klaren Speicherzuständen und einer mobilen Schnellnavigation. Website-Inhalte, Social-Studio und Planer sind direkt erreichbar. Lange Einrichtungsanleitungen werden erst über Hilfe oder aufklappbare Hinweise angezeigt. Das öffentliche Website-Design bleibt unabhängig.
 
 ## Post-Planer im Alltag
 
@@ -42,7 +42,7 @@ Der aktuelle vollständige Testlauf besteht aus 342 bestandenen Tests. In einer 
 
 ## Verlässliches Speichern und Orientierung ab 1.46.0
 
-Die Übersicht beantwortet zuerst: Was ist live, was wartet auf Veröffentlichung, was braucht Aufmerksamkeit und was ist der nächste Schritt. Die Veröffentlichungsprüfung führt bei Bedarf in die Geräte-Vorschau des Entwurfs. Speichern und Veröffentlichen melden Fehler mit „Erneut versuchen“; eine abgelaufene Sitzung wird im Fenster erneuert, ohne den Entwurf zu verlieren. Rückkehr in einen Tab gleicht die gespeicherte Revision einmal ab (keine regelmäßige Abfrage). Ungespeicherte Änderungen werden lokal gesichert und nach dem Neuladen angeboten.
+Die Übersicht beantwortet zuerst: Was ist live, was wartet auf Veröffentlichung, was braucht Aufmerksamkeit und was ist der nächste Schritt. Die Veröffentlichungsprüfung führt bei Bedarf in die Geräte-Vorschau des Entwurfs. Speichern und Veröffentlichen melden Fehler mit „Erneut versuchen“ (beim Veröffentlichen direkt im Prüfdialog); eine abgelaufene Sitzung wird im Fenster erneuert, ohne den Entwurf zu verlieren. Rückkehr in einen Tab gleicht die gespeicherte Revision einmal ab (keine regelmäßige Abfrage). Ungespeicherte Änderungen werden lokal gesichert und nach dem Neuladen angeboten.
 
 Die Mediathek zeigt Verwendungsorte, fragt nach dem Upload die Bildbeschreibung ab und filtert fehlende Beschreibungen. Die Suche (Strg/⌘ K) findet Bereiche, Seiten und Einstellungen. Alle Verwaltungstexte haben mindestens 12 px; Toasts, Speichern-Leisten und der KI-Assistent liegen auf Smartphones über der unteren Navigation.
 

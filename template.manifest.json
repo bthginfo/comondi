@@ -1,6 +1,6 @@
 {
   "id": "website-starter",
-  "version": "1.46.0",
+  "version": "1.47.0",
   "repository": "https://github.com/bthginfo/website-starter",
   "stack": "nextjs-react-typescript",
   "runtime": "node-24",
@@ -82,7 +82,9 @@
     "robust-draft-saving",
     "overview-task-list",
     "media-usage-and-local-store",
-    "workspace-search-pages-settings"
+    "workspace-search-pages-settings",
+    "cms-liquid-glass-workspace",
+    "cms-design-area"
   ],
   "recipes": [
     "podcast",

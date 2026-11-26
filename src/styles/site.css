@@ -231,6 +231,7 @@
 .ws-contact-fax { font-size: 12px; margin: 20px 0 0 38px !important; }
 .ws-contact-form fieldset { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 23px; min-width: 0; }
 .ws-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.ws-form-row--single { grid-template-columns: 1fr; }
 .ws-contact-form label { display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 550; }
 .ws-contact-form label > span:not(.ws-optional) { display: inline; }
 .ws-contact-form input:not([type="checkbox"]), .ws-contact-form textarea { width: 100%; padding: 13px 0; background: transparent; border: 0; border-bottom: 1px solid color-mix(in srgb, currentColor 50%, transparent); border-radius: 0; color: inherit; font-size: 15px; line-height: 1.5; font-weight: 400; caret-color: #557b28; transition: border-color .25s; }

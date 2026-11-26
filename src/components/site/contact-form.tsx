@@ -7,8 +7,9 @@ import {SiteInteractionContext} from './editable';
 import type {ContactFormCopy, SiteLanguage} from '@/lib/types';
 import {readContactContext} from '@/lib/contact-context';
 import {reportConfirmedOutcome} from '@/lib/analytics/client';
-export function ContactForm({ editable = false, copy, informal = false, compact = false, kind, language = "de" }: {
-  editable?: boolean; copy?: ContactFormCopy; informal?: boolean; compact?: boolean; language?: SiteLanguage; kind?: "partnership";
+/** `askPhone`: the optional callback number is asked only when the site itself can be reached by phone. */
+export function ContactForm({ editable = false, copy, informal = false, compact = false, kind, language = "de", askPhone = true }: {
+  editable?: boolean; copy?: ContactFormCopy; informal?: boolean; compact?: boolean; language?: SiteLanguage; kind?: "partnership"; askPhone?: boolean;
 }) {
   const {isolated}=useContext(SiteInteractionContext);
   const english = language === "en";
@@ -71,19 +72,19 @@ export function ContactForm({ editable = false, copy, informal = false, compact 
   const subjectField = <label htmlFor={`${id}-subject`}><span>{copy?.subjectLabel || t(informal ? "Dein Vorhaben" : "Ihr Anliegen", "Subject")}{!compact && <> <span aria-hidden="true">*</span></>}</span>
     <input id={`${id}-subject`} name="subject" required={!compact} maxLength={200} placeholder={t("Worum geht es?", "What’s it about?")} value={subject} onChange={event => setSubject(event.target.value)} />
   </label>;
-  const phoneField = <label htmlFor={`${id}-phone`}><span>{t("Telefon", "Phone")} {!compact && <span className="ws-optional">(optional)</span>}</span>
+  const phoneField = <>{askPhone && <label htmlFor={`${id}-phone`}><span>{t("Telefon", "Phone")} {!compact && <span className="ws-optional">(optional)</span>}</span>
     <input id={`${id}-phone`} name="phone" type="tel" autoComplete="tel" maxLength={80} placeholder={t("Für einen Rückruf", "For a callback")} />
-  </label>;
+  </label>}</>;
   return <form className="ws-contact-form" onSubmit={submit} aria-busy={status === "sending"} aria-label={kind === "partnership" ? t("Kooperationsanfrage", "Partnership enquiry") : t("Kontaktformular", "Contact form")}>
     {editable && <p className="ws-form-editor-note">Kontaktformular · Anfragen werden im Posteingang gespeichert.</p>}
     <fieldset disabled={editable || status === "sending"}>
       <div className="ws-form-row"><label htmlFor={`${id}-name`}><span>{copy?.nameLabel||t(informal?"Dein Name":"Ihr Name", "Your name")} <span aria-hidden="true">*</span></span><input id={`${id}-name`} name="name" autoComplete="name" required maxLength={150} placeholder={t("Vor- und Nachname", "First and last name")} /></label>
         <label htmlFor={`${id}-email`}><span>{t("E-Mail-Adresse", "Email address")} <span aria-hidden="true">*</span></span><input id={`${id}-email`} name="email" type="email" autoComplete="email" required maxLength={254} placeholder={t("name@beispiel.de", "name@example.com")} /></label></div>
-      {!compact && <div className="ws-form-row">{phoneField}{subjectField}</div>}
+      {!compact && <div className={askPhone ? "ws-form-row" : "ws-form-row ws-form-row--single"}>{phoneField}{subjectField}</div>}
       <label htmlFor={`${id}-message`}><span>{copy?.messageLabel||t(informal?"Deine Nachricht":"Ihre Nachricht", "Your message")} <span aria-hidden="true">*</span></span><textarea id={`${id}-message`} name="message" value={message} onChange={event => setMessage(event.target.value)} rows={4} required minLength={15} maxLength={12000} placeholder={copy?.messagePlaceholder||t(informal?"Erzähl uns kurz von deiner Idee.":"Beschreiben Sie uns Ihr Anliegen in wenigen Sätzen.", "How can we help?")} /></label>
       {compact && <details className="ws-contact-optional" open={extraOpen} onToggle={event => setExtraOpen(event.currentTarget.open)}>
-        <summary>{t("Thema und Rückrufnummer ergänzen (optional)", "Add a topic and callback number (optional)")}</summary>
-        <div className="ws-form-row">{subjectField}{phoneField}</div>
+        <summary>{askPhone ? t("Thema und Rückrufnummer ergänzen (optional)", "Add a topic and callback number (optional)") : t("Thema ergänzen (optional)", "Add a topic (optional)")}</summary>
+        <div className={askPhone ? "ws-form-row" : "ws-form-row ws-form-row--single"}>{subjectField}{phoneField}</div>
       </details>}
       <div className="ws-honeypot" aria-hidden="true"><label htmlFor={`${id}-website`}>Website<input id={`${id}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
       <label className="ws-checkbox-label" htmlFor={`${id}-consent`}><input id={`${id}-consent`} name="consent" type="checkbox" required /><span>{english ? <>I’ve read the <a href="/en/privacy">privacy notice</a> about how my information is handled.</> : <>Ich habe die <a href="/datenschutz">Datenschutzhinweise</a> zur Verarbeitung meiner Angaben gelesen.</>} <span aria-hidden="true">*</span></span></label>

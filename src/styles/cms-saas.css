@@ -297,6 +297,7 @@
 .cms-review-preview{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 14px;padding:8px 10px;border:1px solid #e3e9ef;border-radius:12px;background:#f7f9fb}
 .cms-review-preview>span{font-size:13px;font-weight:600;color:#3f4e5c;margin-right:4px}
 .cms-review-preview .cms-button{min-height:40px}
+.cms-review-error{display:grid;gap:6px;justify-items:start;white-space:pre-line}.cms-review-error .cms-button{margin-top:4px}
 .cms-review-count{margin:0 0 4px;font-size:13px;color:#5c6875}
 .cms-publication-review .cms-review-open{margin:0 16px 14px;min-height:40px}
 @media(max-width:600px){.cms-review-preview .cms-button{flex:1 1 30%;justify-content:center;padding-inline:6px}.cms-review-preview>span{flex-basis:100%}}

@@ -270,7 +270,7 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
         <div className={styles.contactIntro}>
           {text("subheading", "span", styles.eyebrow)}{text("heading", "h2")}{text("text")}
         </div>
-        <div className={styles.formCard}><ContactForm editable={editable} informal compact copy={c.form} /></div>
+        <div className={styles.formCard}><ContactForm editable={editable} informal compact copy={c.form} askPhone={Boolean(site.phone?.trim())} /></div>
         <div className={styles.contactDetails}>
           <ContentLink editable={editable} href={`mailto:${site.email}`} className={styles.contactEmail}><Mail size={20} aria-hidden="true" />{site.email}<ArrowUpRight size={18} aria-hidden="true" /></ContentLink>
           <address className={styles.contactAddress}><MapPin size={20} aria-hidden="true" /><span>{site.address}<br />{site.postalCode} {site.city}</span></address>

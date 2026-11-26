@@ -97,6 +97,19 @@ export interface LiquidGlassSettings {
   feedback: boolean;
   revealDuration: number;
 }
+/** Site-wide style choices from the CMS design area (1.47). All optional; absent means the design's own default. */
+export interface SiteStyleSettings {
+  headingFont?: import("./cms-typefaces").CmsTypeface;
+  bodyFont?: import("./cms-typefaces").CmsTypeface;
+  typeScale?: "compact" | "balanced" | "generous";
+  buttonShape?: "rounded" | "pill" | "square";
+  density?: "compact" | "balanced" | "airy";
+  imageStyle?: "natural" | "rounded" | "framed";
+  logo?: { url: string; alt: string; showName?: boolean };
+  /** The brand colour the palette proposals were derived from. */
+  brandColor?: string;
+  paletteStyle?: "clear" | "soft" | "vivid" | "dark";
+}
 export interface SiteConfig {
   comondiMotion?: ComondiMotionSettings;
   defaultAdminLanguage?: SiteLanguage;
@@ -105,7 +118,7 @@ export interface SiteConfig {
   modules?: SiteModules;
   name: string; legalName: string; tagline: string; phone: string; email: string; fax: string; address: string; city: string; postalCode: string;
   navigation: NavItem[]; footerText: string; openingHours: {day: string; hours: string}[];
-  theme: {primary: string; accent: string; background: string; radius: number; font: "manrope" | "dm-sans"; aesthetic?: "standard" | "liquid-glass" | "photo-atlas"; glass?: LiquidGlassSettings; presentation?: "services" | "portfolio" | "consulting" | "editorial"; palettes?:Partial<Record<DesignVariant,ColorPalette>>};
+  theme: {primary: string; accent: string; background: string; radius: number; font: "manrope" | "dm-sans"; aesthetic?: "standard" | "liquid-glass" | "photo-atlas"; glass?: LiquidGlassSettings; presentation?: "services" | "portfolio" | "consulting" | "editorial"; palettes?:Partial<Record<DesignVariant,ColorPalette>>} & SiteStyleSettings;
   designVariant?:DesignVariant;
   consent: {enabled: boolean; title: string; text: string; english?: import("./consent/model").ConsentBannerCopy; scripts?: import("./consent/model").ConsentScript[]}; analytics: {googleId: string; matomoUrl: string; matomoSiteId: string};
   footer?:FooterConfig;blog?:BlogConfig;

@@ -6,7 +6,8 @@
 | --- | --- | --- |
 | Zentrale Speisen- und Getränkekarte | Enthalten, optional | Kategorien, Einträge und Portionspreise zentral oder aus der Vorschau pflegen. Drei Kartenlayouts in der Abschnittsbibliothek. [Anleitung](hospitality.md) |
 | Tischreservierungen | Enthalten, optional | Tische, Kapazitäten, Buchungsfenster und Schließtage, manuelle Zusagen und Absagen, drei Widget-Layouts. [Anleitung](hospitality.md) |
-| Visuelles CMS, Seiten und Abschnittsbibliothek | Enthalten | `/admin`, `src/components/admin/` |
+| Visuelles CMS, Seiten und Abschnittsbibliothek | Enthalten | `/admin`, `src/components/admin/`. Seit 1.47.0 im Liquid-Glass-Look mit Akzent aus der Markenfarbe. [CMS-Gestaltung](cms-design.md) |
+| Design-Bereich: Markenfarbe, Farbvorschläge, Schriften, Stil, Logo | Enthalten seit 1.47.0 | CMS → Design. Live-Vorschau, Kontrastprüfung, Veröffentlichung über die gewohnte Prüfung. [CMS-Gestaltung](cms-design.md) |
 | Karten, FAQ und andere Listen pflegen | Enthalten | Im Abschnitt hinzufügen, duplizieren, suchen, sortieren oder mehrere Titel einfügen. Das Raster passt sich der Anzahl an. |
 | Interne Links bei Adressänderungen | Enthalten | Wird eine Seitenadresse oder Sprungmarke im Entwurf geändert, folgen passende interne Links. |
 | Einstellungen suchen | Enthalten | Im Einstellungsbereich nach Begriffen wie SMTP, Schriften oder Consent suchen. |
@@ -117,3 +118,33 @@ Dieses Update macht die tägliche Arbeit im CMS verlässlicher und übersichtlic
 - **Neue Projekte** starten mit einem deutschen CMS. Bestehende Projekte behalten ihre gespeicherte Spracheinstellung.
 
 Beim Übernehmen mit `npm run upgrade:site` sind keine Datenänderungen nötig. Projekte mit eigenen Anpassungen an `admin-app.tsx`, `media-manager.tsx`, `dashboard-help.tsx` oder `cms-saas.css` prüfen die zusammengeführten Stellen. Eigene Admin-Stylesheets mit Schriftgrößen unter 12 px sollten nachgezogen werden. Die neue Route `/api/media/local/…` liefert nur lokal ohne Blob-Store Bilder aus; auf Vercel antwortet sie mit 404.
+
+## Korrekturen · 1.46.1
+
+- **Fehler beim Veröffentlichen im Prüfdialog.** Schlägt „Jetzt veröffentlichen“ fehl, erscheint die Meldung jetzt direkt im Dialog „Veröffentlichung prüfen“ statt als Hinweis dahinter. Bei Verbindungs-, Server- oder Anmeldefehlern heißt der Hauptknopf „Erneut versuchen“, der gespeicherte Entwurf bleibt unverändert. Wurde der Entwurf inzwischen an anderer Stelle geändert, sperrt der Dialog das Veröffentlichen und bietet „Aktuellen Stand laden“ an.
+- **Ausgeblendete Abschnitte gut lesbar.** Im Seitenaufbau wird bei ausgeblendeten Abschnitten nur noch das Abschnittssymbol abgeschwächt. Der Name behält den vollen Kontrast (mindestens 4,5:1), dazu kommen ein gestrichelter Rahmen und der Hinweis „Ausgeblendet“.
+
+Keine Daten- oder Schemaänderung. Projekte mit eigenen Anpassungen an `admin-app.tsx` oder `publication-review.tsx` prüfen beim `npm run upgrade:site` die zusammengeführte Fehlerbehandlung von `confirmPublication`; `PublicationReview` nimmt weiterhin einen einfachen Fehlertext an.
+
+## Korrekturen · 1.46.2
+
+- **Kontakt nur per E-Mail möglich.** Bleibt das Feld „Telefon“ in den Einstellungen leer, verschwinden alle Telefon-Links der Website (Kopfzeile, Menü, Hero, Kontaktbereich, Standort, Fußzeile) in allen Layout-Varianten, statt einen leeren `tel:`-Link zu zeigen. Auch `llms.txt` und die strukturierten Daten nennen dann keine Telefonnummer.
+- **Kein Rückruf-Feld ohne eigenes Telefon.** Das Kontaktformular fragt die optionale Telefonnummer für einen Rückruf nur noch ab, wenn die Website selbst eine Telefonnummer angibt. Das Feld „Anliegen“ nimmt dann die ganze Zeile ein.
+
+Keine Daten- oder Schemaänderung. Projekte mit eigenen Layout-Varianten prüfen, dass Telefon-Links an `site.phone &&` gebunden sind; `tests/optional-phone.test.ts` prüft das für alle Dateien unter `src/components/site/variants` und dass jedes `ContactForm` der Website `askPhone` aus `site.phone` erhält.
+
+## CMS im Liquid-Glass-Look · 1.47.0
+
+Die Verwaltung ist neu gestaltet: Sie sehen Ihre echte Seite, tippen an, was sich ändern soll, und veröffentlichen mit einem Knopf. Inhalte, Datenbankschema und bestehende Website-Gestaltung bleiben unverändert; es ist keine Migration nötig.
+
+- **Farbe aus Ihrer Marke.** Die Verwaltung übernimmt automatisch die Hauptfarbe Ihrer Website, in hellen und dunklen Varianten mit geprüftem Kontrast. Sehr helle, sehr dunkle oder graue Markenfarben ergeben ein ruhiges Blau.
+- **Glas statt Kästen.** Leisten, Bereiche und Dialoge schweben als durchscheinende Flächen über der Seite. Bei „Transparenz reduzieren“ oder „Kontrast erhöhen“ werden sie deckend. Hell, Dunkel oder Automatisch unter **Einstellungen → App & Benachrichtigungen**.
+- **Mehr Platz für die Seite.** „Seiten bearbeiten“ und „Design“ öffnen sich im Vollbild; das Menü liegt hinter „Menü“. Oben eine schwebende Leiste mit Seite, Handy/Tablet/Desktop, Speicherstand, Versionen, Rückgängig und „Veröffentlichen“.
+- **Antippen, ändern, Fertig.** Ein Tipp auf einen Abschnitt öffnet rechts den Bereich „Bearbeiten“, auf dem Handy als Blatt von unten (größer ziehen, nach unten wischen schließt). „Fertig“ oder Esc schließt ihn. Selten gebrauchte Einstellungen liegen unter „Mehr Gestaltung“.
+- **Abschnitt einfügen, wo er hin soll.** Ein „+“ an der Unterkante des gewählten Abschnitts öffnet die Abschnittsgalerie mit Suche und zuletzt verwendeten Bausteinen.
+- **Ein Knopf zum Veröffentlichen.** Ungespeicherte Änderungen werden vorher gespeichert. Die Prüfung zeigt „Design geändert: Farben, Schrift“ mit Vorher/Nachher-Miniaturen und für jede Seite eine Miniatur mit den neuen oder geänderten Abschnitten.
+- **Neuer Bereich „Design“.** Markenfarbe per Farbrad, Farbcode, Pipette oder aus Logo und Bild; vier Farbvorschläge mit Kontrastprüfung und automatischer Korrektur. Neun geprüfte Schriftkombinationen mit Ihrer echten Überschrift, Schriftgröße „Kompakt · Ausgewogen · Großzügig“. Stil-Kacheln für Design, Ecken, Schaltflächen, Abstände und Bilder. Logo mit Beschreibung, Favicon aus dem Logo. Alles mit Live-Vorschau und Rückgängig.
+- **Einführung in 30 Sekunden.** Drei Schritte: antippen, ändern, veröffentlichen. Überspringen jederzeit möglich, wiederholen unter Hilfe.
+- **Handy.** Tab-Leiste mit Übersicht, Website, Design, Medien und Mehr; im Editor liegt die Aktionsleiste im Daumenbereich, Bild-Knöpfe sind am gewählten Abschnitt sichtbar.
+
+Beim Übernehmen mit `npm run upgrade:site` sind keine Datenänderungen nötig. Die neuen Felder in `config.theme` sind optional; ohne Auswahl bleibt jede Website wie bisher. Projekte mit eigenen Anpassungen an `admin-app.tsx`, `page-editor.tsx`, `canvas-editor-tools.tsx`, `publication-review.tsx`, `section-inspector-controls.tsx`, `guided-tour.tsx`, `site-view.tsx` oder `validation.ts` prüfen die zusammengeführten Stellen. Eigene Admin-Stylesheets mit festen Farben sollten Tokens wie `var(--cms-surface)` und `var(--cms-ink)` verwenden, damit der dunkle Modus lesbar bleibt. Details und Tokens: [CMS-Gestaltung](cms-design.md).

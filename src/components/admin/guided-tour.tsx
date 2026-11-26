@@ -35,43 +35,31 @@ const appStep = {
   selectors: [".cms-workspace-app-settings [data-workspace-app-install]", ".cms-workspace-app-settings"],
 };
 
-/** Five core tasks. Everything module-specific lives in `contextualHelp` on the Help page. */
+/** Thirty seconds, three gestures: tap, change, publish. Everything else lives in contextual hints and Help. */
 const tourSteps: TourStep[] = [
   {
-    view: "editor", editor: "preview", area: "Seiten bearbeiten", title: "Texte direkt auf der Seite ändern.",
-    text: "Wählen Sie oben eine Seite aus. Klicken Sie in der Vorschau auf einen Text und schreiben Sie Ihre Änderung direkt hinein.",
-    hint: "Links ordnen Sie die Abschnitte der Seite. Rechts ändern Sie Bilder, Links und Gestaltung des gewählten Abschnitts.",
+    view: "editor", editor: "preview", area: "1 · Antippen", title: "Tippen Sie auf das, was Sie ändern möchten.",
+    text: "Hier sehen Sie Ihre Website so, wie Besucher sie sehen. Ein Tipp auf eine Überschrift, einen Text oder ein Bild wählt es aus.",
+    hint: "Neue Inhalte ergänzen Sie mit „Abschnitt einfügen“ direkt zwischen zwei Abschnitten.",
     selectors: [".cms-editor .cms-preview", ".cms-editor"],
   },
   {
-    view: "media", area: "Medien", title: "Bilder an einem Ort verwalten.",
-    text: "Hier laden Sie Bilder hoch und finden vorhandene Dateien. Eine Bildbeschreibung hilft Menschen, die sich Inhalte vorlesen lassen.",
-    hint: "Mit dem Raster aus neun Punkten richten Sie den Bildausschnitt aus. Bei Porträts sollte das Gesicht gut sichtbar bleiben.",
-    selectors: [".cms-media-page"],
+    view: "editor", editor: "preview", area: "2 · Ändern", title: "Ändern Sie es direkt.",
+    text: "Schreiben Sie direkt in den Text. Bilder, Links und Farben des Abschnitts finden Sie im Bereich daneben, auf dem Handy unten. „Fertig“ schließt ihn wieder.",
+    hint: "Jede Änderung lässt sich mit „Rückgängig“ oder ⌘/Strg + Z zurücknehmen.",
+    selectors: [".cms-editor .cms-inspector", ".cms-editor .cms-preview"],
   },
   {
-    view: "editor", editor: "preview", audience: "owner", area: "Speichern und veröffentlichen", title: "Erst speichern, dann veröffentlichen.",
-    text: "„Entwurf speichern“ sichert Ihre Arbeit. Prüfen Sie die Vorschau für Bildschirm und Smartphone. „Veröffentlichen“ macht den gespeicherten Entwurf auf der Website sichtbar.",
-    hint: "Mit „Rückgängig“ nehmen Sie eine Änderung in dieser Sitzung zurück. Gespeicherte Fassungen finden Sie unter „Versionen“.",
+    view: "editor", editor: "preview", audience: "owner", area: "3 · Veröffentlichen", title: "Veröffentlichen, wenn alles passt.",
+    text: "„Veröffentlichen“ speichert Ihre Änderungen und zeigt kurz, was online geht. Erst danach sehen Besucher die neue Fassung.",
+    hint: "Frühere Fassungen finden Sie unter „Versionen“. Farben und Schriften ändern Sie im Bereich „Design“.",
     selectors: [".cms-editor .cms-editor-actions", ".cms-editor .cms-editor-toolbar"],
   },
   {
-    view: "editor", editor: "preview", audience: "staff", area: "Entwurf speichern", title: "Änderungen als Entwurf speichern.",
-    text: "Speichern Sie Ihre Arbeit als Entwurf und prüfen Sie die Vorschau für Bildschirm und Smartphone. Die Veröffentlichung übernimmt der Inhaber des CMS.",
-    hint: "Mit „Rückgängig“ nehmen Sie eine Änderung in dieser Sitzung zurück.",
+    view: "editor", editor: "preview", audience: "staff", area: "3 · Speichern", title: "Speichern, wenn alles passt.",
+    text: "„Speichern“ sichert Ihre Arbeit als Entwurf. Die Veröffentlichung übernimmt der Inhaber des CMS.",
+    hint: "Jede Änderung lässt sich mit „Rückgängig“ zurücknehmen.",
     selectors: [".cms-editor .cms-editor-actions", ".cms-editor .cms-editor-toolbar"],
-  },
-  {
-    view: "inquiries", area: "Anfragen", title: "Kontaktanfragen im Blick behalten.",
-    text: "Nachrichten aus dem Kontaktformular erscheinen hier. Öffnen Sie eine Anfrage, wählen Sie den Bearbeitungsstatus und ergänzen Sie bei Bedarf eine interne Notiz.",
-    hint: "Die Nachrichten werden auch gespeichert, wenn der E-Mail-Versand noch nicht eingerichtet ist.",
-    selectors: [".cms-inbox", ".cms-inquiries-page"],
-  },
-  {
-    view: "help", area: "Hilfe", title: "Die Anleitungen bleiben hier.",
-    text: "Gestaltung, Menü, E-Mail-Versand, App und Ihre aktivierten Bereiche erklären kurze Anleitungen. Suchen Sie einfach nach einem Thema.",
-    hint: "Über „Einführung wiederholen“ starten Sie diesen Rundgang jederzeit von vorn.",
-    selectors: [".cms-help-guides", ".cms-help-page"],
   },
   { ...appStep, view: "account", audience: "staff" },
 ];

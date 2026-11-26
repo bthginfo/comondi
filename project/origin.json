@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/bthginfo/website-starter",
-  "version": "1.46.0",
-  "sourceCommit": "f94f6c83eedbfb6a0613ab6ce5635d8a7c6be3fc",
+  "version": "1.47.0",
+  "sourceCommit": "8fcc4cbb9c4b7f40d1c3e33cf5198c41a02186d8",
   "profile": "consulting",
   "note": "Am 2026-11-26 mit scripts/upgrade-site.mjs von 1.36.0 auf 1.46.0 (CMS-Bedienung) aktualisiert. Teile des CMS waren bereits aus 1.40 bis 1.45 übernommen; Design Kosmos/Atlas, Inhalte und eigene Abschnitte bleiben unverändert.",
   "upgradedAt": "2026-11-26"

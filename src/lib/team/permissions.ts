@@ -1,7 +1,7 @@
 import type { AdminRole } from '../auth-session';
 
 export const workspaceRoles = ['owner', 'editor', 'shop'] as const;
-const editorViews = new Set(['editor', 'blog', 'templates', 'media', 'restaurant-menu']);
+const editorViews = new Set(['editor', 'design', 'blog', 'templates', 'media', 'restaurant-menu']);
 
 export function workspaceHome(role: AdminRole) {
   return role === 'editor' ? 'editor' : role === 'shop' ? 'commerce' : 'dashboard';

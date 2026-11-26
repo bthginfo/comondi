@@ -1,0 +1,35 @@
+/*
+ * Site-wide style choices from the CMS design area (1.47). Only active when the editor picked an option;
+ * without data attributes every design keeps its own typography, shapes and spacing.
+ */
+.ws-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ws-brand--logo { display: inline-flex; align-items: center; gap: 12px; }
+.ws-brand-logo { display: block; height: clamp(32px, 4.2cqi, 44px); width: auto; max-width: min(46vw, 220px); object-fit: contain; }
+
+/* Fonts: variables for every design, plus headings and running text directly. */
+.ws-site[data-ws-heading-font] {
+  --section-heading-font: var(--ws-heading-font); --ed-heading: var(--ws-heading-font); --iv-heading-font: var(--ws-heading-font); --nr-heading-font: var(--ws-heading-font);
+}
+.ws-site[data-ws-heading-font] :is(h1, h2, h3, h4, [data-cms-role="heading"]) { font-family: var(--ws-heading-font); }
+.ws-site[data-ws-body-font] { font-family: var(--ws-body-font); --nv-font: var(--ws-body-font); }
+.ws-site[data-ws-body-font] :is(p, li, dd, dt, figcaption, blockquote, label, input, textarea, select, button) { font-family: var(--ws-body-font); }
+
+/* Type size: compact reduces headings only, so small print never drops below 12 px. */
+.ws-site[data-ws-type-scale="compact"] :is(h1, h2, h3, [data-cms-role="heading"]) { zoom: .9; }
+.ws-site[data-ws-type-scale="generous"] :is(h1, h2, h3, [data-cms-role="heading"]) { zoom: 1.08; }
+.ws-site[data-ws-type-scale="generous"] :is(p, li, figcaption, blockquote, dd):not(:is(p, li, figcaption, blockquote, dd) *) { zoom: 1.07; }
+
+/* Buttons */
+.ws-site[data-ws-buttons="pill"] :is([data-cms-role="primary"], [data-cms-role="secondary"], .ws-button-primary, .ws-button-secondary, .ws-button, .ic-button, .nr-button, .ne-button, .ed-button, .ws-panorama-appointment, .ws-panorama-secondary) { border-radius: 999px !important; }
+.ws-site[data-ws-buttons="square"] :is([data-cms-role="primary"], [data-cms-role="secondary"], .ws-button-primary, .ws-button-secondary, .ws-button, .ic-button, .nr-button, .ne-button, .ed-button, .ws-panorama-appointment, .ws-panorama-secondary) { border-radius: 2px !important; }
+
+/* Spacing between sections (design 1). Sections with their own spacing keep it. */
+:where(.ws-site[data-ws-density="compact"]) .ws-section-inner { padding-block: clamp(48px, 6cqi, 96px); }
+:where(.ws-site[data-ws-density="airy"]) .ws-section-inner { padding-block: clamp(92px, 11cqi, 176px); }
+
+/* Images outside the opening stage */
+.ws-site[data-ws-images="rounded"] [data-section-id]:not(.ws-section-hero) :is(figure, picture, [data-item-id]) img { border-radius: max(14px, calc(var(--ws-radius, 8px) * 1.5)); }
+.ws-site[data-ws-images="framed"] [data-section-id]:not(.ws-section-hero) :is(figure, picture, [data-item-id]) img {
+  box-sizing: border-box; padding: 6px; border-radius: 6px; background: var(--ws-paper, #fff);
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 14%, transparent), 0 14px 34px -20px rgba(0, 0, 0, .4);
+}

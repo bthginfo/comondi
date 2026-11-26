@@ -8,5 +8,5 @@ export async function GET(){
   const english=bilingual&&site.config.defaultWebsiteLanguage!=='de';
   const config=localizedSite(site.config,english?'en':'de');
   const entries=publicPages(site).filter(page=>!page.seo.noindex).map(page=>`- [${page.title}](${pageUrl(base,page.slug,bilingual)}): ${page.seo.description}`).join('\n');
-  return new Response(`# ${config.legalName||config.name}\n\n${config.tagline}\n\n${config.address}, ${config.postalCode} ${config.city}\n${english?'Phone':'Telefon'}: ${config.phone}\n${english?'Email':'E-Mail'}: ${config.email}\n\n## ${english?'Content':'Inhalte'}\n\n${entries}\n`,{headers:{'Content-Type':'text/plain; charset=utf-8','X-Content-Type-Options':'nosniff'}});
+  return new Response(`# ${config.legalName||config.name}\n\n${config.tagline}\n\n${config.address}, ${config.postalCode} ${config.city}${config.phone?.trim()?`\n${english?'Phone':'Telefon'}: ${config.phone.trim()}`:''}\n${english?'Email':'E-Mail'}: ${config.email}\n\n## ${english?'Content':'Inhalte'}\n\n${entries}\n`,{headers:{'Content-Type':'text/plain; charset=utf-8','X-Content-Type-Options':'nosniff'}});
 }

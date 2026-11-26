@@ -1,11 +1,11 @@
 type SettingArea = { id: string; title: string };
 const terms: Record<string, string> = {
  general: "name website adresse domain sprache language zeitzone module social studio planer newsletter ki shop buchung reservierung speisekarte backup",
- app: "app installieren favicon icon symbole push benachrichtigung notification",
+ app: "app installieren favicon icon symbole push benachrichtigung notification darstellung dunkel hell dark mode nachtmodus",
  contact: "kontakt contact telefon phone e-mail anschrift adresse zeiten hours öffnung öffnungszeiten",
  navigation: "menü menu link footer fußbereich header",
  branding: "logo brand icon bildmarke favicon",
- design: "farben color schrift font größe typografie abstände layout liquid glass ios tiefe depth aurora atmosphäre bewegung motion",
+ design: "markenfarbe logo design stil farben color schrift font größe typografie abstände layout liquid glass ios tiefe depth aurora atmosphäre bewegung motion",
  privacy: "cookies einwilligung consent tracking google analytics matomo statistik datenschutz privacy",
  email: "email e-mail smtp versand test mail postfach templates vorlagen",
  security: "passwort password konto login sicherheit rollen team zugang",

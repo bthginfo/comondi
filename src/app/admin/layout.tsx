@@ -15,6 +15,7 @@ import '../../styles/social-workflow.css';
 import '../../styles/cms-saas.css';
 import '../../styles/team.css';
 import '../../styles/hospitality-admin.css';
+import '../../styles/cms-glass.css';
 export function generateMetadata() {
   return adminMetadata('/admin').then(meta => ({ ...meta, manifest: '/admin/manifest.webmanifest',
     appleWebApp: { capable: true, title: 'CMS', statusBarStyle: 'default' as const },

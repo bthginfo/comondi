@@ -1,11 +1,12 @@
 "use client";
+import type React from "react";
 
 import { AdminLanguageSwitch, useAdminLanguage } from "./admin-language";
 
 import { useState, type FormEvent } from "react";
 import { Button, Eye, EyeOff, Field, IconButton, Input, Notice, ShieldCheck, api, errorMessage } from "./admin-ui";
 
-export function AdminLogin({ siteName = 'Website', teamLogin }: { siteName?: string; teamLogin?: string }) {
+export function AdminLogin({ siteName = 'Website', teamLogin, accentStyle }: { siteName?: string; teamLogin?: string; accentStyle?: Record<string, string> }) {
   const { t: adminText } = useAdminLanguage();
   const [team, setTeam] = useState(Boolean(teamLogin));
   const [login, setLogin] = useState(teamLogin ?? '');
@@ -20,7 +21,7 @@ export function AdminLogin({ siteName = 'Website', teamLogin }: { siteName?: str
       window.location.assign('/admin');
     } catch (error) { setError(errorMessage(error)); setBusy(false); }
   }
-  return <main className="cms-root cms-login">
+  return <main className="cms-root cms-login cms-app--glass" data-scheme="auto" style={accentStyle as React.CSSProperties | undefined}>
     <a href="/" className="cms-login-brand">{siteName} <span>CMS</span><span className="cms-brand-sub">{adminText("Verwaltung")}</span></a>
     <AdminLanguageSwitch className="cms-login-language" />
     <section className="cms-login-panel">
