@@ -21,9 +21,9 @@ const config: NextConfig = {
         { key: 'X-Frame-Options', value: 'DENY' },
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
       ] },
-      // OAuth return documents generate a stricter per-request nonce policy.
+      // OAuth return documents and the CMS (src/proxy.ts) generate a stricter per-request nonce policy.
       // A matching static Next header would overwrite that response policy.
-      { source: '/:path((?!api/social/connectors/callback/).*)', headers: [
+      { source: '/:path((?!api/social/connectors/callback/|admin/|admin$).*)', headers: [
         { key: 'Content-Security-Policy', value: "base-uri 'self'; object-src 'none'; frame-ancestors 'none'" },
       ] },
       { source: '/admin/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }, { key: 'Cache-Control', value: 'private, no-store' }, { key: 'Referrer-Policy', value: 'no-referrer' }] },
