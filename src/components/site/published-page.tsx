@@ -16,6 +16,7 @@ import { analytics } from '@/lib/server/analytics/store';
 import { newsletter } from '@/lib/server/newsletter/store';
 import { StructuredData } from '@/components/structured-data';
 import { PublicSiteView } from './public-site-view';
+import { DocumentLanguage } from './document-language';
 
 async function publishedRoute(path: string) {
   const indexRequest = publishedContent();
@@ -67,6 +68,7 @@ export async function PublishedPage({ path, query }: { path: string; query?: str
   };
   const site = { ...content.config, consent: banner };
   return <>
+    {language !== 'de' && <DocumentLanguage lang={language} />}
     <StructuredData page={page} site={content.config} base={siteUrl} post={post} bilingual={bilingual} />
     <PublicSiteView cartHref={cartHref} page={{...page,sections}} site={site} consent={consent} translations={languageSwitchSlugs(page, index.pages)} />
   </>;
