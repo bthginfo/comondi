@@ -1,5 +1,8 @@
 import type { NextConfig } from 'next';
 
+// The image optimizer only accepts this website's own Blob store, so it cannot be used to process images from other stores.
+const blobStore = /^vercel_blob_rw_([a-z\d]+)_/i.exec(process.env.BLOB_READ_WRITE_TOKEN || '')?.[1]?.toLowerCase() || 'lzivon9se7zrnxwu';
+
 const config: NextConfig = {
   async redirects() { return [
     {source:"/home.html",destination:"/",permanent:true},
@@ -9,7 +12,7 @@ const config: NextConfig = {
     {source:"/news/:slug.html",destination:"/aktuelles/:slug",permanent:true},
   ]; },
   poweredByHeader: false,
-  images: { remotePatterns: [{ protocol: 'https', hostname: '**.public.blob.vercel-storage.com' }], formats: ['image/avif', 'image/webp'] },
+  images: { remotePatterns: [{ protocol: 'https', hostname: `${blobStore}.public.blob.vercel-storage.com`, pathname: '/**' }], formats: ['image/avif', 'image/webp'] },
   async headers() {
     return [
       { source: '/:path*', headers: [

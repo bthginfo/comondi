@@ -32,7 +32,8 @@ let migration:Promise<void>|undefined;
 const metrics=globalThis as typeof globalThis & {wsQueryCount?:number;wsQueryBytes?:number};
 const blockedUntil=new Map<string,number>();
 let localQueue:Promise<unknown>=Promise.resolve();
-const directory=path.join(process.cwd(),'.data');
+// Local data (content, admin access) is read at runtime only and must never be traced into build output.
+const directory=path.join(/* turbopackIgnore: true */ process.cwd(),'.data');
 const localPath=path.join(directory,'cms.json');
 const sql=useRemoteDatabase(process.env)?neon(process.env.DATABASE_URL!):null;
 const databaseIdentity=sql?new URL(process.env.DATABASE_URL!):null;
