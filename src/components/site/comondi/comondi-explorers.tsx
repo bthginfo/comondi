@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import type { ContentItem } from "@/lib/types";
 import { ContentLink, EditableChoice, EditableImage, EditableText } from "../editable";
 import { styles } from "./styles";
+import { AtlasPlanet } from "./atlas-planet";
 
 interface ExplorerProps {
   items: ContentItem[];
@@ -102,7 +103,7 @@ export function WorldExplorer({ storageKey, ...props }: ExplorerProps & { storag
           inert={!active} tabIndex={active && !editable ? 0 : undefined} data-item-id={item.id}>
           <div className={styles.worldArt} aria-hidden={item.image?.src ? undefined : true}>
             {item.image?.src ? <EditableImage image={item.image} editable={editable} className={styles.worldImage}
-              onChange={value => editItem(index,"image",value)} /> : <><div className={styles.worldPlanet} /><span /><span /></>}
+              onChange={value => editItem(index,"image",value)} /> : <><div className={styles.worldPlanet} /><AtlasPlanet world={world} /><span /><span /></>}
           </div>
           <div className={styles.worldCopy} ref={active ? panel : undefined} data-cm-panel="">
             <ItemText item={item} index={index} field="meta" editItem={editItem} editable={editable} as="span" className={styles.eyebrow} />
