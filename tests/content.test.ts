@@ -138,3 +138,13 @@ test('contact form validates acknowledgement, address and useful message before 
   assert.equal(inquirySchema.safeParse({...valid,email:'invalid'}).success,false);
   assert.equal(inquirySchema.safeParse({...valid,message:'Hallo'}).success,false);
 });
+
+test('CMS validation errors are German and name the affected field', async () => {
+  const { issueLocation } = await import('../src/lib/zod-config');
+  const { z } = await import('zod');
+  assert.equal(z.string().max(3).safeParse('abcd').error?.issues[0].message, 'Bitte höchstens 3 Zeichen verwenden.');
+  assert.equal(z.string().min(1).safeParse('').error?.issues[0].message, 'Bitte füllen Sie dieses Feld aus.');
+  assert.equal(issueLocation(['content', 'pages', 2, 'sections', 1, 'content', 'heading']), 'Seite 3 · Abschnitt 2 · Überschrift');
+  assert.equal(issueLocation(['content', 'pages', 0, 'sections', 0, 'content', 'items', 4, 'href']), 'Seite 1 · Abschnitt 1 · Eintrag 5 · Linkziel');
+  assert.equal(issueLocation(['content', 'config', 'navigation', 1, 'label']), 'Navigationspunkt 2 · Beschriftung');
+});

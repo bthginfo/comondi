@@ -67,7 +67,7 @@ export function PlanetScene({ label = "Dreidimensionale Planetenwelt von co:mond
     if (!element || !activated) return;
     let disposed = false;
     let cleanup = () => {};
-    void import("three").then(async THREE => {
+    void import("@/lib/planet-three").then(async THREE => {
       if (disposed) return;
       const mobile = matchMedia("(max-width: 760px)").matches;
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power", preserveDrawingBuffer: process.env.NODE_ENV === "development" });

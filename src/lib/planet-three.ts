@@ -1,0 +1,2 @@
+// The planet scene imports only the Three.js parts it renders with, so the bundler can leave out the rest of the library.
+export { ACESFilmicToneMapping, AdditiveBlending, AmbientLight, BufferAttribute, BufferGeometry, Color, DirectionalLight, DoubleSide, Group, MathUtils, Mesh, MeshStandardMaterial, PerspectiveCamera, Points, PointsMaterial, Raycaster, RingGeometry, SRGBColorSpace, Scene, ShaderMaterial, SphereGeometry, Texture, TextureLoader, Vector2, Vector3, WebGLRenderer } from "three";

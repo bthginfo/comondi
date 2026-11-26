@@ -5,6 +5,7 @@ import { checkPassword, createSession, logout, requireAdmin, changePassword } fr
 import { AppError, databaseConfigured, defaultSettings, deleteRecord, getAdminSnapshot, getQueryCount, getRecord, getSettings, getState, listInquiries, listMedia, publicSettings, publish, rateLimit, restoreRevision, saveDraft, saveSnapshots, setRecord, updateExistingRecord } from '@/lib/db';
 import { handler, ipKey, json, readJson, sameOrigin } from '@/lib/http';
 import { encrypt, hashPassword } from '@/lib/security';
+import { sameSmtpAccount } from '@/lib/client-network';
 import { settingsSchema, websiteSchema } from '@/lib/validation';
 import { launchPublicationIssues } from '@/lib/launch-content.mjs';
 import { deliverWithdrawalReceipt } from '@/lib/commerce/withdrawal-service';
@@ -19,7 +20,7 @@ import { canUseAdminAction, workspaceRoles } from '@/lib/team/permissions';
 import { editorialDraft } from '@/lib/team/editor-draft';
 import { noteActivity } from '@/lib/team/activity';
 import { limitedBody, BodyLimitError } from '@/lib/business/request-body';
-import { adminInquiry } from '@/lib/inquiry-view';
+import { adminInquiry, inquiryOverviewLimit, inquiryPreview } from '@/lib/inquiry-view';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -38,7 +39,8 @@ const route=handler(async(request:Request)=>{
   if(method!=='GET')sameOrigin(request);
   if(action==='login'&&method==='POST'){
     const {password,login}=z.object({password:z.string().min(1).max(1000),login:staffLogin.optional()}).strict().parse(await readJson(request,3000));
-    await rateLimit(ipKey(request,'login'),8,15*60);
+    // Per network and site-wide, so a distributed guessing attempt is slowed down as well.
+    await rateLimit(ipKey(request,'login'),8,15*60);await rateLimit('login:all',60,15*60);
     const verified=await checkPassword(password,login);
     if(!verified)throw new AppError('Die Zugangsdaten sind nicht korrekt.',401);
     await createSession(verified,login);return json({ok:true});
@@ -113,7 +115,8 @@ const route=handler(async(request:Request)=>{
   if(action==='settings'&&method==='GET')return json({settings:publicSettings(await getSettings())});
   if(action==='settings'&&method==='PUT'){
     const {settings}=z.object({settings:settingsSchema}).parse(await readJson(request,25000));const previous=await getSettings();
-    const next:SiteSettings={...settings,storageRegion:'fra1',databaseRegion:'fra1',smtp:{...settings.smtp,password:settings.smtp.password?encrypt(settings.smtp.password):previous.smtp.password,passwordSet:undefined}};
+    if(!settings.smtp.password&&previous.smtp.password&&settings.smtp.user.trim()&&!sameSmtpAccount(settings.smtp,previous.smtp))throw new AppError('Für einen anderen SMTP-Server oder ein anderes Konto geben Sie bitte das SMTP-Passwort erneut ein.');
+    const next:SiteSettings={...settings,storageRegion:'fra1',databaseRegion:'fra1',smtp:{...settings.smtp,password:settings.smtp.password?encrypt(settings.smtp.password):sameSmtpAccount(settings.smtp,previous.smtp)?previous.smtp.password:undefined,passwordSet:undefined}};
     await setRecord('settings','site',next);revalidateTag('ws-settings',{expire:0});if(next.siteUrl!==previous.siteUrl)revalidatePublishedSite();return json({settings:publicSettings(next)});
   }
   if(action==='settings/test'&&method==='POST'){
@@ -157,7 +160,11 @@ const route=handler(async(request:Request)=>{
     const {id}=z.object({id:idSchema}).parse(await readJson(request,3000));
     return json({inquiry:adminInquiry(await deliverWithdrawalReceipt(id))});
   }
-  if(action==='inquiries'&&method==='GET')return json({inquiries:await listInquiries()});
+  if(action==='inquiries'&&method==='GET'){
+    const id=new URL(request.url).searchParams.get('id');
+    if(id){const inquiry=await getRecord<Inquiry>('inquiries',idSchema.parse(id));if(!inquiry)throw new AppError('Diese Anfrage ist nicht mehr verfügbar.',404);return json({inquiry:adminInquiry(inquiry)});}
+    return json({inquiries:(await listInquiries()).slice(0,inquiryOverviewLimit).map(inquiryPreview)});
+  }
   if(action==='inquiries'&&method==='PATCH'){
     const values=z.object({id:idSchema,status:z.enum(['new','in-progress','done','spam']).optional(),note:z.string().max(10000).optional()}).parse(await readJson(request,15000));
     const {id,...changes}=values;
@@ -176,5 +183,5 @@ const route=handler(async(request:Request)=>{
     const state=await getState();return new Response(JSON.stringify({format:'ws-content-backup-v1',exportedAt:new Date().toISOString(),draft:state.draft,published:state.published},null,2),{headers:{'Content-Type':'application/json; charset=utf-8','Content-Disposition':'attachment; filename="website-inhalte.json"','Cache-Control':'no-store'}});
   }
   throw new AppError('Diese Funktion wurde nicht gefunden.',404);
-});
+},{describeFields:true});
 export {route as GET,route as POST,route as PUT,route as PATCH,route as DELETE};

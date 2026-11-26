@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useId, useRef, useState } from "react";
+import { useContext, useEffect, useId, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Check, ChevronLeft, Cookie, X } from "lucide-react";
 import type { NavItem, SiteConfig, SiteLanguage } from "@/lib/types";
 import { nativeVideoSource } from "@/lib/external-media";
@@ -19,6 +19,8 @@ export type PublishedConsent = {
   tracking: boolean;
   legalLinks: readonly NavItem[];
   scripts?: PublicConsentScripts;
+  /** Public statistics settings rendered with the page, so a visit needs no settings request. Measurement still waits for consent. */
+  analytics?: AnalyticsPublic;
 };
 
 type OptionalChoice = Record<ConsentScriptCategory, boolean>;
@@ -29,7 +31,11 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   const { isolated } = useContext(SiteInteractionContext);
   const tracking = published?.tracking === true && !isolated;
   const scripts = tracking ? published?.scripts : undefined;
-  const [nativeConfig, setNativeConfig] = useState<AnalyticsPublic | null>(null);
+  const [fetchedConfig, setNativeConfig] = useState<AnalyticsPublic | null>(null);
+  // Keep one object per settings value, so client-side page changes do not restart a running measurement.
+  const renderedKey = tracking && published?.analytics ? JSON.stringify(published.analytics) : "";
+  const renderedConfig = useMemo(() => renderedKey ? JSON.parse(renderedKey) as AnalyticsPublic : null, [renderedKey]);
+  const nativeConfig = renderedConfig ?? fetchedConfig;
   const [ready, setReady] = useState(false);
   const [choice, setChoice] = useState<Consent | null>(null);
   const [options, setOptions] = useState<OptionalChoice | null>(null);
@@ -39,14 +45,14 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   const titleId = useId();
 
   useEffect(() => {
-    if (!tracking) return;
+    if (!tracking || renderedKey) return;
     const abort = new AbortController();
     void fetch("/api/analytics/config", { signal: abort.signal, cache: "no-store" })
       .then(response => response.ok ? response.json() : null)
       .then((config: AnalyticsPublic | null) => { if (config && !abort.signal.aborted) setNativeConfig(config); })
       .catch(() => {});
     return () => abort.abort();
-  }, [tracking]);
+  }, [tracking, renderedKey]);
 
   useEffect(() => {
     if (!tracking || !nativeConfig) return;

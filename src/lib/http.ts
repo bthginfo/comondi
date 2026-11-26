@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { AppError } from './db';
 import {CommerceError} from './commerce/model';
 import { digest } from './security';
+import { clientNetwork } from './client-network';
+import { issueLocation } from './zod-config';
 
 export function json(data:unknown,status=200){return NextResponse.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});}
 export function sameOrigin(request:Request):void{
@@ -21,12 +23,13 @@ export async function readJson(request:Request,max=3*1024*1024):Promise<unknown>
   let bytes:Uint8Array;try{bytes=await limitedBody(request,max);}catch(error){if(error instanceof BodyLimitError)throw new AppError(error.message,413);throw error;}const body=new TextDecoder().decode(bytes);
   try{return JSON.parse(body);}catch{throw new AppError('Die Anfrage konnte nicht gelesen werden.',400);}
 }
-export function ipKey(request:Request,purpose:string):string{const ip=request.headers.get('x-vercel-forwarded-for')?.split(',')[0].trim()||request.headers.get('x-real-ip')||request.headers.get('x-forwarded-for')?.split(',')[0].trim()||'local';return digest(`${purpose}:${ip}:${process.env.AUTH_SECRET||'development'}`);}
-export function apiError(error:unknown):NextResponse{
+export function ipKey(request:Request,purpose:string):string{const ip=request.headers.get('x-vercel-forwarded-for')?.split(',')[0].trim()||request.headers.get('x-real-ip')||request.headers.get('x-forwarded-for')?.split(',')[0].trim()||'local';return digest(`${purpose}:${clientNetwork(ip)}:${process.env.AUTH_SECRET||'development'}`);}
+export function apiError(error:unknown,describeFields=false):NextResponse{
   if(error instanceof CommerceError)return json({error:error.message,code:error.code},error.status);
   if(error instanceof AppError)return json({error:error.message,messages:error.messages},error.status);
-  if(error instanceof z.ZodError)return json({error:error.issues[0]?.message||'Bitte prüfen Sie Ihre Angaben.'},400);
+  if(error instanceof z.ZodError){const issue=error.issues[0];const location=describeFields&&issue?issueLocation(issue.path):'';return json({error:(location?`${location}: `:'')+(issue?.message||'Bitte prüfen Sie Ihre Angaben.')},400);}
   const reference=crypto.randomUUID().slice(0,8);console.error(`[ws-api:${reference}] ${error instanceof Error?error.name:'UnknownError'}`);
   return json({error:`Die Anfrage konnte gerade nicht verarbeitet werden. Bitte versuchen Sie es erneut. Fehlerkennung: ${reference}`},500);
 }
-export function handler(fn:(request:Request)=>Promise<Response>){return async(request:Request)=>{try{return await fn(request);}catch(error){return apiError(error);}};}
+/** describeFields names the affected CMS field in validation errors; only for CMS routes, whose paths follow the content structure. */
+export function handler(fn:(request:Request)=>Promise<Response>,{describeFields=false}:{describeFields?:boolean}={}){return async(request:Request)=>{try{return await fn(request);}catch(error){return apiError(error,describeFields);}};}

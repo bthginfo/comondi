@@ -1,5 +1,8 @@
 import type { NextConfig } from 'next';
 
+// The image optimizer only accepts this website's own Blob store, so it cannot be used to process images from other stores.
+const blobStore = /^vercel_blob_rw_([a-z\d]+)_/i.exec(process.env.BLOB_READ_WRITE_TOKEN || '')?.[1]?.toLowerCase() || 'lzivon9se7zrnxwu';
+
 const config: NextConfig = {
   async redirects() { return [
     {source:"/home.html",destination:"/",permanent:true},
@@ -9,7 +12,7 @@ const config: NextConfig = {
     {source:"/news/:slug.html",destination:"/aktuelles/:slug",permanent:true},
   ]; },
   poweredByHeader: false,
-  images: { remotePatterns: [{ protocol: 'https', hostname: '**.public.blob.vercel-storage.com' }], formats: ['image/avif', 'image/webp'] },
+  images: { remotePatterns: [{ protocol: 'https', hostname: `${blobStore}.public.blob.vercel-storage.com`, pathname: '/**' }], formats: ['image/avif', 'image/webp'] },
   async headers() {
     return [
       { source: '/:path*', headers: [
@@ -18,9 +21,9 @@ const config: NextConfig = {
         { key: 'X-Frame-Options', value: 'DENY' },
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
       ] },
-      // OAuth return documents generate a stricter per-request nonce policy.
+      // OAuth return documents and the CMS (src/proxy.ts) generate a stricter per-request nonce policy.
       // A matching static Next header would overwrite that response policy.
-      { source: '/:path((?!api/social/connectors/callback/).*)', headers: [
+      { source: '/:path((?!api/social/connectors/callback/|admin/|admin$).*)', headers: [
         { key: 'Content-Security-Policy', value: "base-uri 'self'; object-src 'none'; frame-ancestors 'none'" },
       ] },
       { source: '/admin/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }, { key: 'Cache-Control', value: 'private, no-store' }, { key: 'Referrer-Policy', value: 'no-referrer' }] },

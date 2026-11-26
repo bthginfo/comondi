@@ -2,12 +2,14 @@
 
 import type { CmsState, PageContent, WebsiteContent } from "@/lib/types";
 import { publicationChanges } from "@/lib/publication-changes";
-import { Button, Modal } from "./admin-ui";
+import { Button, Modal, Notice } from "./admin-ui";
 
 const statusLabel = { added: "Neu", removed: "Entfernt", changed: "Geändert" };
 
-export function PublicationReview({ state, onClose, onConfirm, busy, t = value => value, pathFor }: {
+export function PublicationReview({ state, onClose, onConfirm, busy, error, t = value => value, pathFor }: {
   state: CmsState;
+  /** A failed publication is reported inside the dialog, which covers the workspace notifications. */
+  error?: string;
   onClose: () => void;
   onConfirm: () => void;
   busy: boolean;
@@ -20,6 +22,7 @@ export function PublicationReview({ state, onClose, onConfirm, busy, t = value =
       <Button disabled={busy} onClick={onClose}>{t("Zurück zum Entwurf")}</Button>
       <Button variant="primary" busy={busy} onClick={onConfirm}>{t("Jetzt veröffentlichen")}</Button>
     </>}>
+    {error && <Notice tone="error"><span style={{ whiteSpace: "pre-line" }}>{error}</span></Notice>}
     {changes.length ? <div className="cms-publication-review">
       {changes.map(change => <details className="cms-details" key={change.id} open={changes.length === 1 || undefined}>
         <summary><strong>{t(change.name)}</strong><span>{t(statusLabel[change.kind])}</span></summary>
