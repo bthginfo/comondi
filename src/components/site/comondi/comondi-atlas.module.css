@@ -243,7 +243,9 @@
   .site[data-cm-design="atlas"] .atlasPins { display: none; }
   .site[data-cm-design="atlas"] .heroRelated { display: flex !important; }
   .site[data-cm-design="atlas"] .processSteps::before { display: none; }
-  .designSwitch { right: 50%; translate: 50% 0; }
+  .designSwitch { right: max(10px, env(safe-area-inset-right, 0px)); bottom: max(10px, env(safe-area-inset-bottom, 0px)); padding: 3px; font-size: 12px; }
+  .designSwitch > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .designSwitch button { min-height: 34px; padding: 0 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .atlasOrbit, .atlasPins li { animation: none; }
