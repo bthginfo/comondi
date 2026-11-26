@@ -23,7 +23,8 @@
     "upgrade:site": "node scripts/upgrade-site.mjs",
     "backup:create": "node --conditions=react-server --env-file-if-exists=.env.local --import=tsx scripts/backup-site.ts create",
     "backup:restore": "node --conditions=react-server --import=tsx scripts/backup-site.ts restore",
-    "recovery:preview": "node scripts/recovery-preview.mjs"
+    "recovery:preview": "node scripts/recovery-preview.mjs",
+    "content:comondi-subpages": "node --conditions=react-server --env-file-if-exists=.env.local --import=tsx scripts/content/comondi-subpages.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "4.0.94",
