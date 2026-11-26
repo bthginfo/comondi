@@ -22,6 +22,8 @@ import { atlasDisplay, atlasText } from "./atlas-fonts";
 import { DesignSwitch, designReview, useComondiDesign } from "./design-switch";
 import type { ComondiDesign } from "@/lib/types";
 import { styles } from "./styles";
+import { ComondiPageSection, hasComondiPageSection } from "./comondi-pages";
+import { planetWorld } from "@/lib/comondi-sections";
 
 export function ComondiSite({ page, site, editable, selectedSectionId, onSectionSelect, onSectionChange, fallback }: VariantSiteProps) {
   const root = useRef<HTMLDivElement>(null);
@@ -58,6 +60,9 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
   const copyright = (footer?.copyright || "© {year} {name}").replaceAll("{year}", String(year)).replaceAll("{name}", site.legalName);
   const parent = site.navigation.find(link => link.href !== "/" && `/${page.slug}`.startsWith(`${link.href}/`));
   const pageType = page.slug.startsWith("leistungen/") ? "service" : page.slug.startsWith("aktuelles/") ? "article" : page.slug || "home";
+  // A service page takes the colour of its planet; every section below the opening picks it up.
+  const planetHero = page.sections.find(section => section.type === "comondi-planet-hero" && (section.visible || editable));
+  const pageWorld = planetHero ? planetWorld(planetHero.design.comondiPlanet) : undefined;
   const sections = page.sections.filter(section => section.visible || editable);
   const firstSectionId = sections[0]?.id;
   // The Atlas map places the page's service worlds as pins around the opening.
@@ -68,7 +73,7 @@ export function ComondiSite({ page, site, editable, selectedSectionId, onSection
     .map((entry, index) => ({ id: entry.id, title: entry.title?.trim(), meta: entry.meta, text: entry.text, href: entry.href, planet: worldIndex(entry, index) }))
     .filter(world => world.title).slice(0, maxJourneyWorlds), [worldsSection?.content.items]);
 
-  return <div id="seitenanfang" ref={root} className={`${styles.site}${atlas ? ` ${atlasDisplay.variable} ${atlasText.variable}` : ""}`} style={style} data-cm-page={pageType} data-cm-design={design}
+  return <div id="seitenanfang" ref={root} className={`${styles.site}${atlas ? ` ${atlasDisplay.variable} ${atlasText.variable}` : ""}`} style={style} data-cm-page={pageType} data-cm-design={design} data-cm-world={pageWorld}
     data-cm-motion={settings.enabled && !editable ? "on" : "off"}
     data-cm-feedback={settings.enabled && settings.interactionFeedback && !editable ? "on" : "off"}
     data-cm-editable={editable ? "true" : undefined}>
@@ -129,7 +134,7 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
     update("items", items.map((entry, i) => i === index ? { ...entry, [key]: value } : entry));
   const text = (key: "heading" | "subheading" | "text" | "caption" | "quote" | "attribution", as: "h1" | "h2" | "p" | "span" = "p", className = "") =>
     <EditableText value={c[key]} as={key === "heading" ? level : as} editable={editable} onChange={value => update(key, value)} className={className} />;
-  const itemText = (entry: ContentItem, index: number, key: "title" | "text" | "label" | "meta" | "email" | "phone", as: "h3" | "p" | "span" = "p", className = "") =>
+  const itemText = (entry: ContentItem, index: number, key: "title" | "text" | "label" | "meta" | "email" | "phone", as: "h2" | "h3" | "p" | "span" = "p", className = "") =>
     <EditableText value={entry[key]} as={as} editable={editable} onChange={value => updateItem(index, key, value)} className={className} />;
   const action = (secondary = false) => {
     const field = secondary ? "secondaryLabel" : "primaryLabel";
@@ -269,9 +274,10 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
         <div className={styles.contactDetails}>
           <ContentLink editable={editable} href={`mailto:${site.email}`} className={styles.contactEmail}><Mail size={20} aria-hidden="true" />{site.email}<ArrowUpRight size={18} aria-hidden="true" /></ContentLink>
           <address className={styles.contactAddress}><MapPin size={20} aria-hidden="true" /><span>{site.address}<br />{site.postalCode} {site.city}</span></address>
+          {(c.attribution || editable) && text("attribution", "p", styles.contactPeopleLabel)}
           <div className={styles.contactPeople}>{items.map((entry,i) => <article key={entry.id} data-item-id={entry.id} className={styles.contactPerson}>
             <div className={styles.contactPortrait}>{portrait(entry,i)}</div>
-            <div>{itemText(entry,i,"title","h3")}{email(entry,i)}{phone(entry,i)}</div>
+            <div>{itemText(entry,i,"title",level === "h1" ? "h2" : "h3")}{itemText(entry,i,"label","span",styles.contactRole)}{itemText(entry,i,"text","p",styles.contactFocus)}{email(entry,i)}{phone(entry,i)}</div>
           </article>)}</div>
         </div>
       </div></div>;
@@ -315,7 +321,8 @@ export function ComondiSection({ section, site, editable = false, selected, onSe
       </div></div>;
       break;
     default:
-      return null;
+      if (!hasComondiPageSection(section.type)) return null;
+      content = <ComondiPageSection section={section} site={site} editable={editable} level={level} design={design} motion={settings.enabled && settings.interactionFeedback} onChange={onChange} />;
   }
 
   return <section id={section.anchor || section.id} data-section-id={section.id} data-section={section.id} data-section-type={section.type}

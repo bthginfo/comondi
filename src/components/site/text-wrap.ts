@@ -12,6 +12,7 @@ const compounds = [
   "Öffnungs|zeiten", "Kontakt|möglichkeiten", "Ansprech|partner", "Zusammen|arbeit", "Qualifi|kationen",
   "Über|zeugung", "Forderungs|management", "Opfer|vertretung", "Zwangs|verwaltung",
   "Muster|widerrufs|formular", "Prozess|kosten|hilfe", "Rechts|anwalts|vergütung",
+  "Anforderungs|management", "Programm|management", "Prozess|management", "Organisations|aufbau", "Methoden|kompetenz",
 ];
 const breaks = new Map(compounds.map(word => [word.replaceAll("|", "").toLocaleLowerCase("de"), word.split("|").map(part => part.length)]));
 const pattern = new RegExp(`(?<![\\p{L}\\p{N}_])(?:${[...breaks.keys()].sort((a, b) => b.length - a.length).join("|")})(?![\\p{L}\\p{N}_])`, "giu");

@@ -1,0 +1,272 @@
+/*
+ * co:mondi · subpages, Atlas.
+ * Daylight paper, indigo ink, drawn lines and flat offset shadows. The engraved planets of
+ * atlas-planet.tsx replace the textured spheres. Only applies below data-cm-design="atlas".
+ */
+.site[data-cm-design="atlas"] {
+  --at-world-ink: color-mix(in srgb, var(--cm-world-light) 70%, var(--at-ink));
+  --at-offset: 6px 6px 0 var(--at-ink);
+  --at-offset-soft: 5px 5px 0 color-mix(in srgb, var(--at-ink) 16%, transparent);
+}
+.site[data-cm-design="atlas"][data-cm-world="0"] { --cm-world-light: var(--at-pink); --cm-world-tint: var(--at-pink); }
+.site[data-cm-design="atlas"][data-cm-world="1"] { --cm-world-light: #3d5bd6; --cm-world-tint: #3d5bd6; }
+.site[data-cm-design="atlas"][data-cm-world="2"] { --cm-world-light: #7a4fd1; --cm-world-tint: #7a4fd1; }
+.site[data-cm-design="atlas"][data-cm-world="3"] { --cm-world-light: #12817f; --cm-world-tint: #12817f; }
+.site[data-cm-design="atlas"] .bridgeBank[data-side="left"] { --cm-world-light: var(--at-pink); --cm-world-tint: var(--at-pink); }
+.site[data-cm-design="atlas"] .bridgeBank[data-side="right"] { --cm-world-light: #3d5bd6; --cm-world-tint: #3d5bd6; }
+.site[data-cm-design="atlas"] .section h1 { font-family: var(--at-display); }
+.site[data-cm-design="atlas"] .section :is(.pgTitle, .pheroTitle, .articleHeadline) { font-weight: 700; letter-spacing: -.045em; line-height: 1; }
+.site[data-cm-design="atlas"] .section .pgLead { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .pgContact svg { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .pgContact:hover { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .pgInitials { background: var(--at-paper-deep); color: var(--at-ink); }
+.site[data-cm-design="atlas"] .pgEditorNote { border-color: color-mix(in srgb, var(--at-ink) 30%, transparent); color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] :is(.pheroCopy, .mapCopy, .work, .relatedItem, .articleHead, .pairQuestion) .eyebrow { color: var(--at-world-ink); }
+.site[data-cm-design="atlas"] :is(.mapCopy, .relatedItem, .articleHead) .eyebrow:not(:empty)::before { background: var(--cm-world-light); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cm-world-light) 18%, transparent); }
+
+/* Engraved planets replace the textured spheres. */
+.site[data-cm-design="atlas"] .cmSphere { display: none; }
+.site[data-cm-design="atlas"] .cmOrb::before, .site[data-cm-design="atlas"] .cmOrb::after { display: none; }
+.site[data-cm-design="atlas"] .cmOrb .atlasPlanet { position: absolute; left: -35.5%; top: -23.5%; width: 171%; max-width: none; height: auto; }
+.site[data-cm-design="atlas"] .cmOrb[data-world="2"] .atlasPlanet { left: -45%; top: -32%; width: 190%; }
+.site[data-cm-design="atlas"] .moonDark { fill: var(--at-paper-deep); }
+.site[data-cm-design="atlas"] .moonLit { fill: #fff; }
+.site[data-cm-design="atlas"] .moonRim { stroke: var(--at-ink); stroke-width: 2; }
+
+/* /leistungen · a drawn map with a graticule; the worlds sit on one orbit. */
+.site[data-cm-design="atlas"] .mapChart::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  z-index: 0;
+  border: 1.5px solid color-mix(in srgb, var(--at-ink) 18%, transparent);
+  border-radius: 28px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 63px, color-mix(in srgb, var(--at-ink) 7%, transparent) 63px 64px),
+    repeating-linear-gradient(90deg, transparent 0 63px, color-mix(in srgb, var(--at-ink) 7%, transparent) 63px 64px);
+  pointer-events: none;
+}
+.site[data-cm-design="atlas"] .mapOrbit { stroke: var(--at-ink); stroke-opacity: .55; stroke-width: .8; stroke-dasharray: 2 3; }
+.site[data-cm-design="atlas"] .mapOrbitNear { fill: color-mix(in srgb, var(--at-pink) 8%, transparent); stroke: var(--at-ink); stroke-opacity: .25; }
+.site[data-cm-design="atlas"] .mapRoute { stroke: var(--at-pink-ink); stroke-width: .9; opacity: .9; }
+.site[data-cm-design="atlas"] .mapCore { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset); }
+.site[data-cm-design="atlas"] .section .mapCaption { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .mapMark::before { border-color: var(--at-pink); }
+.site[data-cm-design="atlas"] .mapMark::after { border-color: var(--at-ink); }
+.site[data-cm-design="atlas"] .mapCopy { border: 2px solid var(--at-ink); background: #fff; box-shadow: 6px 6px 0 color-mix(in srgb, var(--cm-world-light) 85%, var(--at-ink)); }
+.site[data-cm-design="atlas"] .mapParts { border-top-color: var(--at-line); }
+.site[data-cm-design="atlas"] .mapParts li { border-bottom: 1px dashed color-mix(in srgb, var(--at-ink) 22%, transparent); color: var(--at-ink); }
+.site[data-cm-design="atlas"] .mapParts li::before { width: 8px; height: 8px; border: 1.5px solid var(--at-ink); background: var(--cm-world-light); box-shadow: none; }
+.site[data-cm-design="atlas"] .mapMethods > svg, .site[data-cm-design="atlas"] .mapLink svg { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .mapMethodList li { border-color: var(--at-line); background: var(--at-paper); color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .mapLink:hover { color: var(--at-pink-ink); }
+
+/* /leistungen · combinations: two engraved planets overlapping like a Venn diagram. */
+.site[data-cm-design="atlas"] .pairList, .site[data-cm-design="atlas"] .pair { border-color: var(--at-line); }
+.site[data-cm-design="atlas"] .pair { border-bottom: 1.5px dashed color-mix(in srgb, var(--at-ink) 24%, transparent); }
+.site[data-cm-design="atlas"] .pairLens { background: none; filter: none; opacity: 1; width: 30px; border-radius: 50%; border: 2px solid var(--at-pink); mix-blend-mode: multiply; }
+.site[data-cm-design="atlas"] .pairNames { color: var(--at-ink-3) !important; }
+.site[data-cm-design="atlas"] .pairPlus { color: var(--at-pink-ink); }
+
+/* /leistungen · formats: drawn orbits, numbered stations. */
+.site[data-cm-design="atlas"] .formatList li[data-active] { border-color: var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .formatNo { border: 2px solid var(--at-ink); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .orbitRing { border: 1.5px dashed color-mix(in srgb, var(--at-ink) 40%, transparent); }
+.site[data-cm-design="atlas"] .orbitRing[data-active] { border-style: solid; border-color: var(--at-pink-ink); box-shadow: none; }
+.site[data-cm-design="atlas"] .orbitBody { border: 2px solid var(--at-ink); background: #fff; box-shadow: 3px 3px 0 var(--at-pink); color: var(--at-ink); }
+.site[data-cm-design="atlas"] .orbitRing[data-active] .orbitBody { background: var(--at-pink); color: #fff; }
+.site[data-cm-design="atlas"] .orbitCore { border: 2px solid var(--at-ink); background: repeating-linear-gradient(38deg, transparent 0 5px, color-mix(in srgb, var(--at-ink) 10%, transparent) 5px 6px), #fff; color: var(--at-ink); box-shadow: var(--at-offset); }
+.site[data-cm-design="atlas"] .orbitCoreGlow { display: none; }
+
+/* Service pages · the planet opening, drawn. */
+.site[data-cm-design="atlas"] .pheroArt::before { inset: 4% -8% 4% 4%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--cm-world-light) 12%, transparent), transparent 66%); }
+.site[data-cm-design="atlas"] .pheroPlanet { width: min(64%, 400px); }
+.site[data-cm-design="atlas"] .phero[data-planet="jupiter"] .pheroPlanet { width: min(76%, 450px); margin-right: -4%; }
+.site[data-cm-design="atlas"] .pheroBars > span { border: 1.5px solid var(--at-ink); background: repeating-linear-gradient(38deg, transparent 0 4px, color-mix(in srgb, var(--cm-world-light) 55%, transparent) 4px 5.5px), #fff; box-shadow: 3px 3px 0 color-mix(in srgb, var(--cm-world-light) 70%, transparent); }
+.site[data-cm-design="atlas"] .pheroLoop { stroke: var(--at-ink); stroke-opacity: .5; stroke-width: 1.2; animation: none; }
+.site[data-cm-design="atlas"] .pheroArrow { fill: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .pheroRingLine { stroke: var(--at-ink); stroke-opacity: .7; }
+.site[data-cm-design="atlas"] .pheroRingLine + .pheroRingLine { stroke: var(--at-pink-ink); stroke-opacity: 1; }
+
+/* Service pages · questions as a checklist on paper. */
+.site[data-cm-design="atlas"] .qItem { border: 1.5px solid color-mix(in srgb, var(--at-ink) 30%, transparent); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] button.qItem:hover { border-color: var(--at-ink); }
+.site[data-cm-design="atlas"] .qItem[aria-pressed="true"] { border: 2px solid var(--at-ink); background: #fff; box-shadow: 5px 5px 0 var(--cm-world-light); }
+.site[data-cm-design="atlas"] .qBox { border: 2px solid var(--at-ink); border-radius: 6px; }
+.site[data-cm-design="atlas"] .qItem[aria-pressed="true"] .qBox { background: var(--at-ink); color: #fff; }
+.site[data-cm-design="atlas"] .qStart { border: 2px solid var(--at-ink); background: repeating-linear-gradient(0deg, transparent 0 31px, color-mix(in srgb, var(--at-ink) 7%, transparent) 31px 32px), #fff; box-shadow: var(--at-offset); }
+.site[data-cm-design="atlas"] .qStartMark { border: 2px solid var(--at-ink); background: var(--cm-world-light); color: #fff; }
+.site[data-cm-design="atlas"] .section .qStartText { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .section .qStatus { color: var(--at-world-ink); }
+
+/* Service pages · diagrams drawn in ink. */
+.site[data-cm-design="atlas"] .workDetails li { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .workDetails li::before { background: var(--at-ink); }
+.site[data-cm-design="atlas"] .workMethods { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .workMethods svg { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .treeRoot { border: 2px solid var(--at-ink); background: #fff; color: var(--at-ink); box-shadow: 4px 4px 0 var(--cm-world-light); }
+.site[data-cm-design="atlas"] .treeRoot::after, .site[data-cm-design="atlas"] .treeBranch::before { border-left: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .treeBranches::before { border-top: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .treeBranch { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .treeCode { border: 1.5px solid var(--at-ink); background: var(--cm-world-light); color: #fff; }
+.site[data-cm-design="atlas"] .treeBranch .workDetails { border-top: 1px dashed color-mix(in srgb, var(--at-ink) 30%, transparent); }
+.site[data-cm-design="atlas"] .treeBranch .workDetails li::before { color: var(--at-world-ink); background: none; }
+.site[data-cm-design="atlas"] .cycleTrack { stroke: var(--at-ink); stroke-opacity: .45; stroke-width: 1.5; stroke-dasharray: 4 6; }
+.site[data-cm-design="atlas"] .cycleFlow { stroke: var(--at-pink); stroke-width: 3; animation: none; stroke-dasharray: .22 .03; }
+.site[data-cm-design="atlas"] .cycleArrow { stroke: var(--at-ink); stroke-width: 2.4; }
+.site[data-cm-design="atlas"] .section .cycleCore { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .cycleNo { border: 2px solid var(--at-ink); background: #fff; color: var(--at-ink); box-shadow: 3px 3px 0 var(--cm-world-light); }
+.site[data-cm-design="atlas"] .bridgeRing ellipse { stroke: var(--at-ink); stroke-opacity: .55; }
+.site[data-cm-design="atlas"] .bridgeRing ellipse + ellipse { stroke: var(--at-pink-ink); stroke-opacity: 1; }
+.site[data-cm-design="atlas"] .bridgeBank { border: 2px solid var(--at-ink); background: #fff; box-shadow: 6px 6px 0 var(--cm-world-light); }
+.site[data-cm-design="atlas"] .bridgeDeck li { border: 1.5px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .phaseList::before { border-top: 1.5px dashed var(--at-ink); opacity: .5; }
+.site[data-cm-design="atlas"] .phaseMark svg { background: var(--at-paper); box-shadow: 3px 3px 0 var(--cm-world-light); }
+.site[data-cm-design="atlas"] .phaseNo { color: var(--at-world-ink); }
+
+/* Related articles as index cards. */
+.site[data-cm-design="atlas"] .relatedItem { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .relatedItem:hover { box-shadow: 6px 6px 0 var(--cm-world-light); }
+.site[data-cm-design="atlas"] .relatedTitle svg, .site[data-cm-design="atlas"] .relatedMore { color: var(--at-pink-ink); }
+
+/* The closing call: a white card with an inked horizon and the offset shadow. */
+.site[data-cm-design="atlas"] .next { border: 2px solid var(--at-ink); background: #fff; box-shadow: 8px 8px 0 var(--at-ink); }
+.site[data-cm-design="atlas"] .nextHorizon { border-top: 2px solid var(--at-ink); background: repeating-linear-gradient(38deg, transparent 0 6px, color-mix(in srgb, var(--cm-world-light, var(--at-pink)) 40%, transparent) 6px 7.5px), color-mix(in srgb, var(--cm-world-light, var(--at-pink)) 12%, #fff); box-shadow: 0 -10px 0 -8px var(--at-ink), 0 -22px 0 -20px color-mix(in srgb, var(--at-ink) 50%, transparent); }
+.site[data-cm-design="atlas"] .nextPerson { border: 1.5px solid var(--at-ink); background: var(--at-paper); }
+.site[data-cm-design="atlas"] .nextRole { color: var(--at-ink-3); }
+
+/* /zusammenarbeit · a hiking route over contour lines up to the summit. */
+.site[data-cm-design="atlas"] .routeTrack::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -20px -40px;
+  background: url("/comondi/contours.svg") right -120px top 40px / 760px auto no-repeat, url("/comondi/contours.svg") left -260px bottom 20px / 640px auto no-repeat;
+  opacity: .55;
+  pointer-events: none;
+}
+.site[data-cm-design="atlas"] .routeTrack:not([data-drawn])::before { border-left: 2px dashed var(--at-ink); opacity: .5; }
+.site[data-cm-design="atlas"] .routeBase { stroke: var(--at-ink); stroke-opacity: .55; stroke-width: 2; stroke-dasharray: 6 7; stroke-linecap: butt; }
+.site[data-cm-design="atlas"] .routeProgress { stroke: var(--at-pink); stroke-width: 4; filter: none; }
+.site[data-cm-design="atlas"] .routeStart { border: 1.5px solid var(--at-ink); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .routeMarker { border: 2px solid var(--at-ink); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .routeStop[data-reached] .routeMarker { border-color: var(--at-ink); background: var(--at-pink); box-shadow: 3px 3px 0 var(--at-ink); color: #fff; }
+.site[data-cm-design="atlas"] .routeCard { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .routeStop[data-reached] .routeCard { box-shadow: 6px 6px 0 var(--at-pink); }
+.site[data-cm-design="atlas"] .routeNotes li { border-color: var(--at-line); background: var(--at-paper); color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .routeSummit { border: 2px solid var(--at-ink); background: var(--at-pink); box-shadow: 4px 4px 0 var(--at-ink); color: #fff; }
+.site[data-cm-design="atlas"] .section .routeGoalText { color: var(--at-ink); }
+
+/* /zusammenarbeit · a ledger with a double rule in the middle. */
+.site[data-cm-design="atlas"] .termsSpine { width: 6px; translate: -2.5px 0; background: none; border-inline: 1.5px solid var(--at-ink); opacity: 1; }
+.site[data-cm-design="atlas"] .termsSpine span { border: 2px solid var(--at-ink); background: #fff; }
+.site[data-cm-design="atlas"] .termsSpine span::before { border-color: var(--at-pink); }
+.site[data-cm-design="atlas"] .termsSpine span::after { border-color: var(--at-ink); }
+.site[data-cm-design="atlas"] .section .termsHead { border-bottom: 2px solid var(--at-ink); color: var(--at-ink); }
+.site[data-cm-design="atlas"] .term::before { border-color: var(--at-pink); }
+.site[data-cm-design="atlas"] .termsCol[data-side="right"] .term::before { border-color: var(--at-ink); background: var(--at-paper-deep); }
+.site[data-cm-design="atlas"] .tempo { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset); }
+.site[data-cm-design="atlas"] .tempoFast { border: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .tempoSlow { border: 1.5px dashed var(--at-ink); }
+.site[data-cm-design="atlas"] .tempoFast::after { background: var(--at-ink); box-shadow: none; }
+.site[data-cm-design="atlas"] .tempoSlow::after { background: var(--at-pink); box-shadow: none; border: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .tempoCore { background: var(--at-pink); border: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .section .tempoLine { color: var(--at-ink); font-family: var(--at-display); font-weight: 700; }
+
+/* /ueber-uns · portraits with inked rings and an offset disc. */
+.site[data-cm-design="atlas"] .portraitLink path { stroke: var(--at-ink); stroke-width: 2; stroke-dasharray: 6 7; stroke-linecap: butt; }
+.site[data-cm-design="atlas"] .portraitPhoto::before { inset: -6%; border: 2px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .portraitPhoto::after { top: 8%; right: -10%; width: 40%; height: 40%; z-index: -1; background: repeating-linear-gradient(38deg, transparent 0 5px, color-mix(in srgb, var(--at-pink) 70%, transparent) 5px 6.5px); border: 2px solid var(--at-ink); box-shadow: none; }
+.site[data-cm-design="atlas"] .portraitPhoto { isolation: isolate; }
+.site[data-cm-design="atlas"] .portraitImage img { border: 2px solid var(--at-ink); background: #fff; }
+.site[data-cm-design="atlas"] .section .portraitFocus { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .portraitContact { border-top: 2px solid var(--at-ink); }
+
+/* /ueber-uns · guiding words in ink, underlined by hand in the brand colour. */
+.site[data-cm-design="atlas"] .valueList, .site[data-cm-design="atlas"] .value { border-color: var(--at-ink); }
+.site[data-cm-design="atlas"] .value { border-bottom-width: 1.5px; }
+.site[data-cm-design="atlas"] .section .valueWord {
+  width: fit-content;
+  font-size: calc(clamp(40px, 5.6vw, 92px) * var(--cm-scale, 1));
+  padding-bottom: 8px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 9 C 40 3, 80 13, 120 7 S 180 4, 198 8' fill='none' stroke='%23e0479a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") 0 100% / 100% 14px no-repeat;
+  color: var(--at-ink);
+  font-family: var(--at-display);
+  font-weight: 800;
+  text-shadow: 4px 4px 0 color-mix(in srgb, var(--at-pink) 22%, transparent);
+}
+.site[data-cm-design="atlas"] .valueNo { color: var(--at-ink-3); }
+
+/* /ueber-uns · a star atlas: inked stars and dotted figure lines on paper. */
+.site[data-cm-design="atlas"] .starChart {
+  border: 2px solid var(--at-ink);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 34%, color-mix(in srgb, var(--at-ink) 10%, transparent) 34% 34.4%, transparent 34.4% 52%, color-mix(in srgb, var(--at-ink) 8%, transparent) 52% 52.4%, transparent 52.4%),
+    repeating-linear-gradient(90deg, transparent 0 79px, color-mix(in srgb, var(--at-ink) 6%, transparent) 79px 80px),
+    #fff;
+  box-shadow: var(--at-offset);
+}
+.site[data-cm-design="atlas"] .starLines polyline { stroke: var(--at-ink); stroke-width: 1.6; stroke-dasharray: 2 5; }
+.site[data-cm-design="atlas"] .star { width: 22px; height: 22px; border: 0; border-radius: 0; background: var(--at-pink); box-shadow: none; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.site[data-cm-design="atlas"] .starName { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .starMeta { color: var(--at-ink-3); }
+
+/* /ueber-uns · locations on a paper map with a compass. */
+.site[data-cm-design="atlas"] .place { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .placeMap { border: 2px solid var(--at-ink); background: radial-gradient(ellipse at 30% 40%, color-mix(in srgb, var(--at-pink) 8%, transparent), transparent 55%), #fff; box-shadow: var(--at-offset); }
+.site[data-cm-design="atlas"] .placeGrid line { stroke: var(--at-ink); stroke-opacity: .12; stroke-width: .3; }
+.site[data-cm-design="atlas"] .placeArc { stroke: var(--at-pink-ink); stroke-width: .7; stroke-dasharray: 1.6 1.4; }
+.site[data-cm-design="atlas"] .placeCompass circle { stroke: var(--at-ink); stroke-opacity: .7; }
+.site[data-cm-design="atlas"] .placeCompass path, .site[data-cm-design="atlas"] .placeCompass text { fill: var(--at-ink); }
+.site[data-cm-design="atlas"] .placeDot { border: 2px solid var(--at-ink); background: var(--at-pink); box-shadow: 3px 3px 0 var(--at-ink); }
+.site[data-cm-design="atlas"] .placeName { color: var(--at-ink); text-shadow: 0 0 6px #fff, 0 0 2px #fff; }
+.site[data-cm-design="atlas"] .placeArcLabel { border: 1.5px solid var(--at-ink); background: #fff; color: var(--at-ink); }
+
+/* /aktuelles · a front page: masthead rule, lead story, numbered columns. */
+.site[data-cm-design="atlas"] .magHead { padding-bottom: 22px; border-bottom: 3px double var(--at-ink); max-width: none; }
+.site[data-cm-design="atlas"] .magChip { border: 1.5px solid var(--at-ink); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .magChip[data-world]::before { border: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .magChip[aria-pressed="true"] { background: var(--at-ink); color: #fff; box-shadow: 3px 3px 0 var(--at-pink); }
+.site[data-cm-design="atlas"] .magFilterLabel { color: var(--at-ink-3); }
+.site[data-cm-design="atlas"] .magLead { border: 2px solid var(--at-ink); background: #fff; box-shadow: 8px 8px 0 var(--cm-world-light, var(--at-pink)); }
+.site[data-cm-design="atlas"] .magArt { border-radius: 16px; background: repeating-linear-gradient(0deg, transparent 0 23px, color-mix(in srgb, var(--at-ink) 7%, transparent) 23px 24px), var(--at-paper); }
+.site[data-cm-design="atlas"] .section .magMeta { color: var(--at-world-ink); }
+.site[data-cm-design="atlas"] .magFormats li { border-color: var(--at-line); background: var(--at-paper); color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .magMore { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .magIndex { border-top: 2px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .magRow { border-bottom: 1.5px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .magNo { color: var(--at-ink); font-family: var(--at-display); font-weight: 700; }
+.site[data-cm-design="atlas"] .magRow:hover .magArrow { color: var(--at-pink-ink); }
+
+/* Article pages · a reading column on paper with an inked progress rule. */
+.site[data-cm-design="atlas"] .readProgress { height: 4px; background: color-mix(in srgb, var(--at-ink) 8%, transparent); }
+.site[data-cm-design="atlas"] .readProgress > span { background: var(--at-pink); }
+.site[data-cm-design="atlas"] .articleHead { border-bottom: 3px double var(--at-ink); }
+.site[data-cm-design="atlas"] .section .articleLead { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .toc ol { border-left: 2px solid var(--at-ink); }
+.site[data-cm-design="atlas"] .toc a { margin-left: -2px; border-left-width: 4px; }
+.site[data-cm-design="atlas"] .toc a[aria-current] { border-left-color: var(--at-pink); color: var(--at-ink); }
+.site[data-cm-design="atlas"] .facts { border: 2px solid var(--at-ink); background: #fff; box-shadow: var(--at-offset-soft); }
+.site[data-cm-design="atlas"] .facts dd { color: var(--at-ink); }
+.site[data-cm-design="atlas"] .chapterNo { color: var(--at-world-ink); }
+.site[data-cm-design="atlas"] .section .chapter p { color: var(--at-ink-2); }
+.site[data-cm-design="atlas"] .chapterLink { color: var(--at-pink-ink); }
+.site[data-cm-design="atlas"] .chapter:first-child p:first-of-type::first-letter { float: left; margin: 6px 10px 0 0; color: var(--at-ink); font-family: var(--at-display); font-size: 3.4em; font-weight: 800; line-height: .8; }
+
+/* /kontakt · a postal route with stamps. */
+.site[data-cm-design="atlas"] .afterTrack::before { background: repeating-linear-gradient(90deg, var(--at-ink) 0 7px, transparent 7px 13px); opacity: .55; }
+.site[data-cm-design="atlas"] .afterTrack::after { display: none; }
+.site[data-cm-design="atlas"] .afterNode { border: 2px solid var(--at-ink); background: #fff; color: var(--at-ink); box-shadow: 3px 3px 0 color-mix(in srgb, var(--at-ink) 20%, transparent); }
+.site[data-cm-design="atlas"] .afterStep:first-child .afterNode { background: var(--at-pink); color: #fff; box-shadow: 3px 3px 0 var(--at-ink); }
+.site[data-cm-design="atlas"] .afterStep:last-child .afterNode { outline: 2px dashed var(--at-ink); outline-offset: 4px; background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .afterStatus { border: 1.5px solid var(--at-ink); background: #fff; color: var(--at-ink); }
+.site[data-cm-design="atlas"] .section .contactPeopleLabel, .site[data-cm-design="atlas"] .contactRole { color: var(--at-ink-3); }
+.site[data-cm-design="atlas"] .section .contactIntro h1 { font-weight: 700; letter-spacing: -.045em; line-height: 1; }
+
+@media (max-width: 760px) {
+  .site[data-cm-design="atlas"] .mapChart::before { inset: -12px; }
+  .site[data-cm-design="atlas"] .mapWorld:not(:last-child)::before { border-left: 1.5px dashed var(--at-ink); }
+  .site[data-cm-design="atlas"] .afterTrack::before { background: repeating-linear-gradient(180deg, var(--at-ink) 0 7px, transparent 7px 13px); }
+  .site[data-cm-design="atlas"] .next { box-shadow: 5px 5px 0 var(--at-ink); }
+  .site[data-cm-design="atlas"] .routeTrack::after { inset: -10px -16px; }
+}
