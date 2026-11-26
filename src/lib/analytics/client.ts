@@ -1,4 +1,5 @@
-import {safeAnalyticsPath,sourceHostname,type AnalyticsPublic} from './model';
+import type {AnalyticsPublic} from './model';
+import {safeAnalyticsPath,sourceHostname} from './paths';
 import {consentChangedEvent,readConsent,storageKey} from './consent-state';
 type StoredVisitor={id:string;expires:number};
 const visitorKey='cms-statistics-visitor-v1',sessionKey='cms-statistics-session-v1',attributionKey='cms-statistics-attribution-v1';
