@@ -72,6 +72,8 @@ export interface ComondiMotionSettings {
   enabled: boolean;
   background: boolean;
   planetScroll: boolean;
+  /** Kosmos only: the opening becomes a pinned scroll journey that flies to each service world. Missing means on. */
+  heroJourney?: boolean;
   textReveal: boolean;
   interactionFeedback: boolean;
   intensity: number;
