@@ -105,8 +105,8 @@
 .site[data-cm-design="atlas"] .backNav a { color: var(--at-ink-2); }
 
 /* Opening: copy on the left, the map of two worlds on the right. */
-.site[data-cm-design="atlas"] .heroInner { min-height: clamp(560px, 46vw, 720px); }
-.site[data-cm-design="atlas"] .section .heroHeading { font-size: calc(clamp(44px, 5.4vw, 84px) * var(--cm-scale, 1)); font-weight: 700; line-height: 1; letter-spacing: -.045em; }
+.site[data-cm-design="atlas"] .heroInner { min-height: clamp(560px, 46cqi, 720px); }
+.site[data-cm-design="atlas"] .section .heroHeading { font-size: calc(clamp(44px, 5.4cqi, 84px) * var(--cm-scale, 1)); font-weight: 700; line-height: 1; letter-spacing: -.045em; }
 .site[data-cm-design="atlas"] .heroGlow { display: none; }
 .site[data-cm-design="atlas"] .heroLocation { color: var(--at-ink-3); }
 .site[data-cm-design="atlas"]:not([data-cm-editable="true"]) .heroRelated { display: none; }
@@ -256,8 +256,8 @@
 .site[data-cm-design="atlas"] .footerBottom { border-color: #ffffff24; color: #ffffffa6; }
 .site[data-cm-design="atlas"] .footer :is(a, button):hover { color: color-mix(in srgb, var(--at-pink) 45%, #fff); }
 
-@media (max-width: 760px) {
-  .site[data-cm-design="atlas"] .section .heroHeading { font-size: calc(clamp(34px, 9.6vw, 58px) * var(--cm-scale, 1)); letter-spacing: -.04em; }
+@container ws-site (max-width: 760px) {
+  .site[data-cm-design="atlas"] .section .heroHeading { font-size: calc(clamp(34px, 9.6cqi, 58px) * var(--cm-scale, 1)); letter-spacing: -.04em; }
   .site[data-cm-design="atlas"] .heroInner { min-height: 0; }
   .site[data-cm-design="atlas"] .heroVisual { margin-top: 18px; }
   .site[data-cm-design="atlas"] .atlasPins { display: none; }

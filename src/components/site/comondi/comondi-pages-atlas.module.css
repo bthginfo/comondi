@@ -187,7 +187,7 @@
 .site[data-cm-design="atlas"] .value { border-bottom-width: 1.5px; }
 .site[data-cm-design="atlas"] .section .valueWord {
   width: fit-content;
-  font-size: calc(clamp(40px, 5.6vw, 92px) * var(--cm-scale, 1));
+  font-size: calc(clamp(40px, 5.6cqi, 92px) * var(--cm-scale, 1));
   padding-bottom: 8px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 9 C 40 3, 80 13, 120 7 S 180 4, 198 8' fill='none' stroke='%23e0479a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") 0 100% / 100% 14px no-repeat;
   color: var(--at-ink);
@@ -251,7 +251,6 @@
 .site[data-cm-design="atlas"] .chapterNo { color: var(--at-world-ink); }
 .site[data-cm-design="atlas"] .section .chapter p { color: var(--at-ink-2); }
 .site[data-cm-design="atlas"] .chapterLink { color: var(--at-pink-ink); }
-.site[data-cm-design="atlas"] .chapter:first-child p:first-of-type::first-letter { float: left; margin: 6px 10px 0 0; color: var(--at-ink); font-family: var(--at-display); font-size: 3.4em; font-weight: 800; line-height: .8; }
 
 /* /kontakt · a postal route with stamps. */
 .site[data-cm-design="atlas"] .afterTrack::before { background: repeating-linear-gradient(90deg, var(--at-ink) 0 7px, transparent 7px 13px); opacity: .55; }
@@ -263,7 +262,7 @@
 .site[data-cm-design="atlas"] .section .contactPeopleLabel, .site[data-cm-design="atlas"] .contactRole { color: var(--at-ink-3); }
 .site[data-cm-design="atlas"] .section .contactIntro h1 { font-weight: 700; letter-spacing: -.045em; line-height: 1; }
 
-@media (max-width: 760px) {
+@container ws-site (max-width: 760px) {
   .site[data-cm-design="atlas"] .mapChart::before { inset: -12px; }
   .site[data-cm-design="atlas"] .mapWorld:not(:last-child)::before { border-left: 1.5px dashed var(--at-ink); }
   .site[data-cm-design="atlas"] .afterTrack::before { background: repeating-linear-gradient(180deg, var(--at-ink) 0 7px, transparent 7px 13px); }
