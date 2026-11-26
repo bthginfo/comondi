@@ -583,51 +583,28 @@
       "locale": "de",
       "translationKey": "leistungen",
       "seo": {
-        "title": "Vier Welten für eure Transformation | co:mondi",
-        "description": "Projektmanagement, agile Transformation, hybride Zusammenarbeit und KI im Arbeitsalltag: die Beratungsleistungen von co:mondi im Überblick.",
+        "title": "Beratungsleistungen: Projekte, Agilität & KI | co:mondi",
+        "description": "Alle Leistungen von co:mondi auf einer Karte: Projekt- und Prozessmanagement, agile Transformation, hybride Zusammenarbeit und KI im Arbeitsalltag.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
-          "id": "leistungsstart",
-          "type": "comondi-inner",
-          "name": "Eure Aufgaben. Unsere verbundenen Welten.",
+          "id": "landkarte",
+          "type": "comondi-map",
+          "name": "Landkarte der vier Welten",
           "visible": true,
-          "anchor": "leistungsstart",
+          "anchor": "landkarte",
           "content": {
-            "heading": "Beratung für eure\nnächsten Schritte.",
             "subheading": "Leistungen",
-            "text": "Wir unterstützen euch bei Projekten, agiler Transformation, hybrider Zusammenarbeit und dem Einsatz von KI."
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "welten",
-          "type": "comondi-worlds",
-          "name": "Vier Welten. Eure Möglichkeiten.",
-          "visible": true,
-          "anchor": "welten",
-          "content": {
-            "heading": "Wählt euer Thema.",
+            "heading": "Vier Welten.\nAlle Leistungen im Überblick.",
+            "text": "Projekt- und Prozessmanagement, agile Transformation, hybride Zusammenarbeit und KI im Arbeitsalltag: Hier seht ihr alle Themen, bei denen wir euch unterstützen, und wie sie zusammenhängen.",
+            "caption": "Die Verbindung zwischen Welten",
             "items": [
               {
                 "id": "proven",
                 "title": "Projekte & Prozesse",
-                "text": "Wir bringen Struktur in komplexe Vorhaben. Mit Projekt- und Programmmanagement, klaren Prozessen und einem gemeinsamen Verständnis der Anforderungen.",
-                "label": "Klarheit für komplexe Projekte.",
+                "text": "Wenn ein Vorhaben ein gemeinsames Ziel, Struktur und klare Zuständigkeiten braucht.",
                 "meta": "Bewährte Welt",
                 "details": [
                   "Projekt- & Programmmanagement",
@@ -635,13 +612,17 @@
                   "Organisationsaufbau",
                   "Anforderungsmanagement"
                 ],
-                "href": "/leistungen/projektmanagement"
+                "tags": [
+                  "A-SPICE",
+                  "Systems Engineering"
+                ],
+                "href": "/leistungen/projektmanagement",
+                "label": "Projekte & Prozesse im Detail"
               },
               {
                 "id": "modern",
                 "title": "Agile Transformation",
-                "text": "Neue Arbeitsweisen wirken erst, wenn Menschen sie mittragen. Wir begleiten agile Transformation, Veränderungsprozesse und eine Kultur, in der Zusammenarbeit gelingt.",
-                "label": "Neue Arbeitsweisen, die bleiben.",
+                "text": "Wenn neue Arbeitsweisen entstehen sollen, die Menschen im Alltag mittragen.",
                 "meta": "Moderne Welt",
                 "details": [
                   "Agile Transformation",
@@ -649,13 +630,17 @@
                   "Systemisches Coaching",
                   "Kultur & Kommunikation"
                 ],
-                "href": "/leistungen/agile-transformation"
+                "tags": [
+                  "SCRUM",
+                  "SAFe®"
+                ],
+                "href": "/leistungen/agile-transformation",
+                "label": "Agile Transformation im Detail"
               },
               {
                 "id": "hybrid",
                 "title": "Hybride Zusammenarbeit",
-                "text": "Wir verbinden etablierte Methoden mit agilen Ansätzen. Ausgangspunkt sind eure Situation, eure Ressourcen und das, was euer Team im Alltag wirklich braucht.",
-                "label": "Klassisch und agil verbinden.",
+                "text": "Wenn bewährte Vorgehensweisen und agile Ansätze zusammenarbeiten sollen.",
                 "meta": "Hybride Welt",
                 "details": [
                   "Situationsgerechte Methoden",
@@ -663,21 +648,81 @@
                   "Operative Begleitung",
                   "Intelligent Tool-Chains"
                 ],
-                "href": "/leistungen/hybride-zusammenarbeit"
+                "href": "/leistungen/hybride-zusammenarbeit",
+                "label": "Hybride Zusammenarbeit im Detail"
               },
               {
                 "id": "next",
                 "title": "KI im Arbeitsalltag",
-                "text": "Wir machen neue Möglichkeiten greifbar. Gemeinsam bewerten wir, wo künstliche Intelligenz eure Arbeit sinnvoll unterstützt – und wie sie Teil eures Alltags werden kann.",
-                "label": "KI, die euch im Alltag hilft.",
+                "text": "Wenn ihr wissen wollt, wo künstliche Intelligenz eure Arbeit sinnvoll unterstützt.",
                 "meta": "Nächste Welt",
                 "details": [
-                  "KI im Arbeitsalltag",
                   "Potenziale bewerten",
                   "Anwendungsfälle entwickeln",
                   "Teams befähigen"
                 ],
-                "href": "/leistungen/ki-im-arbeitsalltag"
+                "href": "/leistungen/ki-im-arbeitsalltag",
+                "label": "KI im Arbeitsalltag im Detail"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "none",
+            "align": "left"
+          }
+        },
+        {
+          "id": "kombinationen",
+          "type": "comondi-pairs",
+          "name": "Kombinationen",
+          "visible": true,
+          "anchor": "kombinationen",
+          "content": {
+            "subheading": "Kombinationen",
+            "heading": "Selten kommt ein Thema allein.",
+            "text": "Viele Vorhaben berühren mehrere Welten. Ausgangspunkt ist immer euer konkreter Bedarf; danach verbinden wir die passenden Themen.",
+            "items": [
+              {
+                "id": "struktur-agil",
+                "title": "Euer Vorhaben braucht Struktur, und euer Team arbeitet bereits agil?",
+                "text": "Dann verbinden wir Projekt- und Prozessmanagement mit agilen Ansätzen. Eine bestimmte Methode ist dafür keine Voraussetzung.",
+                "details": [
+                  "Projekte & Prozesse",
+                  "Agile Transformation"
+                ],
+                "href": "/leistungen/hybride-zusammenarbeit",
+                "label": "Zur hybriden Zusammenarbeit"
+              },
+              {
+                "id": "ki-wandel",
+                "title": "KI soll in den Alltag, und dabei verändern sich Arbeitsweisen?",
+                "text": "Wir bewerten mit euch den Einsatz von KI und begleiten die Veränderung, die neue Technologien für euer Team mit sich bringen.",
+                "details": [
+                  "KI im Arbeitsalltag",
+                  "Change Management"
+                ],
+                "href": "/leistungen/ki-im-arbeitsalltag",
+                "label": "Zu KI im Arbeitsalltag"
+              },
+              {
+                "id": "wandel-steuern",
+                "title": "Die Transformation läuft, aber das Programm braucht Steuerung?",
+                "text": "Veränderung betrifft Strukturen und Menschen zugleich. Wir verbinden Change Management mit Projekt- und Programmmanagement, damit Planung und Umsetzung zusammenpassen.",
+                "details": [
+                  "Agile Transformation",
+                  "Projekt- & Programmmanagement"
+                ],
+                "href": "/leistungen/agile-transformation",
+                "label": "Zur agilen Transformation"
               }
             ]
           },
@@ -696,39 +741,41 @@
           }
         },
         {
-          "id": "leistungsfragen",
-          "type": "comondi-faq",
-          "name": "Was euch vorab weiterhilft.",
+          "id": "begleitung",
+          "type": "comondi-formats",
+          "name": "Formen der Begleitung",
           "visible": true,
-          "anchor": "leistungsfragen",
+          "anchor": "begleitung",
           "content": {
-            "heading": "Was euch vorab\nweiterhilft.",
-            "subheading": "GUTE FRAGEN",
+            "subheading": "Formen der Begleitung",
+            "heading": "Euer Bedarf bestimmt unsere Rolle.",
+            "text": "Vom Workshop bis zur Mitarbeit im Projekt: Wir unterstützen dort, wo es euch wirklich entlastet.",
+            "attribution": "Euer Team",
+            "caption": "Die Formen lassen sich verbinden, zum Beispiel Coaching und operative Mitarbeit.",
             "items": [
               {
-                "id": "f1",
-                "title": "Wobei unterstützt uns co:mondi?",
-                "text": "Wir begleiten Projekt- und Prozessmanagement, Organisationsaufbau, agile Transformation, Change Management und systemisches Coaching. Hinzu kommt der sinnvolle Einsatz von KI im Arbeitsalltag. Ausgangspunkt ist immer euer konkreter Bedarf."
+                "id": "workshop",
+                "title": "Workshop",
+                "text": "Wir bringen die Beteiligten zusammen, ordnen eure Fragen ein und halten Ergebnisse fest – auf Wunsch auch bildlich mit unserer Kooperationspartnerin lis.lito.",
+                "meta": "Impuls"
               },
               {
-                "id": "f2",
-                "title": "Arbeitet ihr auch operativ im Team mit?",
-                "text": "Ja. Wir unterstützen strategisch, konzeptionell und im aktiven Doing. Je nach Bedarf übernehmen wir operative Aufgaben, coachen euer Team oder verbinden beides."
+                "id": "coaching",
+                "title": "Coaching",
+                "text": "Systemisches Coaching schafft Raum für neue Perspektiven, eigenständiges Denken und Reflexion – für euer Team und für Einzelne.",
+                "meta": "Reflexion"
               },
               {
-                "id": "f3",
-                "title": "Müssen wir bereits agil arbeiten?",
-                "text": "Nein. Wir verbinden klassische und agile Vorgehensweisen so, dass sie zu eurer Organisation passen. Eine bestimmte Methode ist keine Voraussetzung für die Zusammenarbeit."
+                "id": "begleitung",
+                "title": "Begleitung",
+                "text": "Wir denken strategisch mit, entwickeln mit euch Vorgehensweisen und bleiben dabei, bis sich zeigt, ob sie im Alltag funktionieren.",
+                "meta": "Strategie & Konzept"
               },
               {
-                "id": "f4",
-                "title": "Wie beginnt eine Zusammenarbeit?",
-                "text": "Mit einem Gespräch über eure Situation. Wir klären Erwartungen, lernen euer Umfeld kennen und prüfen gemeinsam, ob unsere Kompetenzen und Ressourcen zu eurem Vorhaben passen."
-              },
-              {
-                "id": "f5",
-                "title": "Wo ist co:mondi tätig?",
-                "text": "co:mondi ist eine Unternehmensberatung aus München und Stuttgart. Wie und wo wir mit euch zusammenarbeiten, besprechen wir passend zu eurem Projekt."
+                "id": "mitarbeit",
+                "title": "Operative Mitarbeit",
+                "text": "Wir übernehmen Aufgaben im Projekt und arbeiten im aktiven Doing mit, damit ihr neue Ansätze im Alltag erproben könnt.",
+                "meta": "Im Team"
               }
             ]
           },
@@ -748,264 +795,24 @@
         },
         {
           "id": "naechster-schritt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "naechster-schritt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
+            "heading": "Welche Welt bewegt euch gerade?",
+            "subheading": "Nächster Schritt",
             "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
             "primaryLabel": "Lass uns sprechen",
             "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        }
-      ]
-    },
-    {
-      "id": "zusammenarbeit",
-      "slug": "zusammenarbeit",
-      "title": "Zusammenarbeit von Auftragsklärung bis Handover",
-      "locale": "de",
-      "translationKey": "zusammenarbeit",
-      "seo": {
-        "title": "Zusammenarbeit von Auftragsklärung bis Handover | co:mondi",
-        "description": "So arbeitet co:mondi: Auftragsklärung, operative Begleitung, individuelle Lösungen, achtsames Tempo, Veränderungsfreude und nachhaltige Befähigung.",
-        "image": "/comondi/og.png",
-        "noindex": false
-      },
-      "sections": [
-        {
-          "id": "wegestart",
-          "type": "comondi-inner",
-          "name": "Wir bleiben dabei. Bis Veränderung Alltag wird.",
-          "visible": true,
-          "anchor": "wegestart",
-          "content": {
-            "heading": "Wir bleiben dabei.\nBis Veränderung Alltag wird.",
-            "subheading": "ZUSAMMENARBEIT",
-            "text": "Eine gute Idee ist ein Anfang. Wir gehen den Weg mit euch weiter: von der ehrlichen Auftragsklärung über das gemeinsame Anpacken bis zu Routinen, die euer Team selbst trägt."
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "road2goat",
-          "type": "comondi-process",
-          "name": "Ein gemeinsamer Weg. Bis es wirklich läuft.",
-          "visible": true,
-          "anchor": "road2goat",
-          "content": {
-            "heading": "Von der ersten Frage\nbis zur Umsetzung.",
-            "subheading": "Road2Goat · So arbeiten wir",
-            "text": "In sechs Schritten entwickeln wir mit euch eine Lösung und begleiten ihre Umsetzung. Das Tempo richtet sich nach eurem Team.",
-            "items": [
-              {
-                "id": "kennenlernen",
-                "title": "Auftrag klären",
-                "text": "Wir hören zu, klären euren Bedarf und lernen euer Umfeld kennen. Gemeinsam prüfen wir ehrlich, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
-                "label": "Erst verstehen. Dann losgehen."
-              },
-              {
-                "id": "begleiten",
-                "title": "Gemeinsam anpacken",
-                "text": "Wir begleiten euch strategisch, konzeptionell und operativ. Wir bleiben dabei, bis sich zeigt, ob die gemeinsam entwickelten Arbeitsweisen in eurem Alltag funktionieren.",
-                "label": "Mit euch im Team."
-              },
-              {
-                "id": "loesung",
-                "title": "Lösung entwickeln",
-                "text": "Nicht jeder Trend passt zu jeder Organisation. Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
-                "label": "Euer Bedarf gibt die Richtung vor."
-              },
-              {
-                "id": "tempo",
-                "title": "Tempo abstimmen",
-                "text": "So schnell wie möglich, so achtsam wie nötig: Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten.",
-                "label": "Fortschritt, der alle mitnimmt."
-              },
-              {
-                "id": "mindset",
-                "title": "Veränderung begleiten",
-                "text": "Wir teilen den Weg in machbare Etappen. So fördern wir die Energie und das Selbstvertrauen, mit denen euer Team auch die nächsten Veränderungen angehen kann.",
-                "label": "Energie gewinnen. Weiterkommen."
-              },
-              {
-                "id": "handover",
-                "title": "Verantwortung übergeben",
-                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus.",
-                "label": "Damit es auch ohne uns weitergeht."
-              }
-            ],
-            "caption": "So schnell wie möglich. So achtsam wie nötig."
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        },
-        {
-          "id": "wegehaltung",
-          "type": "comondi-intro",
-          "name": "Passend zu euch. Gemeinsam mit euch.",
-          "visible": true,
-          "anchor": "wegehaltung",
-          "content": {
-            "heading": "Passend zu euch.\nGemeinsam mit euch.",
-            "subheading": "UNSER VERSTÄNDNIS",
-            "text": "Euer Bedarf bestimmt unsere Rolle. Wir unterstützen dort, wo es euch im Projekt wirklich entlastet.",
-            "items": [
-              {
-                "id": "strategie",
-                "title": "Strategisch denken.",
-                "text": "Wir ordnen eure Aufgaben ein, schaffen Orientierung und entwickeln mit euch den nächsten sinnvollen Schritt."
-              },
-              {
-                "id": "konzept",
-                "title": "Konzepte gemeinsam entwickeln.",
-                "text": "Aus Zielen werden Vorgehensweisen, die zu euren Strukturen, Menschen und Rahmenbedingungen passen."
-              },
-              {
-                "id": "doing",
-                "title": "Operativ mitarbeiten.",
-                "text": "Wir unterstützen im aktiven Doing. Damit ihr neue Ansätze im Alltag erproben und weiterentwickeln könnt."
-              }
-            ]
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        },
-        {
-          "id": "naechster-schritt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
-          "visible": true,
-          "anchor": "naechster-schritt",
-          "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
-            "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        }
-      ]
-    },
-    {
-      "id": "ueber-uns",
-      "slug": "ueber-uns",
-      "title": "Menschen, Haltung und Beratung auf Augenhöhe",
-      "locale": "de",
-      "translationKey": "ueber-uns",
-      "seo": {
-        "title": "Menschen, Haltung und Beratung auf Augenhöhe | co:mondi",
-        "description": "Lernt co:mondi kennen: Unternehmensberatung aus München und Stuttgart mit Eva Lohmüller und Sebastian Kunerl. Hands-on, wertschätzend und als ein Team.",
-        "image": "/comondi/og.png",
-        "noindex": false
-      },
-      "sections": [
-        {
-          "id": "teamstart",
-          "type": "comondi-inner",
-          "name": "Unterschiedliche Köpfe. Eine gemeinsame Haltung.",
-          "visible": true,
-          "anchor": "teamstart",
-          "content": {
-            "heading": "Die Menschen\nhinter co:mondi.",
-            "subheading": "ÜBER CO:MONDI",
-            "text": "Wir sind eine agile Unternehmensberatung aus München und Stuttgart. Wir verbinden unterschiedliche Erfahrungen mit einer gemeinsamen Art zu arbeiten: eigenständig, wertschätzend und mit Blick auf das, was euch hilft."
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "menschen",
-          "type": "comondi-team",
-          "name": "Euer Kontakt. Ein guter Anfang.",
-          "visible": true,
-          "anchor": "menschen",
-          "content": {
-            "heading": "Euer Kontakt.\nEin guter Anfang.",
-            "subheading": "DIE MENSCHEN HINTER DER VERBINDUNG",
-            "text": "Sprecht mit uns über eure Situation. Gemeinsam finden wir heraus, wie wir euch unterstützen können.",
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
             "items": [
               {
                 "id": "eva",
                 "title": "Eva Lohmüller",
                 "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
-                "label": "GESCHÄFTSFÜHRUNG",
+                "label": "Geschäftsführung",
                 "email": "eva.lohmueller@comondi.de",
                 "phone": "+49 157 34908451",
                 "image": {
@@ -1020,7 +827,7 @@
                 "id": "sebastian",
                 "title": "Sebastian Kunerl",
                 "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
-                "label": "GESCHÄFTSFÜHRUNG",
+                "label": "Geschäftsführung",
                 "email": "sebastian.kunerl@comondi.de",
                 "phone": "+49 170 9088413",
                 "image": {
@@ -1046,82 +853,100 @@
             "animation": "reveal",
             "align": "left"
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": "zusammenarbeit",
+      "slug": "zusammenarbeit",
+      "title": "Zusammenarbeit von Auftragsklärung bis Handover",
+      "locale": "de",
+      "translationKey": "zusammenarbeit",
+      "seo": {
+        "title": "Zusammenarbeit von Auftragsklärung bis Handover | co:mondi",
+        "description": "Road2Goat: So arbeitet co:mondi mit euch – von der ehrlichen Auftragsklärung über gemeinsames Anpacken bis zur Übergabe. Mit Erwartungen, Tempo und Fragen.",
+        "image": "/comondi/og.png",
+        "noindex": false
+      },
+      "sections": [
         {
-          "id": "kultur",
-          "type": "comondi-culture",
-          "name": "Unsere Energie? Das Miteinander.",
+          "id": "road2goat",
+          "type": "comondi-route",
+          "name": "Road2Goat-Route",
           "visible": true,
-          "anchor": "kultur",
+          "anchor": "road2goat",
           "content": {
-            "heading": "Unsere Energie?\nDas Miteinander.",
-            "subheading": "ATTITUDE OF MIND",
-            "text": "Kolleginnen und Kollegen sind für uns ein Team. Wir schaffen Raum, um mitzugestalten, Neues auszuprobieren und die eigenen Stärken weiterzuentwickeln.",
+            "subheading": "Zusammenarbeit · Road2Goat",
+            "heading": "Wir bleiben dabei.\nBis Veränderung Alltag wird.",
+            "text": "Eine gute Idee ist ein Anfang. Wir gehen den Weg mit euch weiter: von der ehrlichen Auftragsklärung über das gemeinsame Anpacken bis zu Routinen, die euer Team selbst trägt.",
+            "primaryLabel": "Lass uns sprechen",
+            "primaryHref": "/kontakt",
+            "attribution": "Start: eure erste Frage",
+            "caption": "Ziel: Die Lösung lebt im Alltag – auch ohne uns.",
             "items": [
               {
-                "id": "miteinander",
-                "title": "Ein Team. Ein gemeinsames Ziel.",
-                "text": "Wir sehen euch als Teil des Teams. Wir teilen Wissen, übernehmen Verantwortung und arbeiten gemeinsam an dem, was euch weiterbringt."
+                "id": "kennenlernen",
+                "title": "Auftrag klären",
+                "text": "Wir hören zu, klären euren Bedarf und lernen euer Umfeld kennen. Gemeinsam prüfen wir ehrlich, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
+                "label": "Erst verstehen. Dann losgehen.",
+                "details": [
+                  "Bedarf und Erwartungen klären",
+                  "Umfeld kennenlernen",
+                  "Ehrlich prüfen, ob es passt"
+                ]
               },
               {
-                "id": "handson",
-                "title": "Hands-on ist unsere Haltung.",
-                "text": "Coaching, operative Mitarbeit oder beides: Wir passen unsere Rolle an euren Bedarf an und packen dort mit an, wo Unterstützung gebraucht wird."
+                "id": "begleiten",
+                "title": "Gemeinsam anpacken",
+                "text": "Wir begleiten euch strategisch, konzeptionell und operativ. Wir bleiben dabei, bis sich zeigt, ob die gemeinsam entwickelten Arbeitsweisen in eurem Alltag funktionieren.",
+                "label": "Mit euch im Team.",
+                "details": [
+                  "Strategisch",
+                  "Konzeptionell",
+                  "Operativ"
+                ]
               },
               {
-                "id": "power",
-                "title": "Veränderung braucht Energie.",
-                "text": "Wir stärken, was Menschen gut können. Wertschätzung, Reflexion und Raum für Entwicklung gehören für uns zur täglichen Zusammenarbeit."
-              }
-            ]
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        },
-        {
-          "id": "kompetenzteam",
-          "type": "comondi-proof",
-          "name": "Kompetenzen im Team.",
-          "visible": true,
-          "anchor": "kompetenzteam",
-          "content": {
-            "heading": "Kompetenzen im Team.",
-            "items": [
-              {
-                "id": "scrum",
-                "title": "SCRUM",
-                "text": ""
+                "id": "loesung",
+                "title": "Lösung entwickeln",
+                "text": "Nicht jeder Trend passt zu jeder Organisation. Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
+                "label": "Euer Bedarf gibt die Richtung vor.",
+                "details": [
+                  "Erfahrung und Theorie verbinden",
+                  "Passend zu eurer Situation",
+                  "Anpassungsfähig bleiben"
+                ]
               },
               {
-                "id": "safe",
-                "title": "SAFe®",
-                "text": ""
+                "id": "tempo",
+                "title": "Tempo abstimmen",
+                "text": "So schnell wie möglich, so achtsam wie nötig: Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten.",
+                "label": "Fortschritt, der alle mitnimmt.",
+                "details": [
+                  "Strukturen",
+                  "Rahmenbedingungen",
+                  "Menschen"
+                ]
               },
               {
-                "id": "aspice",
-                "title": "A-SPICE",
-                "text": ""
+                "id": "mindset",
+                "title": "Veränderung begleiten",
+                "text": "Wir teilen den Weg in machbare Etappen. So fördern wir die Energie und das Selbstvertrauen, mit denen euer Team auch die nächsten Veränderungen angehen kann.",
+                "label": "Energie gewinnen. Weiterkommen.",
+                "details": [
+                  "Machbare Etappen",
+                  "Energie und Selbstvertrauen stärken"
+                ]
               },
               {
-                "id": "systems",
-                "title": "Systems Engineering",
-                "text": ""
-              },
-              {
-                "id": "coaching",
-                "title": "Systemisches Coaching",
-                "text": ""
+                "id": "handover",
+                "title": "Verantwortung übergeben",
+                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus.",
+                "label": "Damit es auch ohne uns weitergeht.",
+                "details": [
+                  "Sparringspartner",
+                  "Shadow-Modus"
+                ]
               }
             ]
           },
@@ -1140,19 +965,431 @@
           }
         },
         {
+          "id": "erwartungen",
+          "type": "comondi-terms",
+          "name": "Erwartungen & Tempo",
+          "visible": true,
+          "anchor": "erwartungen",
+          "content": {
+            "subheading": "Was ihr erwarten könnt",
+            "heading": "Klare Erwartungen auf beiden Seiten.",
+            "text": "Zusammenarbeit gelingt, wenn beide Seiten wissen, was sie einbringen. So verstehen wir unseren Teil – und das brauchen wir von euch.",
+            "attribution": "Unser Tempo",
+            "quote": "So schnell wie möglich. So achtsam wie nötig.",
+            "caption": "Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten. Den Weg teilen wir in machbare Etappen.",
+            "items": [
+              {
+                "id": "klaerung",
+                "title": "Ehrliche Auftragsklärung",
+                "text": "Wir prüfen gemeinsam, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
+                "meta": "Von uns"
+              },
+              {
+                "id": "rolle",
+                "title": "Eine Rolle nach eurem Bedarf",
+                "text": "Wir denken strategisch, entwickeln Konzepte mit euch und arbeiten operativ mit.",
+                "meta": "Von uns"
+              },
+              {
+                "id": "ansatz",
+                "title": "Ein Ansatz, der zu euch passt",
+                "text": "Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
+                "meta": "Von uns"
+              },
+              {
+                "id": "ansprechbar",
+                "title": "Ansprechbar bis zum Schluss",
+                "text": "Bis die Lösung im Alltag lebt, bleiben wir als Sparringspartner an eurer Seite.",
+                "meta": "Von uns"
+              },
+              {
+                "id": "einblick",
+                "title": "Einblick in euer Umfeld",
+                "text": "Erzählt uns offen von eurer Situation, euren Fragen und Erwartungen. Daraus entsteht ein gemeinsames Verständnis davon, was gebraucht wird.",
+                "meta": "Von euch"
+              },
+              {
+                "id": "menschen",
+                "title": "Menschen, die mitgestalten",
+                "text": "Veränderung braucht die Menschen, die sie mittragen. Deshalb arbeiten wir direkt mit eurem Team.",
+                "meta": "Von euch"
+              },
+              {
+                "id": "offenheit",
+                "title": "Offenheit für Neues",
+                "text": "Neue Ansätze wirken, wenn ihr sie im Alltag erprobt und weiterentwickelt.",
+                "meta": "Von euch"
+              },
+              {
+                "id": "verantwortung",
+                "title": "Verantwortung übernehmen",
+                "text": "Am Ende tragt ihr die Routinen selbst. Bis dahin übergeben wir Schritt für Schritt.",
+                "meta": "Von euch"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
+          "id": "fragen",
+          "type": "comondi-faq",
+          "name": "Fragen zur Zusammenarbeit",
+          "visible": true,
+          "anchor": "fragen",
+          "content": {
+            "subheading": "Fragen zur Zusammenarbeit",
+            "heading": "Gut zu wissen,\nbevor wir starten.",
+            "items": [
+              {
+                "id": "f4",
+                "title": "Wie beginnt eine Zusammenarbeit?",
+                "text": "Mit einem Gespräch über eure Situation. Wir klären Erwartungen, lernen euer Umfeld kennen und prüfen gemeinsam, ob unsere Kompetenzen und Ressourcen zu eurem Vorhaben passen."
+              },
+              {
+                "id": "f2",
+                "title": "Arbeitet ihr auch operativ im Team mit?",
+                "text": "Ja. Wir unterstützen strategisch, konzeptionell und im aktiven Doing. Je nach Bedarf übernehmen wir operative Aufgaben, coachen euer Team oder verbinden beides."
+              },
+              {
+                "id": "f3",
+                "title": "Müssen wir bereits agil arbeiten?",
+                "text": "Nein. Wir verbinden klassische und agile Vorgehensweisen so, dass sie zu eurer Organisation passen. Eine bestimmte Methode ist keine Voraussetzung für die Zusammenarbeit."
+              },
+              {
+                "id": "tempo",
+                "title": "Wie schnell geht es voran?",
+                "text": "So schnell wie möglich, so achtsam wie nötig. Das Tempo richtet sich nach eurem Team, euren Strukturen und Rahmenbedingungen."
+              },
+              {
+                "id": "ende",
+                "title": "Wann endet unsere Begleitung?",
+                "text": "Wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus."
+              },
+              {
+                "id": "f5",
+                "title": "Wo ist co:mondi tätig?",
+                "text": "co:mondi ist eine Unternehmensberatung aus München und Stuttgart. Wie und wo wir mit euch zusammenarbeiten, besprechen wir passend zu eurem Projekt."
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
           "id": "naechster-schritt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "naechster-schritt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
+            "heading": "Bereit für die erste Etappe?",
+            "subheading": "Nächster Schritt",
+            "text": "Am Anfang steht ein Gespräch über eure Situation. Danach entscheiden wir gemeinsam, ob und wie wir den Weg zusammen gehen.",
             "primaryLabel": "Lass uns sprechen",
             "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ueber-uns",
+      "slug": "ueber-uns",
+      "title": "Menschen, Haltung und Beratung auf Augenhöhe",
+      "locale": "de",
+      "translationKey": "ueber-uns",
+      "seo": {
+        "title": "Über uns: Eva Lohmüller und Sebastian Kunerl | co:mondi",
+        "description": "co:mondi ist eine agile Unternehmensberatung aus München und Stuttgart. Lernt Eva Lohmüller und Sebastian Kunerl, unsere Haltung und Kompetenzen kennen.",
+        "image": "/comondi/og.png",
+        "noindex": false
+      },
+      "sections": [
+        {
+          "id": "menschen",
+          "type": "comondi-portraits",
+          "name": "Porträts",
+          "visible": true,
+          "anchor": "menschen",
+          "content": {
+            "subheading": "Über co:mondi",
+            "heading": "Zwei Menschen.\nEine gemeinsame Art zu arbeiten.",
+            "text": "Wir sind eine agile Unternehmensberatung aus München und Stuttgart. Wir verbinden unterschiedliche Erfahrungen mit einer gemeinsamen Art zu arbeiten: eigenständig, wertschätzend und mit Blick auf das, was euch hilft.",
+            "primaryLabel": "Lass uns sprechen",
+            "primaryHref": "/kontakt",
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "none",
+            "align": "left"
+          }
+        },
+        {
+          "id": "haltung",
+          "type": "comondi-values",
+          "name": "Haltung",
+          "visible": true,
+          "anchor": "haltung",
+          "content": {
+            "subheading": "Haltung · Attitude of Mind",
+            "heading": "Unsere Energie? Das Miteinander.",
+            "text": "Kolleginnen und Kollegen sind für uns ein Team. Wir schaffen Raum, um mitzugestalten, Neues auszuprobieren und die eigenen Stärken weiterzuentwickeln.",
+            "items": [
+              {
+                "id": "team",
+                "title": "Ein Team.",
+                "text": "Wir sehen euch als Teil des Teams. Wissen teilen wir, Verantwortung übernehmen wir gemeinsam.",
+                "meta": "Miteinander"
+              },
+              {
+                "id": "hands-on",
+                "title": "Hands-on.",
+                "text": "Wir packen dort mit an, wo Unterstützung gebraucht wird – im Coaching, in der operativen Mitarbeit oder in beidem.",
+                "meta": "Rolle"
+              },
+              {
+                "id": "energie",
+                "title": "Energie.",
+                "text": "Veränderung braucht Energie. Wir stärken, was Menschen gut können, und geben Wertschätzung und Reflexion Raum.",
+                "meta": "Entwicklung"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
+          "id": "kompetenzen",
+          "type": "comondi-constellation",
+          "name": "Kompetenz-Sternbild",
+          "visible": true,
+          "anchor": "kompetenzen",
+          "content": {
+            "subheading": "Kompetenzen im Team",
+            "heading": "Erfahrung, die wir in eure Welt mitbringen.",
+            "text": "Methoden aus der bewährten und der modernen Welt, dazu systemisches Coaching: Diese Kompetenzen verbinden wir im Team.",
+            "items": [
+              {
+                "id": "scrum",
+                "title": "SCRUM",
+                "text": "",
+                "meta": "Agile Transformation"
+              },
+              {
+                "id": "safe",
+                "title": "SAFe®",
+                "text": "",
+                "meta": "Agile Transformation"
+              },
+              {
+                "id": "aspice",
+                "title": "A-SPICE",
+                "text": "",
+                "meta": "Projekte & Prozesse"
+              },
+              {
+                "id": "systems",
+                "title": "Systems Engineering",
+                "text": "",
+                "meta": "Projekte & Prozesse"
+              },
+              {
+                "id": "coaching",
+                "title": "Systemisches Coaching",
+                "text": "",
+                "meta": "Menschen & Kultur"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
+          "id": "standorte",
+          "type": "comondi-places",
+          "name": "Standorte",
+          "visible": true,
+          "anchor": "standorte",
+          "content": {
+            "subheading": "Standorte",
+            "heading": "München & Stuttgart.",
+            "text": "co:mondi ist eine Unternehmensberatung aus München und Stuttgart. Wie und wo wir mit euch zusammenarbeiten, besprechen wir passend zu eurem Projekt.",
+            "caption": "co:mondi",
+            "items": [
+              {
+                "id": "muenchen",
+                "title": "München",
+                "text": "Poschingerstr. 9\n81679 München",
+                "meta": "Anschrift der comondi GmbH"
+              },
+              {
+                "id": "stuttgart",
+                "title": "Stuttgart",
+                "text": "",
+                "meta": "Standort"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
+          "id": "naechster-schritt",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
+          "visible": true,
+          "anchor": "naechster-schritt",
+          "content": {
+            "heading": "Lernt uns persönlich kennen.",
+            "subheading": "Nächster Schritt",
+            "text": "Erzählt uns, was euch beschäftigt. Wir melden uns persönlich bei euch.",
+            "primaryLabel": "Lass uns sprechen",
+            "primaryHref": "/kontakt",
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": []
           },
           "design": {
             "theme": "dark",
@@ -1184,15 +1421,52 @@
       },
       "sections": [
         {
-          "id": "perspektivenstart",
-          "type": "comondi-inner",
-          "name": "Neue Perspektiven. Andere Verbindungen.",
+          "id": "beitraege",
+          "type": "comondi-magazine",
+          "name": "Magazin",
           "visible": true,
-          "anchor": "perspektivenstart",
+          "anchor": "beitraege",
           "content": {
+            "subheading": "Perspektiven",
             "heading": "Neue Perspektiven.\nAndere Verbindungen.",
-            "subheading": "PERSPEKTIVEN",
-            "text": "Manchmal braucht es einen anderen Blick, um weiterzukommen. Hier teilen wir Einblicke in die Themen und Verbindungen, die co:mondi bewegen."
+            "text": "Manchmal braucht es einen anderen Blick, um weiterzukommen. Hier teilen wir Einblicke in die Themen und Verbindungen, die co:mondi bewegen.",
+            "attribution": "Themen",
+            "caption": "Alle",
+            "items": [
+              {
+                "id": "outdoor",
+                "title": "Outdoor Agile Survivor",
+                "text": "Agilität wird greifbar, wenn wir sie gemeinsam erleben. Ein Perspektivwechsel außerhalb des gewohnten Arbeitsumfelds.",
+                "meta": "Zusammenarbeit & Agilität",
+                "tags": [
+                  "Programm"
+                ],
+                "href": "/aktuelles/outdoor-agile-survivor",
+                "label": "Beitrag lesen"
+              },
+              {
+                "id": "abschluss",
+                "title": "Abschluss – und dann?",
+                "text": "Der nächste Schritt muss nicht dem Standard folgen. Gedanken zu Entwicklung, Orientierung und neuen Möglichkeiten.",
+                "meta": "Menschen & Entwicklung",
+                "tags": [
+                  "Zweitägiger Kurs"
+                ],
+                "href": "/aktuelles/abschluss-und-dann",
+                "label": "Beitrag lesen"
+              },
+              {
+                "id": "design",
+                "title": "Designkooperation lis.lito",
+                "text": "Neue Perspektiven entstehen im Austausch. Ein Einblick in unsere Designkooperation mit lis.lito.",
+                "meta": "Verbindungen & Perspektiven",
+                "tags": [
+                  "Kooperation"
+                ],
+                "href": "/aktuelles/designkooperation-lis-lito",
+                "label": "Beitrag lesen"
+              }
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1209,66 +1483,20 @@
           }
         },
         {
-          "id": "beitraege",
-          "type": "comondi-articles",
-          "name": "Was uns gerade bewegt.",
-          "visible": true,
-          "anchor": "beitraege",
-          "content": {
-            "heading": "Was uns gerade bewegt.",
-            "subheading": "EINBLICKE",
-            "items": [
-              {
-                "id": "outdoor",
-                "title": "Outdoor Agile Survivor",
-                "text": "Agilität wird greifbar, wenn wir sie gemeinsam erleben. Ein Perspektivwechsel außerhalb des gewohnten Arbeitsumfelds.",
-                "meta": "ZUSAMMENARBEIT & AGILITÄT",
-                "href": "/aktuelles/outdoor-agile-survivor"
-              },
-              {
-                "id": "abschluss",
-                "title": "Abschluss – und dann?",
-                "text": "Der nächste Schritt muss nicht dem Standard folgen. Gedanken zu Entwicklung, Orientierung und neuen Möglichkeiten.",
-                "meta": "MENSCHEN & ENTWICKLUNG",
-                "href": "/aktuelles/abschluss-und-dann"
-              },
-              {
-                "id": "design",
-                "title": "Designkooperation lis.lito",
-                "text": "Neue Perspektiven entstehen im Austausch. Ein Einblick in unsere Designkooperation mit lis.lito.",
-                "meta": "VERBINDUNGEN & PERSPEKTIVEN",
-                "href": "/aktuelles/designkooperation-lis-lito"
-              }
-            ]
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        },
-        {
           "id": "naechster-schritt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "naechster-schritt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
+            "heading": "Ein Thema hat euch neugierig gemacht?",
+            "subheading": "Nächster Schritt",
+            "text": "Schreibt uns. Wir erzählen euch mehr über unsere Programme, Kurse und Kooperationen.",
             "primaryLabel": "Lass uns sprechen",
             "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": []
           },
           "design": {
             "theme": "dark",
@@ -1300,15 +1528,58 @@
       },
       "sections": [
         {
-          "id": "kontaktstart",
-          "type": "comondi-inner",
-          "name": "Der nächste Schritt? Ein gutes Gespräch.",
+          "id": "anfrage",
+          "type": "comondi-contact",
+          "name": "Kontakt",
           "visible": true,
-          "anchor": "kontaktstart",
+          "anchor": "anfrage",
           "content": {
+            "subheading": "Kontakt",
             "heading": "Lasst uns sprechen.",
-            "subheading": "KONTAKT",
-            "text": "Erzählt uns kurz, was euch beschäftigt. Gemeinsam klären wir, wie wir euch unterstützen können."
+            "text": "Erzählt uns kurz, was euch beschäftigt. Gemeinsam klären wir, wie wir euch unterstützen können.",
+            "attribution": "Lieber direkt? Eure Ansprechpersonen",
+            "form": {
+              "nameLabel": "Dein Name",
+              "subjectLabel": "Thema",
+              "messageLabel": "Deine Nachricht",
+              "messagePlaceholder": "Was möchtet ihr verändern? Erzählt uns kurz von eurem Vorhaben.",
+              "submitLabel": "Nachricht senden",
+              "successHeading": "Danke für deine Nachricht.",
+              "successText": "Deine Anfrage ist bei uns angekommen. Wir melden uns bei dir.",
+              "helpText": "Mit * gekennzeichnete Felder sind erforderlich."
+            },
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1325,100 +1596,38 @@
           }
         },
         {
-          "id": "anfrage",
-          "type": "comondi-contact",
-          "name": "Welche Welt bewegt euch?",
+          "id": "nach-dem-absenden",
+          "type": "comondi-after",
+          "name": "Nach dem Absenden",
           "visible": true,
-          "anchor": "anfrage",
+          "anchor": "nach-dem-absenden",
           "content": {
-            "heading": "Schreibt uns.",
-            "text": "Wir melden uns persönlich bei euch.",
+            "subheading": "Nach dem Absenden",
+            "heading": "Was nach eurer Nachricht passiert.",
             "items": [
               {
-                "id": "eva",
-                "title": "Eva Lohmüller",
-                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
-                "label": "GESCHÄFTSFÜHRUNG",
-                "email": "eva.lohmueller@comondi.de",
-                "phone": "+49 157 34908451",
-                "image": {
-                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
-                  "alt": "Eva Lohmüller",
-                  "position": "50% 50%",
-                  "width": 522,
-                  "height": 527
-                }
+                "id": "angekommen",
+                "title": "Eure Nachricht kommt an",
+                "text": "Eure Anfrage landet in unserem geschützten Posteingang. Im Formular seht ihr sofort, dass sie angekommen ist.",
+                "meta": "Gesendet"
               },
               {
-                "id": "sebastian",
-                "title": "Sebastian Kunerl",
-                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
-                "label": "GESCHÄFTSFÜHRUNG",
-                "email": "sebastian.kunerl@comondi.de",
-                "phone": "+49 170 9088413",
-                "image": {
-                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
-                  "alt": "Sebastian Kunerl",
-                  "position": "50% 50%",
-                  "width": 342,
-                  "height": 348
-                }
-              }
-            ],
-            "form": {
-              "nameLabel": "Dein Name",
-              "subjectLabel": "Thema",
-              "messageLabel": "Deine Nachricht",
-              "messagePlaceholder": "Was möchtet ihr verändern? Erzählt uns kurz von eurem Vorhaben.",
-              "submitLabel": "Nachricht senden",
-              "successHeading": "Danke für deine Nachricht.",
-              "successText": "Deine Anfrage ist bei uns angekommen. Wir melden uns bei dir.",
-              "helpText": "Mit * gekennzeichnete Felder sind erforderlich."
-            }
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "reveal",
-            "align": "left"
-          }
-        },
-        {
-          "id": "kontaktfragen",
-          "type": "comondi-faq",
-          "name": "Vor unserem ersten Gespräch.",
-          "visible": true,
-          "anchor": "kontaktfragen",
-          "content": {
-            "heading": "Vor unserem\nersten Gespräch.",
-            "subheading": "HÄUFIGE FRAGEN",
-            "items": [
-              {
-                "id": "f2",
-                "title": "Arbeitet ihr auch operativ im Team mit?",
-                "text": "Ja. Wir unterstützen strategisch, konzeptionell und im aktiven Doing. Je nach Bedarf übernehmen wir operative Aufgaben, coachen euer Team oder verbinden beides."
+                "id": "antwort",
+                "title": "Wir melden uns persönlich",
+                "text": "Wir lesen eure Nachricht und melden uns persönlich bei euch.",
+                "meta": "Persönlich"
               },
               {
-                "id": "f3",
-                "title": "Müssen wir bereits agil arbeiten?",
-                "text": "Nein. Wir verbinden klassische und agile Vorgehensweisen so, dass sie zu eurer Organisation passen. Eine bestimmte Methode ist keine Voraussetzung für die Zusammenarbeit."
+                "id": "gespraech",
+                "title": "Erstes Gespräch",
+                "text": "Wir sprechen über eure Situation, klären Erwartungen und lernen euer Umfeld kennen.",
+                "meta": "Kennenlernen"
               },
               {
-                "id": "f4",
-                "title": "Wie beginnt eine Zusammenarbeit?",
-                "text": "Mit einem Gespräch über eure Situation. Wir klären Erwartungen, lernen euer Umfeld kennen und prüfen gemeinsam, ob unsere Kompetenzen und Ressourcen zu eurem Vorhaben passen."
-              },
-              {
-                "id": "f5",
-                "title": "Wo ist co:mondi tätig?",
-                "text": "co:mondi ist eine Unternehmensberatung aus München und Stuttgart. Wie und wo wir mit euch zusammenarbeiten, besprechen wir passend zu eurem Projekt."
+                "id": "einschaetzung",
+                "title": "Ehrliche Einschätzung",
+                "text": "Gemeinsam prüfen wir, ob unsere Kompetenzen und Ressourcen zu eurem Vorhaben passen, und besprechen den nächsten sinnvollen Schritt.",
+                "meta": "Nächster Schritt"
               }
             ]
           },
@@ -1446,25 +1655,25 @@
       "translationKey": "service-projektmanagement",
       "seo": {
         "title": "Projekt- und Prozessmanagement | co:mondi",
-        "description": "Projekt- und Prozessmanagement mit co:mondi: Wir bringen Struktur in komplexe Vorhaben. Mit Projekt- und Programmmanagement, klaren Prozessen und einem gemeinsamen Verständnis der Anforderungen.",
+        "description": "Projekt- und Programmmanagement, Prozesse, Organisationsaufbau und Anforderungen: co:mondi bringt Struktur in komplexe Vorhaben, auch im IT-Umfeld.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
           "id": "projektmanagement-start",
-          "type": "comondi-inner",
-          "name": "Struktur schaffen. Vorhaben voranbringen.",
+          "type": "comondi-planet-hero",
+          "name": "Einstieg Projekte & Prozesse",
           "visible": true,
           "anchor": "projektmanagement-start",
           "content": {
+            "subheading": "Bewährte Welt · Projekte & Prozesse",
             "heading": "Struktur schaffen.\nVorhaben voranbringen.",
-            "subheading": "BEWÄHRTE WELT",
-            "text": "Wir bringen Struktur in komplexe Vorhaben. Mit Projekt- und Programmmanagement, klaren Prozessen und einem gemeinsamen Verständnis der Anforderungen.",
+            "text": "Wir bringen Struktur in komplexe Vorhaben: mit Projekt- und Programmmanagement, klaren Prozessen und einem gemeinsamen Verständnis der Anforderungen.",
             "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=Projekt-+und+Prozessmanagement",
-            "secondaryLabel": "Alle Leistungswelten",
-            "secondaryHref": "/leistungen"
+            "secondaryLabel": "So arbeiten wir",
+            "secondaryHref": "/zusammenarbeit"
           },
           "design": {
             "theme": "dark",
@@ -1477,100 +1686,47 @@
             "imageSide": "right",
             "columns": 3,
             "animation": "none",
-            "align": "left"
+            "align": "left",
+            "comondiPlanet": "jupiter"
           }
         },
         {
-          "id": "projektmanagement-inhalt",
-          "type": "comondi-legal",
-          "name": "Wobei wir euch unterstützen.",
+          "id": "projektmanagement-ausgangslage",
+          "type": "comondi-questions",
+          "name": "Ausgangslage & Einstieg",
           "visible": true,
-          "anchor": "projektmanagement-inhalt",
+          "anchor": "projektmanagement-ausgangslage",
           "content": {
-            "heading": "Wobei wir euch unterstützen.",
+            "subheading": "Ausgangslage",
+            "heading": "Kommt euch eine dieser Fragen bekannt vor?",
+            "text": "Mit solchen Fragen unterstützen wir euch in Projekten und Prozessen.",
+            "attribution": "So steigen wir ein",
+            "quote": "Wir sehen uns euer Vorhaben gemeinsam an: Ziel, Beteiligte, Abläufe und Anforderungen. Daraus entsteht ein klares Bild davon, wo Struktur fehlt und womit wir beginnen.",
+            "caption": "Markiert, was auf euch zutrifft. Eure Auswahl übernehmen wir in die Anfrage.",
+            "primaryLabel": "Mit dieser Auswahl anfragen",
+            "primaryHref": "/kontakt?service=Projekt-+und+Prozessmanagement",
             "items": [
               {
-                "id": "projektmanagement-0",
-                "title": "Projekt- und Programmmanagement",
-                "text": "Komplexe Vorhaben brauchen ein gemeinsames Ziel, transparente Aufgaben und Entscheidungen, die das Team weiterbringen. Wir unterstützen euch dabei, Projekte und Programme zu strukturieren und im Alltag zu steuern."
+                "id": "ziel",
+                "title": "Haben alle in eurem Vorhaben dasselbe Ziel im Blick?",
+                "text": ""
               },
               {
-                "id": "projektmanagement-1",
-                "title": "Prozesse und Organisation",
-                "text": "Wir betrachten Abläufe und Zuständigkeiten in ihrem Zusammenhang. Gemeinsam entwickeln wir Strukturen, die Orientierung geben und Zusammenarbeit erleichtern."
+                "id": "transparenz",
+                "title": "Sind Aufgaben, Zuständigkeiten und Entscheidungen für alle transparent?",
+                "text": ""
               },
               {
-                "id": "projektmanagement-2",
-                "title": "Anforderungen verstehen",
-                "text": "Ein klares Verständnis von Anforderungen verbindet fachliche und technische Perspektiven. Wir begleiten die Erhebung, Einordnung und Abstimmung – auch im IT-Umfeld."
+                "id": "ablaeufe",
+                "title": "Passen eure Abläufe noch zu der Art, wie ihr zusammenarbeitet?",
+                "text": ""
+              },
+              {
+                "id": "anforderungen",
+                "title": "Verstehen Fachbereich und Technik unter einer Anforderung dasselbe?",
+                "text": ""
               }
             ]
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "projektmanagement-weg",
-          "type": "comondi-process",
-          "name": "Ein gemeinsamer Weg. Bis es wirklich läuft.",
-          "visible": true,
-          "anchor": "projektmanagement-weg",
-          "content": {
-            "heading": "Von der ersten Frage\nbis zur Umsetzung.",
-            "subheading": "Road2Goat · So arbeiten wir",
-            "text": "In sechs Schritten entwickeln wir mit euch eine Lösung und begleiten ihre Umsetzung. Das Tempo richtet sich nach eurem Team.",
-            "items": [
-              {
-                "id": "kennenlernen",
-                "title": "Auftrag klären",
-                "text": "Wir hören zu, klären euren Bedarf und lernen euer Umfeld kennen. Gemeinsam prüfen wir ehrlich, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
-                "label": "Erst verstehen. Dann losgehen."
-              },
-              {
-                "id": "begleiten",
-                "title": "Gemeinsam anpacken",
-                "text": "Wir begleiten euch strategisch, konzeptionell und operativ. Wir bleiben dabei, bis sich zeigt, ob die gemeinsam entwickelten Arbeitsweisen in eurem Alltag funktionieren.",
-                "label": "Mit euch im Team."
-              },
-              {
-                "id": "loesung",
-                "title": "Lösung entwickeln",
-                "text": "Nicht jeder Trend passt zu jeder Organisation. Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
-                "label": "Euer Bedarf gibt die Richtung vor."
-              },
-              {
-                "id": "tempo",
-                "title": "Tempo abstimmen",
-                "text": "So schnell wie möglich, so achtsam wie nötig: Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten.",
-                "label": "Fortschritt, der alle mitnimmt."
-              },
-              {
-                "id": "mindset",
-                "title": "Veränderung begleiten",
-                "text": "Wir teilen den Weg in machbare Etappen. So fördern wir die Energie und das Selbstvertrauen, mit denen euer Team auch die nächsten Veränderungen angehen kann.",
-                "label": "Energie gewinnen. Weiterkommen."
-              },
-              {
-                "id": "handover",
-                "title": "Verantwortung übergeben",
-                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus.",
-                "label": "Damit es auch ohne uns weitergeht."
-              }
-            ],
-            "caption": "So schnell wie möglich. So achtsam wie nötig.",
-            "secondaryLabel": "Unsere Zusammenarbeit",
-            "secondaryHref": "/zusammenarbeit"
           },
           "design": {
             "theme": "dark",
@@ -1587,19 +1743,120 @@
           }
         },
         {
+          "id": "projektmanagement-leistungen",
+          "type": "comondi-service-work",
+          "name": "Leistungsbild Strukturplan",
+          "visible": true,
+          "anchor": "projektmanagement-leistungen",
+          "content": {
+            "subheading": "Was wir konkret tun",
+            "heading": "Unsere Bausteine für Projekte und Prozesse.",
+            "text": "Wir unterstützen strategisch, konzeptionell und im aktiven Doing – je nachdem, was euer Vorhaben braucht.",
+            "attribution": "Euer Vorhaben",
+            "caption": "Passende Methodenkompetenz im Team: A-SPICE und Systems Engineering.",
+            "items": [
+              {
+                "id": "programm",
+                "title": "Projekt- & Programmmanagement",
+                "text": "Wir unterstützen euch dabei, Projekte und Programme zu strukturieren und im Alltag zu steuern.",
+                "details": [
+                  "Gemeinsames Ziel festhalten",
+                  "Aufgaben transparent machen",
+                  "Entscheidungen vorbereiten, die das Team weiterbringen"
+                ]
+              },
+              {
+                "id": "prozesse",
+                "title": "Prozessmanagement",
+                "text": "Wir betrachten Abläufe und Zuständigkeiten in ihrem Zusammenhang.",
+                "details": [
+                  "Abläufe sichtbar machen",
+                  "Zuständigkeiten klären",
+                  "Strukturen entwickeln, die Zusammenarbeit erleichtern"
+                ]
+              },
+              {
+                "id": "organisation",
+                "title": "Organisationsaufbau",
+                "text": "Gemeinsam entwickeln wir Strukturen, die Orientierung geben und sich in eure bestehende Organisation einfügen.",
+                "details": [
+                  "Rollen und Verantwortung ordnen",
+                  "Strukturen in machbaren Etappen einführen"
+                ]
+              },
+              {
+                "id": "anforderungen",
+                "title": "Anforderungsmanagement",
+                "text": "Ein klares Verständnis von Anforderungen verbindet fachliche und technische Perspektiven – auch im IT-Umfeld.",
+                "details": [
+                  "Anforderungen erheben",
+                  "Anforderungen einordnen",
+                  "Fachbereich und Technik abstimmen"
+                ]
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left",
+            "comondiPlanet": "jupiter"
+          }
+        },
+        {
           "id": "projektmanagement-kontakt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "projektmanagement-kontakt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
+            "heading": "Euer Vorhaben braucht Struktur?",
+            "subheading": "Nächster Schritt",
+            "text": "Erzählt uns, wo euer Projekt gerade steht. Im ersten Gespräch klären wir, ob und wie wir euch unterstützen können.",
+            "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=Projekt-+und+Prozessmanagement",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1625,25 +1882,25 @@
       "translationKey": "service-agile-transformation",
       "seo": {
         "title": "Agile Transformation und Change Management | co:mondi",
-        "description": "Agile Transformation und Change Management mit co:mondi: Neue Arbeitsweisen wirken erst, wenn Menschen sie mittragen. Wir begleiten agile Transformation, Veränderungsprozesse und eine Kultur, in der Zusammenarbeit gelingt.",
+        "description": "Agile Transformation, Change Management und systemisches Coaching: co:mondi begleitet neue Arbeitsweisen, bis Menschen sie im Alltag mittragen.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
           "id": "agile-transformation-start",
-          "type": "comondi-inner",
-          "name": "Neue Arbeitsweisen. Gemeinsam gelebt.",
+          "type": "comondi-planet-hero",
+          "name": "Einstieg Agile Transformation",
           "visible": true,
           "anchor": "agile-transformation-start",
           "content": {
+            "subheading": "Moderne Welt · Agile Transformation",
             "heading": "Neue Arbeitsweisen.\nGemeinsam gelebt.",
-            "subheading": "MODERNE WELT",
             "text": "Neue Arbeitsweisen wirken erst, wenn Menschen sie mittragen. Wir begleiten agile Transformation, Veränderungsprozesse und eine Kultur, in der Zusammenarbeit gelingt.",
             "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=Agile+Transformation+und+Change+Management",
-            "secondaryLabel": "Alle Leistungswelten",
-            "secondaryHref": "/leistungen"
+            "secondaryLabel": "So arbeiten wir",
+            "secondaryHref": "/zusammenarbeit"
           },
           "design": {
             "theme": "dark",
@@ -1656,32 +1913,46 @@
             "imageSide": "right",
             "columns": 3,
             "animation": "none",
-            "align": "left"
+            "align": "left",
+            "comondiPlanet": "neptune"
           }
         },
         {
-          "id": "agile-transformation-inhalt",
-          "type": "comondi-legal",
-          "name": "Wobei wir euch unterstützen.",
+          "id": "agile-transformation-leistungen",
+          "type": "comondi-service-work",
+          "name": "Leistungsbild Kreislauf",
           "visible": true,
-          "anchor": "agile-transformation-inhalt",
+          "anchor": "agile-transformation-leistungen",
           "content": {
-            "heading": "Wobei wir euch unterstützen.",
+            "subheading": "Was wir konkret tun",
+            "heading": "In machbaren Etappen zu neuen Arbeitsweisen.",
+            "text": "Agile Transformation, Change Management und systemisches Coaching greifen ineinander. Jede Etappe stärkt die Energie und das Selbstvertrauen für die nächste.",
+            "attribution": "Neue Arbeitsweise im Alltag",
+            "caption": "Passende Methodenkompetenz im Team: SCRUM, SAFe® und systemisches Coaching.",
             "items": [
               {
-                "id": "agile-transformation-0",
-                "title": "Agile Transformation",
-                "text": "Agilität ist mehr als eine Methode. Wir unterstützen euch dabei, Arbeitsweisen an eure Aufgaben anzupassen und die Menschen einzubeziehen, die den Wandel tragen."
+                "id": "arbeitsweisen",
+                "title": "Arbeitsweisen anpassen",
+                "text": "Agilität ist mehr als eine Methode. Wir passen Arbeitsweisen an eure Aufgaben an, denn nicht jeder Trend passt zu jeder Organisation.",
+                "meta": "Agile Transformation"
               },
               {
-                "id": "agile-transformation-1",
-                "title": "Change Management",
-                "text": "Veränderung betrifft Strukturen und Menschen zugleich. Wir begleiten die Planung und Umsetzung mit einem Blick auf Kommunikation, Beteiligung und eure vorhandenen Ressourcen."
+                "id": "beteiligen",
+                "title": "Menschen beteiligen",
+                "text": "Wir planen Veränderung mit Blick auf Kommunikation, Beteiligung und eure vorhandenen Ressourcen.",
+                "meta": "Change Management"
               },
               {
-                "id": "agile-transformation-2",
-                "title": "Systemisches Coaching und Kultur",
-                "text": "Wir schaffen Raum für neue Perspektiven, eigenständiges Denken und Reflexion. Gemeinsam betrachten wir, was Zusammenarbeit fördert und wie ihr eure Stärken weiterentwickelt."
+                "id": "reflektieren",
+                "title": "Reflektieren",
+                "text": "Wir betrachten mit euch, was Zusammenarbeit fördert und wie ihr eure Stärken weiterentwickelt.",
+                "meta": "Systemisches Coaching"
+              },
+              {
+                "id": "kultur",
+                "title": "Kultur stärken",
+                "text": "Wertschätzung, Reflexion und Raum für Entwicklung werden Teil der täglichen Zusammenarbeit.",
+                "meta": "Kultur & Kommunikation"
               }
             ]
           },
@@ -1695,61 +1966,83 @@
             "width": "wide",
             "imageSide": "right",
             "columns": 3,
-            "animation": "none",
+            "animation": "reveal",
+            "align": "left",
+            "comondiPlanet": "neptune"
+          }
+        },
+        {
+          "id": "agile-transformation-ausgangslage",
+          "type": "comondi-questions",
+          "name": "Ausgangslage & Einstieg",
+          "visible": true,
+          "anchor": "agile-transformation-ausgangslage",
+          "content": {
+            "subheading": "Ausgangslage",
+            "heading": "Fragen, die eine Transformation aufwirft.",
+            "text": "Markiert, was euch gerade beschäftigt.",
+            "attribution": "So steigen wir ein",
+            "quote": "Wir lernen euer Umfeld kennen und klären, welche Arbeitsweisen zu euren Aufgaben passen. Dann gehen wir den Wandel in machbaren Etappen an – mit den Menschen, die ihn mittragen.",
+            "caption": "Eure Auswahl übernehmen wir in die Anfrage.",
+            "primaryLabel": "Mit dieser Auswahl anfragen",
+            "primaryHref": "/kontakt?service=Agile+Transformation+und+Change+Management",
+            "items": [
+              {
+                "id": "methode",
+                "title": "Wie wird Agilität bei euch mehr als eine neue Methode?",
+                "text": ""
+              },
+              {
+                "id": "menschen",
+                "title": "Wie bezieht ihr die Menschen ein, die den Wandel tragen sollen?",
+                "text": ""
+              },
+              {
+                "id": "planung",
+                "title": "Wie plant ihr eine Veränderung, die Strukturen und Menschen zugleich betrifft?",
+                "text": ""
+              },
+              {
+                "id": "reflexion",
+                "title": "Wo braucht euer Team Raum für Reflexion und neue Perspektiven?",
+                "text": ""
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
             "align": "left"
           }
         },
         {
-          "id": "agile-transformation-weg",
-          "type": "comondi-process",
-          "name": "Ein gemeinsamer Weg. Bis es wirklich läuft.",
+          "id": "agile-transformation-perspektive",
+          "type": "comondi-related",
+          "name": "Weiterlesen",
           "visible": true,
-          "anchor": "agile-transformation-weg",
+          "anchor": "agile-transformation-perspektive",
           "content": {
-            "heading": "Von der ersten Frage\nbis zur Umsetzung.",
-            "subheading": "Road2Goat · So arbeiten wir",
-            "text": "In sechs Schritten entwickeln wir mit euch eine Lösung und begleiten ihre Umsetzung. Das Tempo richtet sich nach eurem Team.",
+            "subheading": "Aus unseren Perspektiven",
+            "heading": "Agilität draußen erleben.",
+            "text": "Wie agile Zusammenarbeit greifbar wird, wenn Teams sie gemeinsam erleben.",
             "items": [
               {
-                "id": "kennenlernen",
-                "title": "Auftrag klären",
-                "text": "Wir hören zu, klären euren Bedarf und lernen euer Umfeld kennen. Gemeinsam prüfen wir ehrlich, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
-                "label": "Erst verstehen. Dann losgehen."
-              },
-              {
-                "id": "begleiten",
-                "title": "Gemeinsam anpacken",
-                "text": "Wir begleiten euch strategisch, konzeptionell und operativ. Wir bleiben dabei, bis sich zeigt, ob die gemeinsam entwickelten Arbeitsweisen in eurem Alltag funktionieren.",
-                "label": "Mit euch im Team."
-              },
-              {
-                "id": "loesung",
-                "title": "Lösung entwickeln",
-                "text": "Nicht jeder Trend passt zu jeder Organisation. Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
-                "label": "Euer Bedarf gibt die Richtung vor."
-              },
-              {
-                "id": "tempo",
-                "title": "Tempo abstimmen",
-                "text": "So schnell wie möglich, so achtsam wie nötig: Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten.",
-                "label": "Fortschritt, der alle mitnimmt."
-              },
-              {
-                "id": "mindset",
-                "title": "Veränderung begleiten",
-                "text": "Wir teilen den Weg in machbare Etappen. So fördern wir die Energie und das Selbstvertrauen, mit denen euer Team auch die nächsten Veränderungen angehen kann.",
-                "label": "Energie gewinnen. Weiterkommen."
-              },
-              {
-                "id": "handover",
-                "title": "Verantwortung übergeben",
-                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus.",
-                "label": "Damit es auch ohne uns weitergeht."
+                "id": "outdoor",
+                "title": "Outdoor Agile Survivor",
+                "text": "Agilität wird greifbar, wenn wir sie gemeinsam erleben. Ein Perspektivwechsel außerhalb des gewohnten Arbeitsumfelds.",
+                "meta": "Zusammenarbeit & Agilität",
+                "href": "/aktuelles/outdoor-agile-survivor",
+                "label": "Beitrag lesen"
               }
-            ],
-            "caption": "So schnell wie möglich. So achtsam wie nötig.",
-            "secondaryLabel": "Unsere Zusammenarbeit",
-            "secondaryHref": "/zusammenarbeit"
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1767,18 +2060,50 @@
         },
         {
           "id": "agile-transformation-kontakt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "agile-transformation-kontakt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
+            "heading": "Neue Arbeitsweisen sollen bleiben?",
+            "subheading": "Nächster Schritt",
+            "text": "Erzählt uns, was sich bei euch verändern soll. Gemeinsam klären wir, wie ein erster Schritt aussehen kann.",
+            "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=Agile+Transformation+und+Change+Management",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1804,25 +2129,25 @@
       "translationKey": "service-hybride-zusammenarbeit",
       "seo": {
         "title": "Hybride Zusammenarbeit und Organisationsentwicklung | co:mondi",
-        "description": "Hybride Zusammenarbeit und Organisationsentwicklung mit co:mondi: Wir verbinden etablierte Methoden mit agilen Ansätzen. Ausgangspunkt sind eure Situation, eure Ressourcen und das, was euer Team im Alltag wirklich braucht.",
+        "description": "Hybride Zusammenarbeit mit co:mondi: Wir verbinden etablierte Methoden mit agilen Ansätzen, passend zu euren Strukturen, Ressourcen und Menschen.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
           "id": "hybride-zusammenarbeit-start",
-          "type": "comondi-inner",
-          "name": "Bewährtes behalten. Neues möglich machen.",
+          "type": "comondi-planet-hero",
+          "name": "Einstieg Hybride Zusammenarbeit",
           "visible": true,
           "anchor": "hybride-zusammenarbeit-start",
           "content": {
+            "subheading": "Hybride Welt · Hybride Zusammenarbeit",
             "heading": "Bewährtes behalten.\nNeues möglich machen.",
-            "subheading": "HYBRIDE WELT",
             "text": "Wir verbinden etablierte Methoden mit agilen Ansätzen. Ausgangspunkt sind eure Situation, eure Ressourcen und das, was euer Team im Alltag wirklich braucht.",
             "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=Hybride+Zusammenarbeit+und+Organisationsentwicklung",
-            "secondaryLabel": "Alle Leistungswelten",
-            "secondaryHref": "/leistungen"
+            "secondaryLabel": "So arbeiten wir",
+            "secondaryHref": "/zusammenarbeit"
           },
           "design": {
             "theme": "dark",
@@ -1835,32 +2160,63 @@
             "imageSide": "right",
             "columns": 3,
             "animation": "none",
-            "align": "left"
+            "align": "left",
+            "comondiPlanet": "saturn"
           }
         },
         {
-          "id": "hybride-zusammenarbeit-inhalt",
-          "type": "comondi-legal",
-          "name": "Wobei wir euch unterstützen.",
+          "id": "hybride-zusammenarbeit-leistungen",
+          "type": "comondi-service-work",
+          "name": "Leistungsbild Brücke",
           "visible": true,
-          "anchor": "hybride-zusammenarbeit-inhalt",
+          "anchor": "hybride-zusammenarbeit-leistungen",
           "content": {
-            "heading": "Wobei wir euch unterstützen.",
+            "subheading": "Klassisch und agil verbinden",
+            "heading": "Es muss nicht die eine Methode sein.",
+            "text": "Wir verbinden etablierte Vorgehensweisen mit agilen Ansätzen dort, wo die Kombination zu euren Aufgaben passt.",
+            "caption": "Passende Methodenkompetenz im Team: SCRUM, SAFe®, A-SPICE und Systems Engineering.",
             "items": [
               {
-                "id": "hybride-zusammenarbeit-0",
-                "title": "Klassisch und agil verbinden",
-                "text": "Es muss nicht die eine Methode sein. Wir verbinden etablierte Vorgehensweisen mit agilen Ansätzen dort, wo die Kombination zu euren Aufgaben passt."
+                "id": "bewaehrt",
+                "title": "Aus der bewährten Welt",
+                "text": "Struktur, Planung und klare Zuständigkeiten.",
+                "meta": "Bewährte Welt",
+                "details": [
+                  "Projekt- & Programmmanagement",
+                  "Prozessmanagement",
+                  "Anforderungsmanagement"
+                ]
               },
               {
-                "id": "hybride-zusammenarbeit-1",
-                "title": "Euer Needspace als Ausgangspunkt",
-                "text": "Wir betrachten eure Strukturen, Rahmenbedingungen und Menschen. Daraus entsteht ein Vorgehen, das sich in die bestehende Organisation einfügt und weiterentwickeln lässt."
+                "id": "methoden",
+                "title": "Situationsgerechte Methoden",
+                "text": "Klassisch, agil oder hybrid: Wir wählen Methoden nach eurer Situation."
               },
               {
-                "id": "hybride-zusammenarbeit-2",
-                "title": "Werkzeuge und Arbeitsweisen verknüpfen",
-                "text": "Intelligent Tool-Chains helfen dabei, unterschiedliche Arbeitsschritte zusammenzudenken. Wir betrachten Werkzeuge im Zusammenhang mit euren Abläufen und unterstützen die praktische Umsetzung."
+                "id": "arbeitsweisen",
+                "title": "Verbundene Arbeitsweisen",
+                "text": "Ein Vorgehen, das sich in die bestehende Organisation einfügt und weiterentwickeln lässt."
+              },
+              {
+                "id": "begleitung",
+                "title": "Operative Begleitung",
+                "text": "Wir unterstützen die praktische Umsetzung im Alltag."
+              },
+              {
+                "id": "tool-chains",
+                "title": "Intelligent Tool-Chains",
+                "text": "Werkzeuge, die unterschiedliche Arbeitsschritte zusammendenken – betrachtet im Zusammenhang mit euren Abläufen."
+              },
+              {
+                "id": "agil",
+                "title": "Aus der agilen Welt",
+                "text": "Neue Arbeitsweisen, die Menschen mittragen.",
+                "meta": "Moderne Welt",
+                "details": [
+                  "Agile Arbeitsweisen",
+                  "Change Management",
+                  "Systemisches Coaching"
+                ]
               }
             ]
           },
@@ -1874,61 +2230,48 @@
             "width": "wide",
             "imageSide": "right",
             "columns": 3,
-            "animation": "none",
-            "align": "left"
+            "animation": "reveal",
+            "align": "left",
+            "comondiPlanet": "saturn"
           }
         },
         {
-          "id": "hybride-zusammenarbeit-weg",
-          "type": "comondi-process",
-          "name": "Ein gemeinsamer Weg. Bis es wirklich läuft.",
+          "id": "hybride-zusammenarbeit-ausgangslage",
+          "type": "comondi-questions",
+          "name": "Euer Needspace",
           "visible": true,
-          "anchor": "hybride-zusammenarbeit-weg",
+          "anchor": "hybride-zusammenarbeit-ausgangslage",
           "content": {
-            "heading": "Von der ersten Frage\nbis zur Umsetzung.",
-            "subheading": "Road2Goat · So arbeiten wir",
-            "text": "In sechs Schritten entwickeln wir mit euch eine Lösung und begleiten ihre Umsetzung. Das Tempo richtet sich nach eurem Team.",
+            "subheading": "Euer Needspace",
+            "heading": "Ausgangspunkt ist eure Situation.",
+            "text": "Wir betrachten eure Strukturen, Rahmenbedingungen und Menschen. Daraus entsteht ein Vorgehen, das zu euch passt.",
+            "attribution": "So steigen wir ein",
+            "quote": "Wir lernen euer Umfeld kennen und schauen, was euer Team im Alltag wirklich braucht. Darauf bauen wir ein Vorgehen auf, das Bewährtes behält und Neues möglich macht.",
+            "caption": "Markiert, was auf euch zutrifft. Eure Auswahl übernehmen wir in die Anfrage.",
+            "primaryLabel": "Mit dieser Auswahl anfragen",
+            "primaryHref": "/kontakt?service=Hybride+Zusammenarbeit+und+Organisationsentwicklung",
             "items": [
               {
-                "id": "kennenlernen",
-                "title": "Auftrag klären",
-                "text": "Wir hören zu, klären euren Bedarf und lernen euer Umfeld kennen. Gemeinsam prüfen wir ehrlich, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
-                "label": "Erst verstehen. Dann losgehen."
+                "id": "bewaehrt",
+                "title": "Welche bewährten Abläufe tragen euch heute schon?",
+                "text": ""
               },
               {
-                "id": "begleiten",
-                "title": "Gemeinsam anpacken",
-                "text": "Wir begleiten euch strategisch, konzeptionell und operativ. Wir bleiben dabei, bis sich zeigt, ob die gemeinsam entwickelten Arbeitsweisen in eurem Alltag funktionieren.",
-                "label": "Mit euch im Team."
+                "id": "agil",
+                "title": "Wo möchtet ihr agiler arbeiten als bisher?",
+                "text": ""
               },
               {
-                "id": "loesung",
-                "title": "Lösung entwickeln",
-                "text": "Nicht jeder Trend passt zu jeder Organisation. Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
-                "label": "Euer Bedarf gibt die Richtung vor."
+                "id": "rahmen",
+                "title": "Welche Rahmenbedingungen und Ressourcen stehen fest?",
+                "text": ""
               },
               {
-                "id": "tempo",
-                "title": "Tempo abstimmen",
-                "text": "So schnell wie möglich, so achtsam wie nötig: Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten.",
-                "label": "Fortschritt, der alle mitnimmt."
-              },
-              {
-                "id": "mindset",
-                "title": "Veränderung begleiten",
-                "text": "Wir teilen den Weg in machbare Etappen. So fördern wir die Energie und das Selbstvertrauen, mit denen euer Team auch die nächsten Veränderungen angehen kann.",
-                "label": "Energie gewinnen. Weiterkommen."
-              },
-              {
-                "id": "handover",
-                "title": "Verantwortung übergeben",
-                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus.",
-                "label": "Damit es auch ohne uns weitergeht."
+                "id": "werkzeuge",
+                "title": "Welche Werkzeuge nutzt ihr, und wie greifen sie ineinander?",
+                "text": ""
               }
-            ],
-            "caption": "So schnell wie möglich. So achtsam wie nötig.",
-            "secondaryLabel": "Unsere Zusammenarbeit",
-            "secondaryHref": "/zusammenarbeit"
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1946,18 +2289,50 @@
         },
         {
           "id": "hybride-zusammenarbeit-kontakt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "hybride-zusammenarbeit-kontakt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
+            "heading": "Klassisch, agil oder beides?",
+            "subheading": "Nächster Schritt",
+            "text": "Erzählt uns, wie ihr heute arbeitet. Gemeinsam finden wir die Verbindung, die zu eurem Team passt.",
+            "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=Hybride+Zusammenarbeit+und+Organisationsentwicklung",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
           },
           "design": {
             "theme": "dark",
@@ -1983,25 +2358,25 @@
       "translationKey": "service-ki-im-arbeitsalltag",
       "seo": {
         "title": "KI im Arbeitsalltag und Zukunftsfähigkeit | co:mondi",
-        "description": "KI im Arbeitsalltag und Zukunftsfähigkeit mit co:mondi: Wir machen neue Möglichkeiten greifbar. Gemeinsam bewerten wir, wo künstliche Intelligenz eure Arbeit sinnvoll unterstützt – und wie sie Teil eures Alltags werden kann.",
+        "description": "KI im Arbeitsalltag mit co:mondi: Potenziale bewerten, Anwendungsfälle entwickeln und Teams befähigen – ausgehend von einer konkreten Aufgabe.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
           "id": "ki-im-arbeitsalltag-start",
-          "type": "comondi-inner",
-          "name": "Neue Möglichkeiten. Greifbar für euer Team.",
+          "type": "comondi-planet-hero",
+          "name": "Einstieg KI im Arbeitsalltag",
           "visible": true,
           "anchor": "ki-im-arbeitsalltag-start",
           "content": {
+            "subheading": "Nächste Welt · KI im Arbeitsalltag",
             "heading": "Neue Möglichkeiten.\nGreifbar für euer Team.",
-            "subheading": "NÄCHSTE WELT",
             "text": "Wir machen neue Möglichkeiten greifbar. Gemeinsam bewerten wir, wo künstliche Intelligenz eure Arbeit sinnvoll unterstützt – und wie sie Teil eures Alltags werden kann.",
             "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=KI+im+Arbeitsalltag+und+Zukunftsf%C3%A4higkeit",
-            "secondaryLabel": "Alle Leistungswelten",
-            "secondaryHref": "/leistungen"
+            "secondaryLabel": "So arbeiten wir",
+            "secondaryHref": "/zusammenarbeit"
           },
           "design": {
             "theme": "dark",
@@ -2014,100 +2389,47 @@
             "imageSide": "right",
             "columns": 3,
             "animation": "none",
-            "align": "left"
+            "align": "left",
+            "comondiPlanet": "moon"
           }
         },
         {
-          "id": "ki-im-arbeitsalltag-inhalt",
-          "type": "comondi-legal",
-          "name": "Wobei wir euch unterstützen.",
+          "id": "ki-im-arbeitsalltag-ausgangslage",
+          "type": "comondi-questions",
+          "name": "Ausgangslage & Einstieg",
           "visible": true,
-          "anchor": "ki-im-arbeitsalltag-inhalt",
+          "anchor": "ki-im-arbeitsalltag-ausgangslage",
           "content": {
-            "heading": "Wobei wir euch unterstützen.",
+            "subheading": "Ausgangslage",
+            "heading": "Am Anfang steht eine konkrete Aufgabe.",
+            "text": "Allgemeine Möglichkeiten gibt es viele. Wir helfen euch, die Frage zu finden, bei der KI eure Arbeit sinnvoll unterstützt.",
+            "attribution": "So steigen wir ein",
+            "quote": "Wir wählen mit euch eine konkrete Aufgabe aus und analysieren, welche Möglichkeiten KI dafür eröffnet und wo ein Einsatz sinnvoll ist.",
+            "caption": "Markiert, was euch beschäftigt. Eure Auswahl übernehmen wir in die Anfrage.",
+            "primaryLabel": "Mit dieser Auswahl anfragen",
+            "primaryHref": "/kontakt?service=KI+im+Arbeitsalltag+und+Zukunftsf%C3%A4higkeit",
             "items": [
               {
-                "id": "ki-im-arbeitsalltag-0",
-                "title": "Potenziale gemeinsam bewerten",
-                "text": "Wir analysieren mit euch, welche neuen Möglichkeiten KI eröffnet und wo ein sinnvoller Einsatz im Arbeitsalltag denkbar ist. Am Anfang steht eine konkrete Aufgabe."
+                "id": "aufgabe",
+                "title": "Bei welcher Aufgabe in eurem Alltag könnte KI unterstützen?",
+                "text": ""
               },
               {
-                "id": "ki-im-arbeitsalltag-1",
-                "title": "Anwendungsfälle greifbar machen",
-                "text": "Aus allgemeinen Möglichkeiten werden nachvollziehbare Anwendungsfälle. Wir helfen dabei, Nutzen, Voraussetzungen und Auswirkungen für eure Organisation einzuordnen."
+                "id": "nutzen",
+                "title": "Welchen Nutzen erwartet ihr, und welche Voraussetzungen braucht es?",
+                "text": ""
               },
               {
-                "id": "ki-im-arbeitsalltag-2",
-                "title": "Menschen in die Veränderung einbeziehen",
-                "text": "Neue Technologien verändern Arbeitsweisen. Wir begleiten den Umgang mit Neuem und unterstützen euer Team dabei, die nächsten Schritte bewusst zu gestalten."
+                "id": "team",
+                "title": "Was verändert sich für euer Team, wenn neue Werkzeuge dazukommen?",
+                "text": ""
+              },
+              {
+                "id": "alltag",
+                "title": "Wie wird aus einem ersten Versuch ein Teil eures Alltags?",
+                "text": ""
               }
             ]
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "ki-im-arbeitsalltag-weg",
-          "type": "comondi-process",
-          "name": "Ein gemeinsamer Weg. Bis es wirklich läuft.",
-          "visible": true,
-          "anchor": "ki-im-arbeitsalltag-weg",
-          "content": {
-            "heading": "Von der ersten Frage\nbis zur Umsetzung.",
-            "subheading": "Road2Goat · So arbeiten wir",
-            "text": "In sechs Schritten entwickeln wir mit euch eine Lösung und begleiten ihre Umsetzung. Das Tempo richtet sich nach eurem Team.",
-            "items": [
-              {
-                "id": "kennenlernen",
-                "title": "Auftrag klären",
-                "text": "Wir hören zu, klären euren Bedarf und lernen euer Umfeld kennen. Gemeinsam prüfen wir ehrlich, ob eure Erwartungen und unsere Kompetenzen und Ressourcen zusammenpassen.",
-                "label": "Erst verstehen. Dann losgehen."
-              },
-              {
-                "id": "begleiten",
-                "title": "Gemeinsam anpacken",
-                "text": "Wir begleiten euch strategisch, konzeptionell und operativ. Wir bleiben dabei, bis sich zeigt, ob die gemeinsam entwickelten Arbeitsweisen in eurem Alltag funktionieren.",
-                "label": "Mit euch im Team."
-              },
-              {
-                "id": "loesung",
-                "title": "Lösung entwickeln",
-                "text": "Nicht jeder Trend passt zu jeder Organisation. Aus Erfahrung und Theorie entwickeln wir den Ansatz, der zu eurer Situation passt und anpassungsfähig bleibt.",
-                "label": "Euer Bedarf gibt die Richtung vor."
-              },
-              {
-                "id": "tempo",
-                "title": "Tempo abstimmen",
-                "text": "So schnell wie möglich, so achtsam wie nötig: Wir berücksichtigen eure Strukturen, Rahmenbedingungen und die Menschen, die Veränderung mitgestalten.",
-                "label": "Fortschritt, der alle mitnimmt."
-              },
-              {
-                "id": "mindset",
-                "title": "Veränderung begleiten",
-                "text": "Wir teilen den Weg in machbare Etappen. So fördern wir die Energie und das Selbstvertrauen, mit denen euer Team auch die nächsten Veränderungen angehen kann.",
-                "label": "Energie gewinnen. Weiterkommen."
-              },
-              {
-                "id": "handover",
-                "title": "Verantwortung übergeben",
-                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir als Sparringspartner ansprechbar und unterstützen euch im Shadow-Modus.",
-                "label": "Damit es auch ohne uns weitergeht."
-              }
-            ],
-            "caption": "So schnell wie möglich. So achtsam wie nötig.",
-            "secondaryLabel": "Unsere Zusammenarbeit",
-            "secondaryHref": "/zusammenarbeit"
           },
           "design": {
             "theme": "dark",
@@ -2124,19 +2446,99 @@
           }
         },
         {
+          "id": "ki-im-arbeitsalltag-leistungen",
+          "type": "comondi-service-work",
+          "name": "Leistungsbild Phasen",
+          "visible": true,
+          "anchor": "ki-im-arbeitsalltag-leistungen",
+          "content": {
+            "subheading": "Was wir konkret tun",
+            "heading": "Von der ersten Idee zum Teil eures Alltags.",
+            "text": "Wir gehen den Einsatz von KI in nachvollziehbaren Schritten an und beziehen euer Team von Anfang an ein.",
+            "items": [
+              {
+                "id": "potenziale",
+                "title": "Potenziale bewerten",
+                "text": "Wir analysieren mit euch, welche neuen Möglichkeiten KI eröffnet und wo ein Einsatz im Arbeitsalltag denkbar ist."
+              },
+              {
+                "id": "anwendungsfaelle",
+                "title": "Anwendungsfälle entwickeln",
+                "text": "Aus allgemeinen Möglichkeiten werden nachvollziehbare Anwendungsfälle. Wir ordnen Nutzen, Voraussetzungen und Auswirkungen für eure Organisation ein."
+              },
+              {
+                "id": "befaehigen",
+                "title": "Teams befähigen",
+                "text": "Neue Technologien verändern Arbeitsweisen. Wir begleiten den Umgang mit Neuem und unterstützen euer Team dabei, die nächsten Schritte bewusst zu gestalten."
+              },
+              {
+                "id": "verankern",
+                "title": "Im Alltag verankern",
+                "text": "Unser Auftrag ist erst erfüllt, wenn die Lösung im Alltag lebt. Bis dahin bleiben wir ansprechbar."
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left",
+            "comondiPlanet": "moon"
+          }
+        },
+        {
           "id": "ki-im-arbeitsalltag-kontakt",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "ki-im-arbeitsalltag-kontakt",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
+            "heading": "Welche Aufgabe soll KI erleichtern?",
+            "subheading": "Nächster Schritt",
+            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, wo ein sinnvoller Einstieg liegt.",
+            "primaryLabel": "Über euer Vorhaben sprechen",
             "primaryHref": "/kontakt?service=KI+im+Arbeitsalltag+und+Zukunftsf%C3%A4higkeit",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": [
+              {
+                "id": "eva",
+                "title": "Eva Lohmüller",
+                "text": "Für euren Bedarf und den ersten gemeinsamen Schritt.",
+                "label": "Geschäftsführung",
+                "email": "eva.lohmueller@comondi.de",
+                "phone": "+49 157 34908451",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/eva-lohmueller-j0m3l8iP0pASPN1g8q0tQk7Z1eUokh.webp",
+                  "alt": "Eva Lohmüller",
+                  "position": "50% 50%",
+                  "width": 522,
+                  "height": 527
+                }
+              },
+              {
+                "id": "sebastian",
+                "title": "Sebastian Kunerl",
+                "text": "Für eure Fragen zu Zusammenarbeit und Veränderung.",
+                "label": "Geschäftsführung",
+                "email": "sebastian.kunerl@comondi.de",
+                "phone": "+49 170 9088413",
+                "image": {
+                  "src": "https://lzivon9se7zrnxwu.public.blob.vercel-storage.com/media/sebastian-kunerl-bi8OpxIiQAeth3yVfNfR8tTjqT7je0.webp",
+                  "alt": "Sebastian Kunerl",
+                  "position": "50% 50%",
+                  "width": 342,
+                  "height": 348
+                }
+              }
+            ]
           },
           "design": {
             "theme": "dark",
@@ -2347,48 +2749,26 @@
       "translationKey": "article-outdoor-agile-survivor",
       "seo": {
         "title": "Outdoor Agile Survivor | co:mondi",
-        "description": "Agile Methoden werden verständlicher, wenn wir sie erleben. Das Outdoor Agile Survivor Programm verbindet praktische Gruppenarbeit in der Natur mit dem Transfer in den Unternehmensalltag.",
+        "description": "Outdoor Agile Survivor: agile Methoden draußen gemeinsam erleben und die Erfahrungen in den Arbeitsalltag übertragen. Mit den Modulen Scrum, Team, Eco und Live.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
-          "id": "outdoor-agile-survivor-hero",
-          "type": "comondi-inner",
-          "name": "Agilität erleben. Draußen. Gemeinsam.",
+          "id": "outdoor-agile-survivor-beitrag",
+          "type": "comondi-article",
+          "name": "Beitrag",
           "visible": true,
-          "anchor": "outdoor-agile-survivor-hero",
+          "anchor": "outdoor-agile-survivor-beitrag",
           "content": {
+            "subheading": "Zusammenarbeit & Agilität",
             "heading": "Agilität erleben.\nDraußen. Gemeinsam.",
-            "subheading": "AGILE ZUSAMMENARBEIT",
             "text": "Agile Methoden werden verständlicher, wenn wir sie erleben. Das Outdoor Agile Survivor Programm verbindet praktische Gruppenarbeit in der Natur mit dem Transfer in den Unternehmensalltag.",
-            "secondaryLabel": "Alle Perspektiven",
-            "secondaryHref": "/aktuelles",
+            "attribution": "",
+            "caption": "",
+            "quote": "Auf einen Blick\nFormat: Gruppenarbeit in der Natur mit Transfer in den Arbeitsalltag\nOrt: Eventgelände von simply outdoor\nModule: Scrum, Team, Eco und Live",
             "primaryLabel": "Mehr dazu erfahren",
-            "primaryHref": "/kontakt"
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "outdoor-agile-survivor-text",
-          "type": "comondi-legal",
-          "name": "Einblicke in unsere Arbeit.",
-          "visible": true,
-          "anchor": "outdoor-agile-survivor-text",
-          "content": {
-            "heading": "Einblicke in unsere Arbeit.",
+            "primaryHref": "/kontakt?thema=Outdoor+Agile+Survivor",
             "items": [
               {
                 "id": "outdoor-agile-survivor-0",
@@ -2422,19 +2802,62 @@
           }
         },
         {
+          "id": "outdoor-agile-survivor-weiterlesen",
+          "type": "comondi-related",
+          "name": "Weiterlesen",
+          "visible": true,
+          "anchor": "outdoor-agile-survivor-weiterlesen",
+          "content": {
+            "subheading": "Weiterlesen",
+            "heading": "Weitere Perspektiven.",
+            "items": [
+              {
+                "id": "abschluss",
+                "title": "Abschluss – und dann?",
+                "text": "Der nächste Schritt muss nicht dem Standard folgen. Gedanken zu Entwicklung, Orientierung und neuen Möglichkeiten.",
+                "meta": "Menschen & Entwicklung",
+                "href": "/aktuelles/abschluss-und-dann",
+                "label": "Beitrag lesen"
+              },
+              {
+                "id": "design",
+                "title": "Designkooperation lis.lito",
+                "text": "Neue Perspektiven entstehen im Austausch. Ein Einblick in unsere Designkooperation mit lis.lito.",
+                "meta": "Verbindungen & Perspektiven",
+                "href": "/aktuelles/designkooperation-lis-lito",
+                "label": "Beitrag lesen"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
           "id": "outdoor-agile-survivor-cta",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "outdoor-agile-survivor-cta",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
-            "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "heading": "Agilität im Team erleben?",
+            "subheading": "Nächster Schritt",
+            "text": "Welche Ausgestaltung zu eurem Team passt, klären wir im Gespräch.",
+            "primaryLabel": "Mehr dazu erfahren",
+            "primaryHref": "/kontakt?thema=Outdoor+Agile+Survivor",
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": []
           },
           "design": {
             "theme": "dark",
@@ -2460,48 +2883,26 @@
       "translationKey": "article-abschluss-und-dann",
       "seo": {
         "title": "Abschluss – und dann? | co:mondi",
-        "description": "Nach dem Abschluss stehen viele Möglichkeiten offen. Unser zweitägiger Kurs unterstützt dich dabei, deine Situation zu reflektieren und deinen eigenen nächsten Schritt zu entwickeln.",
+        "description": "Abschluss – und dann? Ein zweitägiger Kurs mit Methoden der systemischen Beratung, um die eigene Situation zu reflektieren und den nächsten Schritt zu finden.",
         "image": "/comondi/og.png",
         "noindex": false
       },
       "sections": [
         {
-          "id": "abschluss-und-dann-hero",
-          "type": "comondi-inner",
-          "name": "Dein Abschluss. Deine nächste Welt.",
+          "id": "abschluss-und-dann-beitrag",
+          "type": "comondi-article",
+          "name": "Beitrag",
           "visible": true,
-          "anchor": "abschluss-und-dann-hero",
+          "anchor": "abschluss-und-dann-beitrag",
           "content": {
+            "subheading": "Menschen & Entwicklung",
             "heading": "Dein Abschluss.\nDeine nächste Welt.",
-            "subheading": "ORIENTIERUNG & ENTWICKLUNG",
             "text": "Nach dem Abschluss stehen viele Möglichkeiten offen. Unser zweitägiger Kurs unterstützt dich dabei, deine Situation zu reflektieren und deinen eigenen nächsten Schritt zu entwickeln.",
-            "secondaryLabel": "Alle Perspektiven",
-            "secondaryHref": "/aktuelles",
-            "primaryLabel": "Mehr dazu erfahren",
-            "primaryHref": "/kontakt"
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "abschluss-und-dann-text",
-          "type": "comondi-legal",
-          "name": "Einblicke in unsere Arbeit.",
-          "visible": true,
-          "anchor": "abschluss-und-dann-text",
-          "content": {
-            "heading": "Einblicke in unsere Arbeit.",
+            "attribution": "",
+            "caption": "",
+            "quote": "Auf einen Blick\nDauer: zwei Tage\nMethoden: aus der systemischen Beratung\nTermine, Orte und Konditionen: auf Anfrage an info@comondi.de",
+            "primaryLabel": "Termine anfragen",
+            "primaryHref": "/kontakt?thema=Abschluss+%E2%80%93+und+dann%3F",
             "items": [
               {
                 "id": "abschluss-und-dann-0",
@@ -2535,19 +2936,62 @@
           }
         },
         {
+          "id": "abschluss-und-dann-weiterlesen",
+          "type": "comondi-related",
+          "name": "Weiterlesen",
+          "visible": true,
+          "anchor": "abschluss-und-dann-weiterlesen",
+          "content": {
+            "subheading": "Weiterlesen",
+            "heading": "Weitere Perspektiven.",
+            "items": [
+              {
+                "id": "outdoor",
+                "title": "Outdoor Agile Survivor",
+                "text": "Agilität wird greifbar, wenn wir sie gemeinsam erleben. Ein Perspektivwechsel außerhalb des gewohnten Arbeitsumfelds.",
+                "meta": "Zusammenarbeit & Agilität",
+                "href": "/aktuelles/outdoor-agile-survivor",
+                "label": "Beitrag lesen"
+              },
+              {
+                "id": "design",
+                "title": "Designkooperation lis.lito",
+                "text": "Neue Perspektiven entstehen im Austausch. Ein Einblick in unsere Designkooperation mit lis.lito.",
+                "meta": "Verbindungen & Perspektiven",
+                "href": "/aktuelles/designkooperation-lis-lito",
+                "label": "Beitrag lesen"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
           "id": "abschluss-und-dann-cta",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "abschluss-und-dann-cta",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
-            "primaryLabel": "Lass uns sprechen",
-            "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "heading": "Deinen nächsten Schritt entwickeln?",
+            "subheading": "Nächster Schritt",
+            "text": "Für aktuelle Termine, Veranstaltungsorte, Gruppengrößen und Konditionen schreib uns. Wir besprechen die Möglichkeiten mit dir.",
+            "primaryLabel": "Termine anfragen",
+            "primaryHref": "/kontakt?thema=Abschluss+%E2%80%93+und+dann%3F",
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": []
           },
           "design": {
             "theme": "dark",
@@ -2579,42 +3023,20 @@
       },
       "sections": [
         {
-          "id": "designkooperation-lis-lito-hero",
-          "type": "comondi-inner",
-          "name": "Wenn Gedanken eine Form bekommen.",
+          "id": "designkooperation-lis-lito-beitrag",
+          "type": "comondi-article",
+          "name": "Beitrag",
           "visible": true,
-          "anchor": "designkooperation-lis-lito-hero",
+          "anchor": "designkooperation-lis-lito-beitrag",
           "content": {
+            "subheading": "Verbindungen & Perspektiven",
             "heading": "Wenn Gedanken\neine Form bekommen.",
-            "subheading": "DESIGN & NEUE VERBINDUNGEN",
             "text": "Mit unserer Kooperationspartnerin Lisa von lis.lito verbinden wir Beratung mit Gestaltung – für uns und für unsere Kunden.",
-            "secondaryLabel": "Alle Perspektiven",
-            "secondaryHref": "/aktuelles",
-            "primaryLabel": "Mehr dazu erfahren",
-            "primaryHref": "/kontakt"
-          },
-          "design": {
-            "theme": "dark",
-            "headingFont": "sans",
-            "fontScale": 1,
-            "radius": 24,
-            "border": 0,
-            "spacing": "normal",
-            "width": "wide",
-            "imageSide": "right",
-            "columns": 3,
-            "animation": "none",
-            "align": "left"
-          }
-        },
-        {
-          "id": "designkooperation-lis-lito-text",
-          "type": "comondi-legal",
-          "name": "Einblicke in unsere Arbeit.",
-          "visible": true,
-          "anchor": "designkooperation-lis-lito-text",
-          "content": {
-            "heading": "Einblicke in unsere Arbeit.",
+            "attribution": "",
+            "caption": "",
+            "quote": "Auf einen Blick\nPartnerin: Lisa von lis.lito\nGestaltung: Webseitendesign, kreativer Input, bildliche Protokollierung von Workshops",
+            "primaryLabel": "Lass uns sprechen",
+            "primaryHref": "/kontakt?thema=Designkooperation+lis.lito",
             "items": [
               {
                 "id": "designkooperation-lis-lito-0",
@@ -2650,19 +3072,62 @@
           }
         },
         {
+          "id": "designkooperation-lis-lito-weiterlesen",
+          "type": "comondi-related",
+          "name": "Weiterlesen",
+          "visible": true,
+          "anchor": "designkooperation-lis-lito-weiterlesen",
+          "content": {
+            "subheading": "Weiterlesen",
+            "heading": "Weitere Perspektiven.",
+            "items": [
+              {
+                "id": "outdoor",
+                "title": "Outdoor Agile Survivor",
+                "text": "Agilität wird greifbar, wenn wir sie gemeinsam erleben. Ein Perspektivwechsel außerhalb des gewohnten Arbeitsumfelds.",
+                "meta": "Zusammenarbeit & Agilität",
+                "href": "/aktuelles/outdoor-agile-survivor",
+                "label": "Beitrag lesen"
+              },
+              {
+                "id": "abschluss",
+                "title": "Abschluss – und dann?",
+                "text": "Der nächste Schritt muss nicht dem Standard folgen. Gedanken zu Entwicklung, Orientierung und neuen Möglichkeiten.",
+                "meta": "Menschen & Entwicklung",
+                "href": "/aktuelles/abschluss-und-dann",
+                "label": "Beitrag lesen"
+              }
+            ]
+          },
+          "design": {
+            "theme": "dark",
+            "headingFont": "sans",
+            "fontScale": 1,
+            "radius": 24,
+            "border": 0,
+            "spacing": "normal",
+            "width": "wide",
+            "imageSide": "right",
+            "columns": 3,
+            "animation": "reveal",
+            "align": "left"
+          }
+        },
+        {
           "id": "designkooperation-lis-lito-cta",
-          "type": "comondi-cta",
-          "name": "Welche Welt bewegt euch gerade?",
+          "type": "comondi-next",
+          "name": "Nächster Schritt",
           "visible": true,
           "anchor": "designkooperation-lis-lito-cta",
           "content": {
-            "heading": "Was wollt ihr\nvoranbringen?",
-            "subheading": "DER NÄCHSTE SCHRITT",
-            "text": "Erzählt uns, wo ihr gerade steht. Wir besprechen mit euch, was als Nächstes sinnvoll ist.",
+            "heading": "Beratung und Gestaltung verbinden?",
+            "subheading": "Nächster Schritt",
+            "text": "Erzählt uns von eurem Vorhaben. Je nach Aufgabe beziehen wir die passende Gestaltungsperspektive ein.",
             "primaryLabel": "Lass uns sprechen",
-            "primaryHref": "/kontakt",
-            "secondaryLabel": "Direkt eine E-Mail schreiben",
-            "secondaryHref": "mailto:info@comondi.de"
+            "primaryHref": "/kontakt?thema=Designkooperation+lis.lito",
+            "secondaryLabel": "E-Mail an info@comondi.de",
+            "secondaryHref": "mailto:info@comondi.de",
+            "items": []
           },
           "design": {
             "theme": "dark",
