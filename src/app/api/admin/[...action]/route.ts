@@ -20,7 +20,7 @@ import { canUseAdminAction, workspaceRoles } from '@/lib/team/permissions';
 import { editorialDraft } from '@/lib/team/editor-draft';
 import { noteActivity } from '@/lib/team/activity';
 import { limitedBody, BodyLimitError } from '@/lib/business/request-body';
-import { adminInquiry } from '@/lib/inquiry-view';
+import { adminInquiry, inquiryOverviewLimit, inquiryPreview } from '@/lib/inquiry-view';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -160,7 +160,11 @@ const route=handler(async(request:Request)=>{
     const {id}=z.object({id:idSchema}).parse(await readJson(request,3000));
     return json({inquiry:adminInquiry(await deliverWithdrawalReceipt(id))});
   }
-  if(action==='inquiries'&&method==='GET')return json({inquiries:await listInquiries()});
+  if(action==='inquiries'&&method==='GET'){
+    const id=new URL(request.url).searchParams.get('id');
+    if(id){const inquiry=await getRecord<Inquiry>('inquiries',idSchema.parse(id));if(!inquiry)throw new AppError('Diese Anfrage ist nicht mehr verfügbar.',404);return json({inquiry:adminInquiry(inquiry)});}
+    return json({inquiries:(await listInquiries()).slice(0,inquiryOverviewLimit).map(inquiryPreview)});
+  }
   if(action==='inquiries'&&method==='PATCH'){
     const values=z.object({id:idSchema,status:z.enum(['new','in-progress','done','spam']).optional(),note:z.string().max(10000).optional()}).parse(await readJson(request,15000));
     const {id,...changes}=values;

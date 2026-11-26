@@ -16,7 +16,7 @@ import { useRemoteDatabase } from './database-policy';
 import {commercePageRoutes} from './commerce/pages';
 import { projectPublicContent, projectPublicSiteConfig } from './public-projection';
 import {hasLocalMediaReference,hasRemoteMediaReference,type MediaReferenceAsset} from './media-references';
-import {adminInquiry} from './inquiry-view';
+import {adminInquiry,inquiryOverviewLimit,inquiryPreview,inquiryPreviewLength} from './inquiry-view';
 import type { AdminMessage } from './admin-i18n/locale';
 
 export class AppError extends Error {
@@ -238,11 +238,11 @@ export async function dailyCleanup():Promise<void>{
 }
 export async function getAdminSnapshot():Promise<{state:CmsState;settings:SiteSettings;media:MediaAsset[];inquiries:Inquiry[]}>{
   await initialize();
-  if(!sql){const [state,settings,media,inquiries]=await Promise.all([getState(),getSettings(),listMedia(),listInquiries()]);return{state,settings,media,inquiries};}
+  if(!sql){const [state,settings,media,inquiries]=await Promise.all([getState(),getSettings(),listMedia(),listInquiries()]);return{state,settings,media,inquiries:inquiries.slice(0,inquiryOverviewLimit).map(inquiryPreview)};}
   const rows=await query(`SELECT s.draft,CASE WHEN s.draft=s.published THEN NULL ELSE s.published END AS published,s.draft=s.published AS same_snapshot,s.revision,s.updated_at,s.published_at,${revisionsQuery} AS revisions,
     (SELECT data FROM ws_records WHERE collection='settings' AND id='site') AS settings,
     COALESCE((SELECT jsonb_agg(data ORDER BY created_at DESC) FROM ws_records WHERE collection='media'),'[]'::jsonb) AS media,
-    COALESCE((SELECT jsonb_agg(q.data ORDER BY q.created_at DESC) FROM (SELECT data,created_at FROM ws_records WHERE collection='inquiries' AND created_at >= now()-COALESCE((SELECT (data->>'retentionDays')::integer FROM ws_records WHERE collection='settings' AND id='site'),365)*interval '1 day' ORDER BY created_at DESC LIMIT 3000) q),'[]'::jsonb) AS inquiries
+    COALESCE((SELECT jsonb_agg(CASE WHEN length(q.data->>'message')>${inquiryPreviewLength} THEN q.data||jsonb_build_object('message',left(q.data->>'message',${inquiryPreviewLength}),'messageLength',length(q.data->>'message')) ELSE q.data END ORDER BY q.created_at DESC) FROM (SELECT data,created_at FROM ws_records WHERE collection='inquiries' AND created_at >= now()-COALESCE((SELECT (data->>'retentionDays')::integer FROM ws_records WHERE collection='settings' AND id='site'),365)*interval '1 day' ORDER BY created_at DESC LIMIT ${inquiryOverviewLimit}) q),'[]'::jsonb) AS inquiries
     FROM ws_site s WHERE id='main'`,[],'admin.bootstrap');
   const row=rows[0];return{state:stateFromRow(row,rowRevisions(row)),settings:(row.settings as SiteSettings)||structuredClone(defaultSettings),media:row.media as MediaAsset[],inquiries:(row.inquiries as Inquiry[]).map(adminInquiry)};
 }
