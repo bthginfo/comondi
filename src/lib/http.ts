@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { AppError } from './db';
 import {CommerceError} from './commerce/model';
 import { digest } from './security';
+import { clientNetwork } from './client-network';
 
 export function json(data:unknown,status=200){return NextResponse.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});}
 export function sameOrigin(request:Request):void{
@@ -21,7 +22,7 @@ export async function readJson(request:Request,max=3*1024*1024):Promise<unknown>
   let bytes:Uint8Array;try{bytes=await limitedBody(request,max);}catch(error){if(error instanceof BodyLimitError)throw new AppError(error.message,413);throw error;}const body=new TextDecoder().decode(bytes);
   try{return JSON.parse(body);}catch{throw new AppError('Die Anfrage konnte nicht gelesen werden.',400);}
 }
-export function ipKey(request:Request,purpose:string):string{const ip=request.headers.get('x-vercel-forwarded-for')?.split(',')[0].trim()||request.headers.get('x-real-ip')||request.headers.get('x-forwarded-for')?.split(',')[0].trim()||'local';return digest(`${purpose}:${ip}:${process.env.AUTH_SECRET||'development'}`);}
+export function ipKey(request:Request,purpose:string):string{const ip=request.headers.get('x-vercel-forwarded-for')?.split(',')[0].trim()||request.headers.get('x-real-ip')||request.headers.get('x-forwarded-for')?.split(',')[0].trim()||'local';return digest(`${purpose}:${clientNetwork(ip)}:${process.env.AUTH_SECRET||'development'}`);}
 export function apiError(error:unknown):NextResponse{
   if(error instanceof CommerceError)return json({error:error.message,code:error.code},error.status);
   if(error instanceof AppError)return json({error:error.message,messages:error.messages},error.status);

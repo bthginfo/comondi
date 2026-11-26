@@ -5,6 +5,7 @@ import { checkPassword, createSession, logout, requireAdmin, changePassword } fr
 import { AppError, databaseConfigured, defaultSettings, deleteRecord, getAdminSnapshot, getQueryCount, getRecord, getSettings, getState, listInquiries, listMedia, publicSettings, publish, rateLimit, restoreRevision, saveDraft, saveSnapshots, setRecord, updateExistingRecord } from '@/lib/db';
 import { handler, ipKey, json, readJson, sameOrigin } from '@/lib/http';
 import { encrypt, hashPassword } from '@/lib/security';
+import { sameSmtpAccount } from '@/lib/client-network';
 import { settingsSchema, websiteSchema } from '@/lib/validation';
 import { launchPublicationIssues } from '@/lib/launch-content.mjs';
 import { deliverWithdrawalReceipt } from '@/lib/commerce/withdrawal-service';
@@ -38,7 +39,8 @@ const route=handler(async(request:Request)=>{
   if(method!=='GET')sameOrigin(request);
   if(action==='login'&&method==='POST'){
     const {password,login}=z.object({password:z.string().min(1).max(1000),login:staffLogin.optional()}).strict().parse(await readJson(request,3000));
-    await rateLimit(ipKey(request,'login'),8,15*60);
+    // Per network and site-wide, so a distributed guessing attempt is slowed down as well.
+    await rateLimit(ipKey(request,'login'),8,15*60);await rateLimit('login:all',60,15*60);
     const verified=await checkPassword(password,login);
     if(!verified)throw new AppError('Die Zugangsdaten sind nicht korrekt.',401);
     await createSession(verified,login);return json({ok:true});
@@ -113,7 +115,8 @@ const route=handler(async(request:Request)=>{
   if(action==='settings'&&method==='GET')return json({settings:publicSettings(await getSettings())});
   if(action==='settings'&&method==='PUT'){
     const {settings}=z.object({settings:settingsSchema}).parse(await readJson(request,25000));const previous=await getSettings();
-    const next:SiteSettings={...settings,storageRegion:'fra1',databaseRegion:'fra1',smtp:{...settings.smtp,password:settings.smtp.password?encrypt(settings.smtp.password):previous.smtp.password,passwordSet:undefined}};
+    if(!settings.smtp.password&&previous.smtp.password&&settings.smtp.user.trim()&&!sameSmtpAccount(settings.smtp,previous.smtp))throw new AppError('Für einen anderen SMTP-Server oder ein anderes Konto geben Sie bitte das SMTP-Passwort erneut ein.');
+    const next:SiteSettings={...settings,storageRegion:'fra1',databaseRegion:'fra1',smtp:{...settings.smtp,password:settings.smtp.password?encrypt(settings.smtp.password):sameSmtpAccount(settings.smtp,previous.smtp)?previous.smtp.password:undefined,passwordSet:undefined}};
     await setRecord('settings','site',next);revalidateTag('ws-settings',{expire:0});if(next.siteUrl!==previous.siteUrl)revalidatePublishedSite();return json({settings:publicSettings(next)});
   }
   if(action==='settings/test'&&method==='POST'){

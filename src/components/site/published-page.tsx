@@ -18,22 +18,28 @@ import { StructuredData } from '@/components/structured-data';
 import { PublicSiteView } from './public-site-view';
 import { DocumentLanguage } from './document-language';
 
-async function publishedRoute(path: string) {
-  const indexRequest = publishedContent();
-  const germanHomeAlias = path === 'de' && !(await indexRequest).pages.some(page => page.slug === 'de');
+async function publishedRoute(path: string, query?: string) {
+  const index = await publishedContent();
+  const germanHomeAlias = path === 'de' && !index.pages.some(page => page.slug === 'de');
   const slug = germanHomeAlias ? '' : path;
-  const [snapshot, index] = await Promise.all([publicPageSnapshot(slug), indexRequest]);
-  return { ...snapshot, index, slug, germanHomeAlias };
+  // Unknown addresses are answered from the shared published index, so probes for random URLs
+  // never query the database or add an entry to the page cache.
+  if (!resolvePage(index, slug, query)) return null;
+  return { ...await publicPageSnapshot(slug), index, slug, germanHomeAlias };
 }
 
 export async function publishedPageMetadata(path: string) {
-  const { content, siteUrl, index, slug } = await publishedRoute(path);
+  const route = await publishedRoute(path);
+  if (!route) return {};
+  const { content, siteUrl, index, slug } = route;
   const page = resolvePage(content, slug);
   return page ? pageMetadata(page, content, siteUrl, index.pages) : {};
 }
 
 export async function PublishedPage({ path, query }: { path: string; query?: string }) {
-  const { content, siteUrl, cartHref, index, slug, germanHomeAlias } = await publishedRoute(path);
+  const route = await publishedRoute(path, query);
+  if (!route) notFound();
+  const { content, siteUrl, cartHref, index, slug, germanHomeAlias } = route;
   const bilingual = hasBilingualHomepage(index.pages);
   if (germanHomeAlias && !bilingual) redirect('/');
   const page = resolvePage(content, slug, query);
