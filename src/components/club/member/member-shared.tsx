@@ -86,8 +86,8 @@ export function MemberLanguageToggle({ onChange }: { onChange?: () => void }) {
     onChange?.();
   }
   return <div role="group" className="club-member-language" aria-label={language === "en" ? "Interface language" : "Oberflächensprache"}>
-    <button type="button" lang="de" aria-label="Deutsch" aria-pressed={language === "de"} onClick={() => choose("de")}>DE</button>
-    <button type="button" lang="en" aria-label="English" aria-pressed={language === "en"} onClick={() => choose("en")}>EN</button>
+    <button type="button" lang="de" aria-label="DE · Deutsch" aria-pressed={language === "de"} onClick={() => choose("de")}>DE</button>
+    <button type="button" lang="en" aria-label="EN · English" aria-pressed={language === "en"} onClick={() => choose("en")}>EN</button>
   </div>;
 }
 

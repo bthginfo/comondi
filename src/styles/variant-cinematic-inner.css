@@ -62,6 +62,8 @@
 .ws-site .ic-fact + .ic-fact { border-left: 1px solid color-mix(in srgb, var(--ic-fg) 35%, transparent); padding-left: 34px; }
 .ws-site .ic-fact > dt { order: 2; margin-top: 22px; max-width: 24ch; }
 .ws-site .ic-fact > dd { order: 1; margin: 0; }
+.ws-site .ic-fact > dd.ic-meta { order: 3; }
+.ws-site .ic-fact > dd.ic-fact-icon { order: 4; }
 .ws-site .ic-fact > .ic-meta { order: 3; margin-top: 8px; max-width: 30ch; }
 .ws-site .ic-fact-label { font-size: calc(.94rem * var(--ic-scale)); line-height: 1.6; white-space: pre-line; }
 .ws-site .ic-fact-value { display: block; font-family: var(--ic-display); text-transform: uppercase; font-size: calc(clamp(3.8rem, 7.9cqi, 8.5rem) * var(--ic-scale)); line-height: .95; letter-spacing: -.025em; hyphens: auto; }

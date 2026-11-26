@@ -8,6 +8,8 @@ Neutrale Inhalte und eigenständige Infrastruktur als Standard erhalten. Wiederv
 
 Bei einer funktionalen Änderung Typprüfung, passende Tests, Build und den CMS-Ablauf in GitHub Actions prüfen. Nach Abhängigkeitsänderungen zusätzlich den Lockfile-Audit ausführen. Kompatibilität von Entwurf/Veröffentlichung, bestehenden Inhaltsverträgen und Migrationen berücksichtigen.
 
+Neue oder geänderte Dateien mit der `.prettierrc` im Projektstamm formatieren, etwa `npx prettier --write <datei>` für genau die bearbeiteten Dateien. Bestehende Dateien nicht flächig umformatieren: `upgrade:site` führt Starter-Änderungen per Drei-Wege-Merge in Kundenprojekte zusammen, und eine reine Formatierungsänderung würde dort jede berührte Zeile zum Konflikt machen. Prettier ist keine Projektabhängigkeit; `npx` lädt es bei Bedarf.
+
 Bei einer neuen Starter-Version `template.manifest.json` und die Paketversion aktualisieren. Funktionskatalog, Einrichtung und Skill nur dort ändern, wo sich der tatsächliche Arbeitsablauf ändert. Für neue Rechner den enthaltenen Skill installieren; vorhandene lokale Skill-Anpassungen vor einem Austausch prüfen.
 
 ## Bestehende Website aktualisieren

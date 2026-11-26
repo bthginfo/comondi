@@ -50,7 +50,7 @@
 }
 .cms-tour-progress {
   color: #5c6b63;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: .015em;
@@ -69,7 +69,7 @@
   cursor: pointer;
 }
 .cms-tour-close:hover { color: #142b27; background: #f0f3eb; }
-.cms-tour-skip { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:40px; padding:7px 8px; margin-right:-8px; color:#5c6b63; background:transparent; border:0; border-radius:7px; font-size:11px; }
+.cms-tour-skip { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:40px; padding:7px 8px; margin-right:-8px; color:#5c6b63; background:transparent; border:0; border-radius:7px; font-size:12px; }
 .cms-tour-skip:hover { color:#142b27; background:#f0f3eb; }
 .cms-tour-progress-track {
   height: 3px;
@@ -89,7 +89,7 @@
 .cms-tour-area {
   margin: 0 0 10px;
   color: #557139;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 650;
   letter-spacing: .015em;
 }
@@ -123,7 +123,7 @@
 .cms-tour-copy > div > .cms-tour-missing {
   margin: 12px 0 0;
   color: #6f5b36;
-  font-size: 11px;
+  font-size: 12px;
 }
 .cms-tour-controls {
   display: flex;
@@ -179,9 +179,12 @@
   .cms-tour-progress-track { margin-top: 5px; margin-bottom: 12px; }
   .cms-tour-copy h2 { margin-bottom: 10px; font-size: 21px; }
   .cms-tour-copy > div > p { font-size: 12px; line-height: 1.55; }
-  .cms-tour-copy > div > .cms-tour-hint { padding: 9px 11px; font-size: 11px; }
+  .cms-tour-copy > div > .cms-tour-hint { padding: 9px 11px; font-size: 12px; }
   .cms-tour-controls { margin-top: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cms-guided-tour *, .cms-guided-tour *::before, .cms-guided-tour *::after { transition: none !important; animation: none !important; }
 }
+
+/* The step heading receives focus for screen readers; it is not an interactive control. */
+.cms-tour-copy h2:focus { outline: none; }

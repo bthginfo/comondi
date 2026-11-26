@@ -70,8 +70,11 @@ export function CreatorEngagement({section,editable=false,onChange}:CreatorSecti
       plane.style.setProperty('--engagement-zoom',String(zoom));
       plane.style.setProperty('--engagement-x',`${startX*(1-eased)+endX*eased}px`);
       plane.style.setProperty('--engagement-y',`${startY*(1-eased)+endY*eased}px`);
-      node.style.setProperty('--engagement-outro',String(clamp((progress-.58)/.32)));
-      node.dataset.outro=progress>=.6?'true':'false';
+      // The action fades in once the device is readable and leaves before the scene releases,
+      // so it never rides over the following section.
+      const outro=Math.min(clamp((progress-.5)/.2),clamp((1-progress)/.08));
+      node.style.setProperty('--engagement-outro',String(editable||preference.matches||!hasPhotos?1:outro));
+      node.dataset.outro=outro>.02||editable||preference.matches||!hasPhotos?'true':'false';
       node.dataset.progress=progress.toFixed(3);
       if(!editable&&near&&!preference.matches&&progress>=.48&&!autoPlayed.current){
         autoPlayed.current=true;
@@ -145,7 +148,7 @@ export function CreatorEngagement({section,editable=false,onChange}:CreatorSecti
                 <EditableText as={heading} value={c.heading} editable={editable} onChange={value=>update('heading',value)} className={styles.heading}/>
                 <EditableText as="p" value={c.text} editable={editable} onChange={value=>update('text',value)} className={styles.text}/>
                 <div className={styles.reaction}>
-                  <button type="button" className={styles.heartButton} aria-pressed={liked} aria-label={liked?'Gefällt mir zurücknehmen':'Gefällt mir'} onClick={toggle} disabled={editable}>
+                  <button type="button" className={styles.heartButton} aria-pressed={liked} onClick={toggle} disabled={editable}>
                     <span key={pulse} className={styles.heartIcon} data-pulse={pulse>0?'true':undefined}><Heart size={30} strokeWidth={1.8} fill={liked?'currentColor':'none'} aria-hidden="true"/></span>
                     <span>{liked?'Gefällt dir':'Gefällt mir'}</span>
                     {pulse>0&&<MousePointer2 key={`pointer-${pulse}`} className={styles.pointer} size={29} aria-hidden="true"/>}

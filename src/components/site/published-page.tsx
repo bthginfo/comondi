@@ -6,6 +6,8 @@ import { consentLegalLinks, consentScriptDefinitionKey, publicConsentScriptPage 
 import { digest } from '@/lib/security';
 import { analyticsPrivacy } from '@/lib/analytics/model';
 import { resolvePage } from '@/lib/blog';
+import { alternateShopPage } from '@/lib/commerce/route-pages';
+import { hideInactiveCommerceLinks } from '@/lib/commerce/pages';
 import { hasBilingualHomepage, languageForSlug, languageSwitchSlugs } from "@/lib/site-languages";
 import { publishedContent, publicPageSnapshot } from '@/lib/content';
 import { clubTimelineItems } from '@/lib/club/fixtures';
@@ -33,7 +35,9 @@ export async function publishedPageMetadata(path: string) {
   if (!route) return {};
   const { content, siteUrl, index, slug } = route;
   const page = resolvePage(content, slug);
-  return page ? pageMetadata(page, content, siteUrl, index.pages) : {};
+  if (!page) return {};
+  const alternate = alternateShopPage(page, index);
+  return pageMetadata(page, content, siteUrl, alternate ? [...index.pages, page, alternate] : index.pages);
 }
 
 export async function PublishedPage({ path, query }: { path: string; query?: string }) {
@@ -76,10 +80,12 @@ export async function PublishedPage({ path, query }: { path: string; query?: str
     legalLinks: consentLegalLinks(content.config, language, index.pages),
     scripts: items.length ? { items, generation: digest(consentScriptDefinitionKey(items)) } : undefined,
   };
-  const site = { ...content.config, consent: banner };
+  const site = { ...hideInactiveCommerceLinks(content.config, index.pages), consent: banner };
+  const alternate = alternateShopPage(page, index);
+  const switchPages = alternate ? [...index.pages, page, alternate] : index.pages;
   return <>
     {language !== 'de' && <DocumentLanguage lang={language} />}
     <StructuredData page={page} site={content.config} base={siteUrl} post={post} bilingual={bilingual} />
-    <PublicSiteView cartHref={cartHref} page={{...page,sections}} site={site} consent={consent} translations={languageSwitchSlugs(page, index.pages)} />
+    <PublicSiteView cartHref={cartHref} page={{...page,sections}} site={site} consent={consent} translations={languageSwitchSlugs(page, switchPages)} />
   </>;
 }

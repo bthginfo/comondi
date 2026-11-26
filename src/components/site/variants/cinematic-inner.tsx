@@ -95,7 +95,7 @@ export function CinematicInnerSection(props: VariantSectionProps) {
 }
 
 function CinematicFacts({ b }: InnerProps) {
-  return <div className="ic-wrap ic-scene ic-facts">{b.intro()}<dl className="ic-fact-strip">{b.items.map((item, index) => <div className="ic-fact" key={item.id} data-item-id={item.id}><dt>{b.itemText(item, index, "text", "span", "ic-fact-label")}</dt><dd>{b.itemText(item, index, "title", "span", "ic-fact-value")}</dd>{item.meta && b.itemText(item, index, "meta", "p", "ic-meta")}{item.icon && <span className="ic-fact-icon">{b.icon(item)}</span>}</div>)}</dl>{b.actions()}</div>;
+  return <div className="ic-wrap ic-scene ic-facts">{b.intro()}<dl className="ic-fact-strip">{b.items.map((item, index) => <div className="ic-fact" key={item.id} data-item-id={item.id}><dt>{b.itemText(item, index, "text", "span", "ic-fact-label")}</dt><dd>{b.itemText(item, index, "title", "span", "ic-fact-value")}</dd>{item.meta && <dd className="ic-meta">{b.itemText(item, index, "meta", "span")}</dd>}{item.icon && <dd className="ic-fact-icon">{b.icon(item)}</dd>}</div>)}</dl>{b.actions()}</div>;
 }
 
 function CinematicManuscript({ b }: InnerProps) {

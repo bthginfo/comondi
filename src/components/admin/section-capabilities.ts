@@ -26,13 +26,13 @@ export function sectionCapabilities(type: SectionType) {
     heroLayout: base === "hero" || type === "showcase-hero",
     newsletter: type === 'newsletter-signup',
     showcase: type === 'newsletter-showcase',
-    items: type === "comondi-contact" || visualItems || !feed && ["hero", "services", "team", "split", "faq", "accordion", "steps", "stats", "cards", "list", "downloads", "logos", "timeline", "comparison", "columns", "opening-hours", "richtext", "motion-story", "scroll-3d"].includes(base),
+    items: type === "comondi-contact" || visualItems || !feed && ["hero", "services", "team", "split", "faq", "accordion", "steps", "stats", "cards", "affiliate-links", "list", "downloads", "logos", "timeline", "comparison", "columns", "opening-hours", "richtext", "motion-story", "scroll-3d"].includes(base),
     image: type === "reservation" || type === "creator-lens" || creatorEditorial || ["hero", "split", "statement", "contact", "richtext", "cta", "quote", "notice", "video", "map", "motion-story", "scroll-3d", "showcase-hero"].includes(base),
     gallery: type === "creator-hero" || creatorEditorial || base === "gallery" || base === "logos",
     quote: creatorEditorial || base === "quote",
-    itemImages: visualItems || !["assistant-showcase","creator-lens"].includes(type) && ["hero", "services", "team", "split", "cards", "logos", "timeline", "columns", "richtext", "motion-story"].includes(base),
-    icons: !["assistant-showcase","creator-lens","creator-scroll-story"].includes(type) && ["services", "split", "cards", "list", "columns"].includes(base),
-    columns: type === "project-index" || feed || !["assistant-showcase","creator-tools","creator-lens","creator-orbit","creator-remix","creator-scroll-story","creator-engagement","creator-journey"].includes(type) && ["team", "cards", "columns", "stats", "comparison", "gallery", "logos"].includes(base),
+    itemImages: visualItems || !["assistant-showcase","creator-lens"].includes(type) && ["hero", "services", "team", "split", "cards", "affiliate-links", "logos", "timeline", "columns", "richtext", "motion-story"].includes(base),
+    icons: !["assistant-showcase","creator-lens","creator-scroll-story"].includes(type) && ["services", "split", "cards", "affiliate-links", "list", "columns"].includes(base),
+    columns: type === "project-index" || feed || !["assistant-showcase","creator-tools","creator-lens","creator-orbit","creator-remix","creator-scroll-story","creator-engagement","creator-journey"].includes(type) && ["team", "cards", "affiliate-links", "columns", "stats", "comparison", "gallery", "logos"].includes(base),
     imageSide: ["reservation", "split", "map", "quote", "showcase-hero", "scroll-story", "project-stage", "project-index", "scroll-3d"].includes(base),
   };
 }

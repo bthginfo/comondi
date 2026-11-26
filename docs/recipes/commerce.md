@@ -12,6 +12,12 @@ Im Sandboxmodus erfolgreiche Zahlung, Abbruch, verspäteten/doppelten Webhook, R
 
 Das native optionale Commerce-Modul enthält jetzt Produktgruppen, Dienstleistungen, feste inklusive Steuerregeln, Ländergebiete und private PDF-Originale. Einrichtung und Grenzen: [Vorlagen und Sortiment](../business-studio.md). Ein eigener Stripe-Zugang, Webhooks und ein freigegebener Testkauf bleiben Voraussetzung.
 
+## Vorschau und Sichtbarkeit
+
+Oben im CMS unter **Shop** lässt sich der veröffentlichte Shop direkt ein- oder ausblenden. Der Schalter übernimmt keine ungespeicherten Inhalte. Unter **Einrichtung** öffnen Sie die Vorschauen für Kasse, Zahlungsstatus, E-Mails und Musterrechnung. Als Beispiel markierte Produkte lassen sich im Warenkorb prüfen. Der Zahlungsendpunkt lehnt sie ab.
+
+Empfehlungen pflegen Sie im Seiteneditor mit dem Abschnitt **Partner- und Affiliate-Links**. Wählen Sie die passende Kennzeichnung pro Link und prüfen Sie die Zieladresse vor der Veröffentlichung.
+
 ## Veröffentlichung
 
 Verbrauchershops können unter **Einstellungen → Shop** die Widerrufsfunktion einschalten. Nach dem Veröffentlichen führt **Vertrag widerrufen** im Fußbereich zum Formular. Der Kunde prüft seine Angaben und bestätigt den Widerruf. Der Vorgang erscheint mit Eingangszeit im Anfragepostfach. Dort ist der Status der Bestätigung sichtbar und der Versand lässt sich bei einem Fehler erneut versuchen. Lassen Sie die Funktion auch bei einer Verkaufspause erreichbar, solange Kunden einen Widerruf einreichen können. Testen Sie die E-Mail mit dem vorgesehenen SMTP-Konto vor Verkaufsstart. [§ 356a BGB](https://www.gesetze-im-internet.de/bgb/__356a.html)

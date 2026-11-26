@@ -4,18 +4,19 @@
 
 1. Neues Projekt mit dem Generator erstellen und `npm ci` ausführen.
 2. `npm run setup` fragt ein verborgenes Erstpasswort ab und erzeugt unabhängige Schlüssel in `.env.local`. Für eine Agenten-Testumgebung kann `node scripts/configure-auth.mjs --generate` einen zufälligen Erstzugang in der ignorierten Datei `.data/admin-access.json` ablegen.
-3. `npm run dev` starten und `/admin` öffnen. Die lokale Datei wird bei Bedarf angelegt. Auch eine vorhandene `DATABASE_URL` wird bei Entwicklung/Tests ohne `WS_USE_REMOTE_DATABASE=1` nicht benutzt.
+3. `npm run dev` starten und `/admin` öffnen. Die lokale Datei wird bei Bedarf angelegt. Ohne `BLOB_READ_WRITE_TOKEN` legt die Mediathek hochgeladene Bilder lokal in `.data/media` ab; im Livebetrieb ist der eigene Blob-Store Pflicht. Auch eine vorhandene `DATABASE_URL` wird bei Entwicklung/Tests ohne `WS_USE_REMOTE_DATABASE=1` nicht benutzt.
 4. Inhalte und Gestaltung entwickeln, CMS-Funktionen prüfen. Lokale Dateien und Erstzugänge nie committen oder veröffentlichen.
 
 ## Eigenständige Produktionsressourcen
 
-Für jeden neuen Website-Auftrag werden standardmäßig **ein eigenes Vercel-Projekt, ein eigenes Neon-Projekt im Free-Tarif mit eigener Datenbank und ein eigener Vercel-Blob-Store** angelegt. Diese Ressourcen werden ausschließlich miteinander für diese Website verbunden. Der lokale Generator kopiert den Code; die tatsächliche Anlage und Verbindung übernimmt der Website-Starter-Workflow mit den verfügbaren Provider-Werkzeugen.
+Jede neue Website erhält **ein eigenes privates GitHub-Repository, ein eigenes Vercel-Projekt, ein eigenes Neon-Projekt im Free-Tarif mit eigener Datenbank und einen eigenen Vercel-Blob-Store**. Der lokale Generator kopiert den Code. Der Website-Starter-Workflow legt die Ressourcen mit den verfügbaren Provider-Werkzeugen an und verbindet sie für diese Website.
 
-1. Das eindeutige Zielkonto beziehungsweise Vercel-Team bestimmen und ein neues Vercel-Projekt für die Website anlegen.
-2. Ein neues Neon-Projekt im Free-Tarif anlegen, die eigene Datenbank und Zugangsdaten einrichten und den tatsächlich bestätigten Tarif prüfen. Eine weitere Datenbank, ein Schema oder eigene Tabellen im Neon-Projekt einer anderen Website ersetzen diese Trennung nicht.
-3. Einen neuen öffentlichen Vercel-Blob-Store anlegen und mit diesem Vercel-Projekt verbinden. Kein Store einer anderen Website und kein bloßes Pfadpräfix als Ersatz. Für private Dokumente bei Bedarf einen zusätzlichen eigenen privaten Store verwenden.
-4. Ressourcen-IDs und Zuordnung nach `project/infrastructure.example.json` in `project/infrastructure.json` dokumentieren. Verbindungs-URLs mit Passwort, Tokens und andere Geheimnisse gehören ausschließlich in die eigene Umgebung.
-5. Die folgenden Umgebungsvariablen im neuen Vercel-Projekt einrichten und die tatsächlichen Verbindungen prüfen. Frankfurt bleibt die bevorzugte Region.
+1. Im vorgesehenen GitHub-Konto ein neues privates Repository für genau diese Website anlegen. Den Projektstand committen, GitHub als `origin` einrichten und den vorgesehenen Produktionsbranch pushen. Den angekommenen Commit auf GitHub prüfen.
+2. Das eindeutige Vercel-Team bestimmen und ein eigenes Vercel-Projekt für die Website anlegen.
+3. Ein neues Neon-Projekt im Free-Tarif anlegen, die eigene Datenbank und Zugangsdaten einrichten und den tatsächlich bestätigten Tarif prüfen. Eine weitere Datenbank, ein Schema oder eigene Tabellen im Neon-Projekt einer anderen Website ersetzen diese Trennung nicht.
+4. Einen neuen öffentlichen Vercel-Blob-Store anlegen und mit diesem Vercel-Projekt verbinden. Kein Store einer anderen Website und kein bloßes Pfadpräfix als Ersatz. Für private Dokumente bei Bedarf einen zusätzlichen eigenen privaten Store verwenden.
+5. GitHub-Repository im Format `owner/name`, Produktionsbranch und Ressourcen-IDs nach `project/infrastructure.example.json` in `project/infrastructure.json` dokumentieren. Verbindungs-URLs mit Passwort, Tokens und andere Geheimnisse gehören ausschließlich in die eigene Umgebung.
+6. Die folgenden Umgebungsvariablen im neuen Vercel-Projekt einrichten und die tatsächlichen Verbindungen prüfen. Frankfurt bleibt die bevorzugte Region.
 
 Eine Fortsetzung verwendet die bereits für genau diese Website angelegten Ressourcen. Nach einem Timeout zuerst deren Existenz prüfen, bevor eine Anlage wiederholt wird. Ist eine neue Neon-Free-Ressource wegen Kontingent oder Verfügbarkeit nicht möglich, den konkreten Engpass melden; keinen kostenpflichtigen Neon-Tarif, kein automatisches Upgrade und keine gemeinsame Kundendatenbank als Ersatz wählen. Einen ausdrücklich lokalen Auftrag ohne Hosting respektieren.
 
@@ -34,7 +35,7 @@ Eine Fortsetzung verwendet die bereits für genau diese Website angelegten Resso
 
 Produktionsvariablen im neuen Hostingprojekt einrichten. Vor dem ersten datenbankgestützten Build einmal explizit `npm run db:setup` gegen die neue, dafür bestimmte Datenbank ausführen. Dafür eine eigene ignorierte Umgebungsdatei oder die neue Vercel-Projektverknüpfung verwenden. Keine Umgebung aus einem bestehenden Kundenprojekt kopieren.
 
-Danach bauen und deployen. Die neutrale Vorlage enthält keine `.vercel/project.json` und keine vorhandene Ressourcen-ID. Preview muss eine separate Datenbank und separate Schlüssel verwenden; dafür ist beispielsweise ein eigener Preview-Branch innerhalb des neuen, ausschließlich dieser Website gehörenden Neon-Projekts geeignet. Ein Build führt keine Migration oder Neuimporte aus.
+Nach Einrichtung der Datenbank das eigene Vercel-Projekt mit dem privaten GitHub-Repository verbinden. Die Zuordnung von Repository, Produktionsbranch und Build-Verzeichnis in Vercel prüfen. Den ersten Git-Build in einer Vorschau abnehmen und den geprüften Stand nach Freigabe aus dem Produktionsbranch veröffentlichen. Die neutrale Vorlage enthält keine `.vercel/project.json` und keine vorhandene Ressourcen-ID. Preview muss eine separate Datenbank und separate Schlüssel verwenden; dafür ist beispielsweise ein eigener Preview-Branch innerhalb des neuen, ausschließlich dieser Website gehörenden Neon-Projekts geeignet. Ein Build führt keine Migration oder Neuimporte aus.
 
 SMTP ist anfangs deaktiviert. Im CMS zunächst den tatsächlichen Mailanbieter einrichten, eine gezielte Testnachricht prüfen und erst dann Benachrichtigungen aktivieren. Der Starter versendet durch die Ersteinrichtung keine E-Mails.
 

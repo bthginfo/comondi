@@ -35,7 +35,7 @@
   color: #2b5846;
 }
 .preview img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.state { color: #315b49; font-size: 11px; font-weight: 720; }
+.state { color: #315b49; font-size: 12px; font-weight: 720; }
 .actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 .actions > button { min-height: 39px; white-space: normal; }
 .actions > button > svg { flex: none; }

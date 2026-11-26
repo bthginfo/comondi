@@ -12,7 +12,7 @@ import styles from "./studio.module.css";
 type LoopMode = "off" | "all" | "phase";
 
 export function useCoachPlayback(play: CoachPlay) {
-  const duration = playDuration(play);
+  const duration = useMemo(() => playDuration(play), [play]);
   const times = useMemo(() => frameTimes(play), [play]);
   const [time, setTime] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -38,6 +38,10 @@ export function useCoachPlayback(play: CoachPlay) {
 
   useEffect(() => {
     if (!playing || !duration) return;
+    const pauseWhenHidden = () => {
+      if (document.hidden) setPlaying(false);
+    };
+    document.addEventListener("visibilitychange", pauseWhenHidden);
     let previous: number | null = null;
     let animation = 0;
     const tick = (now: number) => {
@@ -55,15 +59,21 @@ export function useCoachPlayback(play: CoachPlay) {
       animation = requestAnimationFrame(tick);
     };
     animation = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animation);
+    return () => {
+      cancelAnimationFrame(animation);
+      document.removeEventListener("visibilitychange", pauseWhenHidden);
+    };
   }, [duration, loop, move, playing, rate, times]);
 
   const pause = useCallback(() => setPlaying(false), []);
   const toggle = useCallback(() => {
     if (!duration) return;
-    if (!playing && current.current >= duration) seek(0);
+    if (!playing && current.current >= duration) {
+      const phaseStart = times[loopPhase.current] ?? 0;
+      seek(loop === "phase" && phaseStart < duration ? phaseStart : 0);
+    }
     setPlaying(!playing);
-  }, [duration, playing, seek]);
+  }, [duration, loop, playing, seek, times]);
 
   return { time: Math.min(time, duration), duration, playing, rate, loop, seek, pause, toggle, setRate, setLoop };
 }
@@ -88,8 +98,8 @@ export function CoachTransport({ play, playback, onSeek, onPlay, onPhase, onFocu
 }) {
   const { language } = useAdminLanguage(play.locale);
   const t = (de: string, en: string) => coachText(language, de, en);
-  const selected = index ?? frameAt(play, playback.time);
-  const times = frameTimes(play);
+  const times = useMemo(() => frameTimes(play), [play]);
+  const selected = index ?? Math.max(0, times.findLastIndex(start => start <= playback.time));
   const progress = playback.duration ? playback.time / playback.duration * 100 : 0;
   const loopLabels = {
     off: t("Aus", "Off"),
@@ -116,10 +126,23 @@ export function CoachTransport({ play, playback, onSeek, onPlay, onPhase, onFocu
       <IconButton icon={SkipForward} label={t("Nächste Phase", "Next phase")} onClick={() => phase(selected + 1)} disabled={selected >= times.length - 1} />
     </div>
     <div className={styles.scrubber}>
+      <select className={styles.phasePicker} aria-label={t("Phase auswählen", "Choose phase")} value={selected}
+        onChange={event => phase(Number(event.target.value))} disabled={play.frames.length < 2}>
+        {play.frames.map((frame, number) => <option key={frame.id} value={number}>
+          {t("Phase", "Phase")} {number + 1}{frame.title ? " · " + frame.title : ""}
+        </option>)}
+      </select>
       <div className={styles.seekTrack} style={{ "--progress": progress + "%" } as CSSProperties}>
         <input type="range" min={0} max={playback.duration || 1} step={0.01} value={playback.time}
           aria-label={t("Abspielposition", "Playback position")} aria-valuetext={timeLabel(playback.time)}
-          onChange={(event) => seek(Number(event.target.value))} disabled={playback.duration === 0} />
+          onChange={(event) => seek(Number(event.target.value))}
+          onKeyDown={event => {
+            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+            event.preventDefault();
+            const direction = event.key === "ArrowRight" ? 1 : -1;
+            const step = event.shiftKey ? 5 : 0.5;
+            seek(Math.min(playback.duration, Math.max(0, playback.time + direction * step)));
+          }} disabled={playback.duration === 0} />
         {playback.duration > 0 && <div className={styles.seekTicks} aria-hidden="true">
           {times.slice(1).filter((time) => time < playback.duration).map((time) => <i key={time} style={{ left: time / playback.duration * 100 + "%" }} />)}
         </div>}

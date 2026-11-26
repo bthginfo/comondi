@@ -389,7 +389,7 @@ export function MemberPortal({ initial }: { initial: ClubWorkspace }) {
       case "fixtures":
         return <section className="club-member-card club-member-side-card">
           <div className="club-member-card-heading"><h2>{nextMatch ? t("Nächstes Spiel", "Next match") : t("Letztes Spiel", "Latest match")}</h2>{link("scores", "club-member-text-button", <>{t("Spiele", "Matches")}<ArrowRight size={15} aria-hidden="true" /></>)}</div>
-          {featuredMatch ? <MatchCard match={featuredMatch} team={findTeam(featuredMatch.teamId)} language={language} compact />
+          {featuredMatch ? <MatchCard now={now} match={featuredMatch} team={findTeam(featuredMatch.teamId)} language={language} compact />
             : <MemberEmpty icon={<Trophy size={19} />} title={t("Keine Spiele eingetragen", "No matches listed")} description={t("Spieltermine und Ergebnisse erscheinen hier.", "Fixtures and results will appear here.")} />}
         </section>;
       case "tactics":
@@ -459,7 +459,7 @@ export function MemberPortal({ initial }: { initial: ClubWorkspace }) {
         {view === "calendar" && <MemberCalendar trainings={trainings} matches={matches} teams={teams} teamIds={actor.teamIds}
           now={now} language={language} pendingKey={pendingKey} onRsvp={rsvp} />}
         {view === "teams" && <TeamList teams={teams} people={people} language={language} />}
-        {view === "scores" && <MatchList matches={matches} teams={teams} language={language} />}
+        {view === "scores" && <MatchList now={now} matches={matches} teams={teams} language={language} />}
         {view === "messages" && <ClubMessages owner={false} actorId={actor.id} language={language} />}
         {view === "news" && <section className="club-member-card club-member-news-card"><NewsList items={news} language={language} /></section>}
         {coachStudio && view === "tactics" && <section className="club-member-card club-member-tactics-card"><TacticList plays={plays} assignments={assignments} actor={actor} language={language} /></section>}

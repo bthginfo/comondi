@@ -5,7 +5,7 @@ const terms: Record<string, string> = {
  contact: "kontakt contact telefon phone e-mail anschrift adresse zeiten hours öffnung öffnungszeiten",
  navigation: "menü menu link footer fußbereich header",
  branding: "logo brand icon bildmarke favicon",
- design: "farben color schrift font größe typografie abstände layout",
+ design: "farben color schrift font größe typografie abstände layout liquid glass ios tiefe depth aurora atmosphäre bewegung motion",
  privacy: "cookies einwilligung consent tracking google analytics matomo statistik datenschutz privacy",
  email: "email e-mail smtp versand test mail postfach templates vorlagen",
  security: "passwort password konto login sicherheit rollen team zugang",
@@ -18,10 +18,12 @@ const terms: Record<string, string> = {
  footer: "fußbereich footer link",
  content: "recht impressum datenschutz journal blog",
  legal: "recht impressum datenschutz",
- theme: "farben color schrift font größe typografie abstände layout",
+ theme: "farben color schrift font größe typografie abstände layout liquid glass ios tiefe depth aurora atmosphäre bewegung motion",
  retention: "aufbewahrung löschung frist",
  backup: "sicherung wiederherstellung export import backup",
 };
+/** Search terms of a settings area, also used by the workspace search. */
+export function settingAreaTerms(id:string):string{return terms[id]??'';}
 function normalize(text:string) {
  return text.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("de").replaceAll("ß","ss");
 }

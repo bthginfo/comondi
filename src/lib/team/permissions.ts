@@ -13,7 +13,7 @@ export function canOpenWorkspace(role: AdminRole, view: string) {
 
 export function canUseAdminAction(role: AdminRole, action: string, method: string) {
   if (role === 'owner') return true;
-  if ((action === 'bootstrap' && method === 'GET') || (['logout', 'password'].includes(action) && method === 'POST')) return true;
+  if ((['bootstrap', 'revision'].includes(action) && method === 'GET') || (['logout', 'password'].includes(action) && method === 'POST')) return true;
   return role === 'editor' && ((action === 'content' && method === 'PUT') ||
     (action === 'media' && ['GET', 'POST', 'PATCH'].includes(method)));
 }

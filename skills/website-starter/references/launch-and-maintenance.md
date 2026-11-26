@@ -2,7 +2,7 @@
 
 ## Isolierte Installation
 
-Pro neuem Projekt ein eigenes Vercel-Projekt, eigenes Neon-Projekt im **Free-Tarif** mit eigener Datenbank und eigenen Vercel-Blob-Store verknüpfen. Bestehende Ressourcen derselben Website wiederverwenden. Kein fremder Store, kein gemeinsames Neon-Projekt als Ersatz und kein kostenpflichtiger Ausweichplan ohne Auftrag. IDs, Region, verifizierten Tarif und Live-Adresse in `project/infrastructure.json` festhalten, ohne Geheimnisse.
+Für jede neue Website ein eigenes privates GitHub-Repository anlegen und den vorgesehenen Produktionsbranch dorthin pushen. Mit diesem Repository ein eigenes Vercel-Projekt verbinden. Ein eigenes Neon-Projekt im **Free-Tarif** mit eigener Datenbank und einen eigenen Vercel-Blob-Store für dieselbe Website bereitstellen und verknüpfen. Die Reihenfolge für Einrichtung und Git-Vorschau steht in `docs/setup.md`. Bestehende Ressourcen derselben Website wiederverwenden. Kein fremder Store, kein gemeinsames Neon-Projekt als Ersatz und kein kostenpflichtiger Ausweichplan ohne Auftrag. GitHub-Repository, Produktionsbranch, Ressourcen-IDs, Region, verifizierten Tarif und Live-Adresse in `project/infrastructure.json` festhalten, ohne Geheimnisse.
 
 Lokal `npm ci`, `npm run setup`, `npm run dev`. Lokale Tests nutzen `.data`. Serverzugänge und Runtime-Daten nicht kopieren oder ausgeben. In Produktion eigene Werte für Authentifizierung, Storage, SMTP und benötigte Anbieter. Schema und Erstimport nach `START-HERE.md` einrichten. Einen vorhandenen Entwurf oder Live-Inhalt nie mit dem JSON-Erstimport überschreiben.
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { CalendarDays, ChevronDown, type LucideIcon } from "lucide-react";
-import { useEffect, useId, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import styles from "./workspace-navigation.module.css";
 
 export const workspaceShellClass = styles.workspaceShell;
@@ -37,6 +37,18 @@ export function WorkspaceNavigation<View extends string>({ items, view, onNaviga
 }) {
   const locale = language === "en" ? 1 : 0;
   const overview = ["dashboard", "analytics", "statistics"];
+  const navigation = useRef<HTMLElement>(null);
+  // Keep the current area visible in a long, scrollable navigation.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const list = navigation.current, current = list?.querySelector<HTMLElement>('[aria-current="page"]');
+      if (!list || !current || list.scrollHeight <= list.clientHeight) return;
+      const outer = list.getBoundingClientRect(), inner = current.getBoundingClientRect();
+      if (inner.bottom > outer.bottom) list.scrollTop += inner.bottom - outer.bottom + 12;
+      else if (inner.top < outer.top) list.scrollTop -= outer.top - inner.top + 12;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [view]);
   const ungrouped = items.filter(item => !overview.includes(item.id) && !groups.some(group => group.ids.includes(item.id)));
   function button(item: NavigationItem<View>) {
     return <button key={item.id} type="button" className={styles.link} data-admin-view={item.id}
@@ -45,7 +57,7 @@ export function WorkspaceNavigation<View extends string>({ items, view, onNaviga
       {item.id === "inquiries" && newInquiries > 0 && <span className="cms-nav-badge">{newInquiries}</span>}
     </button>;
   }
-  return <nav className={styles.navigation} data-dark-sidebar={darkSidebar || undefined} aria-label={locale ? "Workspace" : "Arbeitsbereich"}>
+  return <nav ref={navigation} className={styles.navigation} data-dark-sidebar={darkSidebar || undefined} aria-label={locale ? "Workspace" : "Arbeitsbereich"}>
     {overview.map(id => items.find(item => id === item.id)).map(item => item && button(item))}
     {groups.map(group => {
       const entries = group.ids.flatMap(id => items.filter(item => item.id === id));

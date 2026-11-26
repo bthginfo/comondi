@@ -106,6 +106,8 @@ function stateFromRow(row:Row,revisions:Revision[]):CmsState{return{draft:row.dr
 const revisionsQuery=`(SELECT COALESCE(jsonb_agg(r ORDER BY r.created_at DESC),'[]'::jsonb) FROM (SELECT id,label,created_at FROM ws_revisions ORDER BY created_at DESC LIMIT 30) r)`;
 function rowRevisions(row:Row):Revision[]{return ((row.revisions||[]) as Row[]).map(r=>({id:String(r.id),label:String(r.label),createdAt:iso(r.created_at)}));}
 export async function getState():Promise<CmsState>{await initialize();if(!sql)return structuredClone((await readLocal()).state);const rows=await query(`SELECT draft,CASE WHEN draft=published THEN NULL ELSE published END AS published,draft=published AS same_snapshot,revision,updated_at,published_at,${revisionsQuery} AS revisions FROM ws_site WHERE id='main'`,[],'admin.state');return stateFromRow(rows[0],rowRevisions(rows[0]));}
+/** Revision stamp for detecting changes from another tab or person without loading the whole draft. */
+export async function getDraftStamp():Promise<{revision:number;updatedAt:string|null;publishedAt:string|null}>{await initialize();if(!sql){const {revision,updatedAt,publishedAt}=(await readLocal()).state;return {revision,updatedAt:updatedAt??null,publishedAt:publishedAt??null};}const rows=await query(`SELECT revision,updated_at,published_at FROM ws_site WHERE id='main'`,[],'admin.stamp');const row=rows[0]??{};const time=(value:unknown)=>value?new Date(value as string).toISOString():null;return {revision:Number(row.revision),updatedAt:time(row.updated_at),publishedAt:time(row.published_at)};}
 export async function getPublishedConfig():Promise<SiteConfig>{
   await initialize();
   if(!sql)return structuredClone((await readLocal()).state.published.config);
@@ -127,9 +129,9 @@ export async function getPublicSnapshot(slug?:string):Promise<{content:WebsiteCo
           SELECT 1 FROM jsonb_array_elements(COALESCE(s.published->'posts','[]'::jsonb)) p(value)
           WHERE p.value->>'status'='published' AND $1=(s.published#>>'{config,blog,slug}')||'/'||(p.value->>'slug')
         ) THEN 'blog-post'
-        WHEN $1='shop/suche' THEN 'shop-search'
-        WHEN $1 ~ '^shop/produkt/[^/]+$' THEN 'shop-product'
-        WHEN $1 ~ '^shop/kategorie/[^/]+$' THEN 'shop-category'
+        WHEN $1 IN ('shop/suche','en/shop/search') THEN 'shop-search'
+        WHEN $1 ~ '^(shop/produkt|en/shop/product)/[^/]+$' THEN 'shop-product'
+        WHEN $1 ~ '^(shop/kategorie|en/shop/category)/[^/]+$' THEN 'shop-category'
       END),'{}'::jsonb),
     'posts',CASE WHEN s.published#>>'{config,blog,enabled}'='true' THEN COALESCE((SELECT jsonb_agg((p.value-'sections')||jsonb_build_object('sections',CASE WHEN $1::text=COALESCE(s.published#>>'{config,blog,slug}','blog')||'/'||(p.value->>'slug') THEN COALESCE(p.value->'sections','[]'::jsonb) ELSE '[]'::jsonb END) ORDER BY p.position) FROM jsonb_array_elements(COALESCE(s.published->'posts','[]'::jsonb)) WITH ORDINALITY AS p(value,position) WHERE p.value->>'status'='published'),'[]'::jsonb) ELSE '[]'::jsonb END) AS content,
     COALESCE((SELECT data->>'siteUrl' FROM ws_records WHERE collection='settings' AND id='site'),$2) AS site_url,

@@ -1,11 +1,12 @@
 {
   "id": "website-starter",
-  "version": "1.36.0",
+  "version": "1.46.0",
   "repository": "https://github.com/bthginfo/website-starter",
   "stack": "nextjs-react-typescript",
   "runtime": "node-24",
   "infrastructure": {
     "isolation": "per-website",
+    "githubRepository": "dedicated-private",
     "vercelProject": "dedicated",
     "neonProject": "dedicated",
     "neonPlan": "free",
@@ -74,7 +75,14 @@
     "workspace-brand-icons",
     "localized-consent-scripts",
     "restaurant-menu",
-    "reservations"
+    "reservations",
+    "liquid-glass-aesthetic",
+    "photo-atlas-aesthetic",
+    "visual-review",
+    "robust-draft-saving",
+    "overview-task-list",
+    "media-usage-and-local-store",
+    "workspace-search-pages-settings"
   ],
   "recipes": [
     "podcast",
@@ -112,7 +120,8 @@
     "club-management": "independent opt-in for private club management and member app; email/password invitations, scoped roles, record details, attendance, fixtures, news, club inbox, appearance editor, calendar export and optional coaching assignments",
     "scroll-3d": "explicit default-off section for a continuous scroll-controlled GLB with optional ambient motion, editable chapters, timing and composition, desktop and mobile playback, and an accessible poster fallback",
     "restaurant-menu": "Central ordered categories and items, optional price sizes in EUR, featured and visibility controls, and three configurable page-section layouts.",
-    "reservations": "Table capacity, per-weekday bookable windows and seating duration, closures, pending holds, manual acceptance, decline and cancellation, optional SMTP replies, and three guest widget layouts."
+    "reservations": "Table capacity, per-weekday bookable windows and seating duration, closures, pending holds, manual acceptance, decline and cancellation, optional SMTP replies, and three guest widget layouts.",
+    "consultations": "Availability, one-to-one appointments, confirmations and guest self-service."
   },
   "activation": {
     "core": [
@@ -249,6 +258,36 @@
         "flag": "reservations",
         "guide": "docs/hospitality.md",
         "use": "The brief asks to receive table reservations. Set up and verify actual capacity, windows, closures and the reply workflow before launch."
+      },
+      "consultations": {
+        "policy": "brief",
+        "flag": "consultations",
+        "guide": "docs/recipes/consultations.md",
+        "use": "Enable when the brief asks visitors to book one-to-one appointments from published availability."
+      }
+    },
+    "frontendExamples": ["material-studio", "night-programme", "field-notes"],
+    "aesthetics": {
+      "photo-atlas": {
+        "policy": "explicit",
+        "flag": "--aesthetic photo-atlas",
+        "config": "theme.aesthetic",
+        "profiles": ["services", "portfolio", "consulting", "editorial"],
+        "guide": "skills/website-starter/references/photo-atlas.md",
+        "use": "A photographic split spread on solid surfaces, with a lightly translucent navigation bar and accessible solid fallbacks."
+      },
+      "liquid-glass": {
+        "policy": "explicit",
+        "flag": "--aesthetic liquid-glass",
+        "config": "theme.aesthetic",
+        "profiles": [
+          "services",
+          "portfolio",
+          "consulting",
+          "editorial"
+        ],
+        "guide": "docs/recipes/liquid-glass.md",
+        "use": "The brief explicitly chooses an iOS-like Liquid Glass direction with visual depth. Existing profiles and default designs stay unchanged. No fixed brand assets, planets, credentials or external services."
       }
     }
   }

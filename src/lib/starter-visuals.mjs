@@ -58,7 +58,7 @@ export function createStarterVisualContent(type) {
     ],
   };
   if (type === 'scroll-story') return {
-    heading: 'So kann die Zusammenarbeit aussehen.',
+    heading: 'So arbeiten wir zusammen.',
     text: 'Ein Beispielablauf vom ersten Gespräch bis zur Umsetzung.',
     items: [
       { id: 'gespraech', title: 'Das Vorhaben verstehen', text: 'Im ersten Gespräch geht es um die Ausgangslage, die Ziele und die Fragen, die zuerst geklärt werden müssen.', image: { ...starterArtwork.planning } },
@@ -77,7 +77,7 @@ export function createStarterVisualContent(type) {
   };
   return {
     heading: type === 'project-index' ? 'Ausgewählte Arbeiten.' : 'Arbeiten im Detail.',
-    text: type === 'project-index' ? 'Beispielprojekte aus Architektur, Handwerk und Gestaltung.' : 'Drei Beispielmotive zeigen, wie sich ein Projekt vorstellen lässt.',
+    text: type === 'project-index' ? 'Raumstudien, Materialproben und Publikationen aus Architektur, Handwerk und Gestaltung.' : 'Vom Zusammenspiel von Stein und Holz bis zur fertigen Bildstrecke.',
     items: [
       { id: 'raumstudie', title: 'Raumstudie', meta: 'Architektur', text: 'Licht, klare Linien und ein ruhiger Übergang zwischen Stein und Holz.', image: { ...starterArtwork.architecture } },
       { id: 'materialproben', title: 'Materialproben', meta: 'Handwerk', text: 'Holz, Papier und erste Muster machen eine Idee greifbar.', image: { ...starterArtwork.workshop } },

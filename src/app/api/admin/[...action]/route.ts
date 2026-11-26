@@ -2,7 +2,7 @@ import { z } from 'zod';
 import {revalidateTag} from 'next/cache';
 import {revalidatePublishedSite} from '@/lib/publishing-cache';
 import { checkPassword, createSession, logout, requireAdmin, changePassword } from '@/lib/auth';
-import { AppError, databaseConfigured, defaultSettings, deleteRecord, getAdminSnapshot, getQueryCount, getRecord, getSettings, getState, listInquiries, listMedia, publicSettings, publish, rateLimit, restoreRevision, saveDraft, saveSnapshots, setRecord, updateExistingRecord } from '@/lib/db';
+import { AppError, databaseConfigured, defaultSettings, deleteRecord, getAdminSnapshot, getDraftStamp, getQueryCount, getRecord, getSettings, getState, listInquiries, listMedia, publicSettings, publish, rateLimit, restoreRevision, saveDraft, saveSnapshots, setRecord, updateExistingRecord } from '@/lib/db';
 import { handler, ipKey, json, readJson, sameOrigin } from '@/lib/http';
 import { encrypt, hashPassword } from '@/lib/security';
 import { sameSmtpAccount } from '@/lib/client-network';
@@ -59,12 +59,13 @@ const route=handler(async(request:Request)=>{
         state.draft=state.published={version:1,config,pages:[]};
       }
       state.revisions=[];
-      return json({state,settings:defaultSettings,media,inquiries:[],account:{role,name:session.name},system:{database:databaseConfigured(),blob:Boolean(process.env.BLOB_READ_WRITE_TOKEN),smtp:false,region:'fra1',mode:process.env.VERCEL?'production':'development',initialized:true}});
+      return json({state,settings:defaultSettings,media,inquiries:[],account:{role,name:session.name,login:session.accountId},system:{database:databaseConfigured(),blob:Boolean(process.env.BLOB_READ_WRITE_TOKEN),smtp:false,region:'fra1',mode:process.env.VERCEL?'production':'development',initialized:true}});
     }
     const {state,settings,media,inquiries}=await getAdminSnapshot();
     const launchIssues=launchPublicationIssues(state.published,settings.siteUrl);
     return json({state,settings:publicSettings(settings),media,inquiries,system:{database:databaseConfigured(),blob:Boolean(process.env.BLOB_READ_WRITE_TOKEN),smtp:settings.smtp.enabled,region:'fra1',mode:process.env.VERCEL?'production':'development',initialized:true,launchIssues}});
   }
+  if(action==='revision'&&method==='GET')return json(await getDraftStamp());
   if(action==='content'&&method==='PUT'){
     const {content,revision}=z.object({content:websiteSchema,revision:revisionSchema}).parse(await readJson(request));
     let draft=content;
@@ -76,6 +77,21 @@ const route=handler(async(request:Request)=>{
     const state=await saveDraft(draft,revision);
     await noteActivity(session,'draft.saved',String(state.revision));
     if(role==='editor')state.revisions=[];
+    return json({state});
+  }
+  if(action==='commerce-visibility'&&method==='POST'){
+    await rateLimit(ipKey(request,'commerce-visibility'),20,60);
+    const {enabled,revision}=z.object({enabled:z.boolean(),revision:revisionSchema}).strict().parse(await readJson(request,3000));
+    const current=await getState();
+    if(current.revision!==revision)throw new AppError('Der Shopstatus wurde inzwischen geändert. Bitte laden Sie den aktuellen Stand neu.',409);
+    const draft=current.draft.config.modules?.commerce, published=current.published.config.modules?.commerce;
+    if(!draft||!published)throw new AppError('Veröffentlichen Sie zuerst die Shop-Einrichtung.',409);
+    if(draft.enabled===enabled&&published.enabled===enabled)return json({state:current});
+    draft.enabled=enabled;
+    published.enabled=enabled;
+    const label=enabled?'Shop eingeblendet':'Shop ausgeblendet';
+    const state=await saveSnapshots(current.draft,current.published,revision,label);
+    revalidatePublishedSite();
     return json({state});
   }
   if(action==='publish'&&method==='POST'){

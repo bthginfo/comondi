@@ -17,6 +17,7 @@
     "skill:install": "node scripts/install-skill.mjs",
     "check": "npm run typecheck && npm test && npm run build",
     "verify:local": "node scripts/verify-local.mjs",
+    "review:visual": "node scripts/visual-review.mjs",
     "preflight": "node --conditions=react-server --import=tsx scripts/preflight.mjs",
     "social:assets": "node scripts/prepare-social-assets.mjs",
     "upgrade:site": "node scripts/upgrade-site.mjs",

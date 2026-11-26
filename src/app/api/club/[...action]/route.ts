@@ -10,7 +10,7 @@ import { acceptClubInvite, apiClubActor, issueClubInvite, loginToClub, logoutFro
 import { readAvatar, updateAvatar } from '@/lib/club/avatar';
 import { accessDenied, clubCalendar, clubCoach, clubDirectory, clubWide, updateCalendar } from '@/lib/club/data';
 import { readClubAppearanceImage, saveClubAppearance } from '@/lib/club/appearance';
-import { calendarDownload, fixtureExport } from '@/lib/club/exports';
+import { calendarDownload, calendarEventDownload, fixtureExport } from '@/lib/club/exports';
 import { clubFeatures } from '@/lib/club/enabled';
 import { clubMessagePage, clubMessageRead, clubNotificationRecipients, newClubMessage, sendClubMessage, setClubMessageRead } from '@/lib/club/messages';
 import type { WorkspacePushCategory } from '@/lib/workspace-push/model';
@@ -93,7 +93,18 @@ async function route(request: Request, context: Context) {
   }
   if (resource === 'appearance-image' && method === 'GET' && id) return readClubAppearanceImage(id);
   if (resource === 'calendar' && method === 'GET' && !id) {
-    return download(calendarDownload(await clubSchedule(actor)), 'text/calendar', 'club-calendar.ics');
+    const kind = query.get('kind');
+    const event = query.get('event');
+    if (kind === null && event === null) {
+      return download(calendarDownload(await clubSchedule(actor)), 'text/calendar', 'club-calendar.ics');
+    }
+    const selected = clubId.safeParse(event);
+    if (!selected.success || (kind !== 'training' && kind !== 'match')) {
+      throw new AppError('Bitte einen Termin auswählen.', 400);
+    }
+    const body = calendarEventDownload(await clubSchedule(actor), kind, selected.data);
+    if (!body) throw new AppError('Dieser Termin ist nicht verfügbar.', 404);
+    return download(body, 'text/calendar', 'club-termin.ics');
   }
   if (resource === 'fixtures-export' && method === 'GET' && !id) {
     if (!clubWide(actor)) accessDenied();

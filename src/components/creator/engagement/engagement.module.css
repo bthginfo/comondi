@@ -21,7 +21,7 @@
 .heartIcon{display:inline-flex;position:relative}
 .heartIcon[data-pulse=true]{animation:engagementLike 600ms cubic-bezier(.16,1,.3,1) both}
 .pointer{position:absolute;right:0;bottom:-9px;pointer-events:none;fill:#f5f0e7;color:#111525;filter:drop-shadow(2px 3px 2px #11152540);animation:engagementClick 650ms cubic-bezier(.16,1,.3,1) both}
-.example{max-width:15ch;font:400 10px/1.4 var(--font-body,'DM Sans'),sans-serif;color:#3e444e}
+.example{max-width:15ch;font:400 12px/1.4 var(--font-body,'DM Sans'),sans-serif;color:#3e444e}
 .screenMark{position:absolute;right:25px;bottom:20px;z-index:0;color:#bccf59;opacity:.35;transform:rotate(-13deg);transition:color 400ms}
 .screenMark>svg{width:155px;height:155px}
 .screen:has(.heartButton[aria-pressed=true]) .screenMark{color:#c6e663}
@@ -29,7 +29,7 @@
 .mobile .screen{border-radius:49px}
 .mobile .screenHeader{padding:52px 24px 16px;min-height:104px;font-size:12px}
 .mobile .screenBody{display:block;padding:30px 24px 24px}
-.mobile .heading{max-width:10ch;font-size:64px;line-height:.92;text-wrap:balance}
+.mobile .heading{max-width:100%;font-size:42px;line-height:.96;text-wrap:balance;overflow-wrap:anywhere}
 .mobile .text{margin:24px 0 28px;font-size:19px;line-height:1.55;max-width:25ch}
 .mobile .reaction{align-items:flex-start;flex-direction:column;gap:18px}
 .mobile .heartButton{min-height:72px;min-width:184px;gap:12px;font-size:15px}

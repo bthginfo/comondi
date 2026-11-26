@@ -272,3 +272,17 @@
   .heroCanvas.gaming:not([data-gallery]) .gamingBody { max-width: 100%; }
   .heroCanvas.gaming:not([data-gallery]) .canvasTitle { font-size: clamp(2.65rem, 12cqw, 5rem); }
 }
+
+/* Full-page cover: the lead and actions keep reading sizes next to the large headline. */
+.heroCanvas.gaming:not([data-gallery]) .canvasDescription {
+  max-width: 34ch;
+  font-size: clamp(17px, 1.4cqw, 20px);
+  line-height: 1.55;
+}
+.heroCanvas.gaming:not([data-gallery]) .canvasAction { font-size: 15px; min-height: 50px; gap: 28px; }
+.heroCanvas.gaming:not([data-gallery]) .canvasSecondary { font-size: 15px; min-height: 44px; }
+@container hero (max-width: 500px) {
+  .heroCanvas.gaming:not([data-gallery]) .canvasDescription { font-size: 16px; max-width: 100%; }
+  .heroCanvas.gaming:not([data-gallery]) .canvasAction { font-size: 14px; gap: 20px; }
+  .heroCanvas.gaming:not([data-gallery]) .canvasSecondary { font-size: 14px; }
+}

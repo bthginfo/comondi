@@ -30,7 +30,7 @@
 .cms-collection-toggle { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 5px; width: 100%; min-height: 40px; border: 0; padding: 6px 3px; background: transparent; text-align: start; color: inherit; font: inherit; font-size: 12px; font-weight: 620; line-height: 1.38; cursor: pointer; }
 .cms-collection-toggle span:nth-child(2) { overflow-wrap: anywhere; }
 .cms-collection-toggle[aria-expanded=true] > svg { transform: rotate(180deg); }
-.cms-collection-position { color: var(--collection-muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.cms-collection-position { color: var(--collection-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .cms-collection-actions { display: flex; gap: 1px; }
 .cms-collection-actions button { display: grid; place-items: center; min-width: 30px; min-height: 40px; border: 0; border-radius: 4px; background: transparent; color: inherit; padding: 0; cursor: pointer; }
 .cms-collection-actions button:last-child { color: #9c352b; }

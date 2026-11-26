@@ -17,7 +17,7 @@ export function HeroCanvas({ preset, creator, title, description, image, cta, hr
   const artwork = useRef<HTMLDivElement>(null);
   useArtworkMotion(artwork, artwork, Boolean(editable) || preset !== "gaming");
   const media = (className = "", override?: ImageValue) => <CreatorPhoto image={override ?? image} editable={editable} onChange={onImage} className={`${styles.heroPhoto} ${className} ${gallery&&(override??image)?.position==='50% 50%'?styles.galleryDefaultFocal:''}`} sizes="(max-width: 600px) 100vw, 60vw" />;
-  const name = <EditableText as="span" value={creator} editable={editable} onChange={onCreator} className={styles.creatorName} />;
+  const name = creator || editable ? <EditableText as="span" value={creator} editable={editable} onChange={onCreator} className={styles.creatorName} /> : null;
   const headline = <EditableText as={headingTag} value={title} editable={editable} onChange={onTitle} className={styles.canvasTitle} />;
   const copy = <EditableText as="p" value={description} editable={editable} onChange={onDescription} className={styles.canvasDescription} />;
   const action = <div className={styles.canvasActions} data-creator-canvas-actions=""><ContentLink href={href} editable={editable} className={styles.canvasAction}><EditableText as="span" value={cta} editable={editable} onChange={onCta} /><ArrowUpRight size={20} /></ContentLink>{secondaryCta && <ContentLink href={secondaryHref} editable={editable} className={styles.canvasSecondary}>{secondaryCta}<ArrowUpRight size={16} /></ContentLink>}</div>;

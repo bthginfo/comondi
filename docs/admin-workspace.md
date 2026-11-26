@@ -1,6 +1,6 @@
 # Admin-Arbeitsbereich
 
-Stand 5. November 2026 · Template 1.18.0.
+Stand 26. November 2026 · Template 1.46.0.
 
 Die Verwaltung nutzt eine gemeinsame helle Arbeitsoberfläche mit gruppierter Navigation, einer Bereichssuche (Strg/⌘ K), klaren Speicherzuständen und einer mobilen Schnellnavigation. Website-Inhalte, Social-Studio und Planer sind direkt erreichbar. Lange Einrichtungsanleitungen werden erst über Hilfe oder aufklappbare Hinweise angezeigt. Das öffentliche Website-Design bleibt unabhängig.
 
@@ -39,3 +39,11 @@ Der aktuelle vollständige Testlauf besteht aus 342 bestandenen Tests. In einer 
 - **Shop-Team** findet eine Testbestellung, öffnet den Beleg und markiert eine bezahlte Testbestellung als ausgeliefert. Zahlungs- und Zugangseinstellungen verwaltet der Inhaber.
 - **Creator** lädt im Post-Planer ein fertiges Testmotiv hoch, wählt einen Zeitpunkt und prüft den Eintrag im Kalender. Im Media Kit ergänzt die Person eine echte Kennzahl mit Zeitraum und beantwortet eine Test-Kooperationsanfrage.
 - **Projektfreigabe** legt im Anfragepostfach einen Vorschlag an und öffnet den Link in einem getrennten Browserprofil. Die Entscheidung lässt sich anschließend in der Anfrage prüfen. Terminvorschläge werden nach der Annahme im eigenen Kalender eingetragen.
+
+## Verlässliches Speichern und Orientierung ab 1.46.0
+
+Die Übersicht beantwortet zuerst: Was ist live, was wartet auf Veröffentlichung, was braucht Aufmerksamkeit und was ist der nächste Schritt. Die Veröffentlichungsprüfung führt bei Bedarf in die Geräte-Vorschau des Entwurfs. Speichern und Veröffentlichen melden Fehler mit „Erneut versuchen“; eine abgelaufene Sitzung wird im Fenster erneuert, ohne den Entwurf zu verlieren. Rückkehr in einen Tab gleicht die gespeicherte Revision einmal ab (keine regelmäßige Abfrage). Ungespeicherte Änderungen werden lokal gesichert und nach dem Neuladen angeboten.
+
+Die Mediathek zeigt Verwendungsorte, fragt nach dem Upload die Bildbeschreibung ab und filtert fehlende Beschreibungen. Die Suche (Strg/⌘ K) findet Bereiche, Seiten und Einstellungen. Alle Verwaltungstexte haben mindestens 12 px; Toasts, Speichern-Leisten und der KI-Assistent liegen auf Smartphones über der unteren Navigation.
+
+Geprüft mit dem wiederverwendbaren Browserlauf (Anmeldung, Canvas-Text, Strg/⌘+S, Neuladen, Veröffentlichung, Versionen, Abschnitte, Seiten, Navigation, Medien, Anfragen, Einstellungen, Suche, Tour, Sitzungsablauf, zwei Tabs, Offline, Smartphone, axe) in den Profilen `services` und `creator`.

@@ -1,8 +1,10 @@
 import { createStarterVisualContent, starterArtwork } from '../../src/lib/starter-visuals.mjs';
+import { closingCopy, examplePosts, homeSections } from './starter-home.mjs';
 
 const profileDesigns = {
   services: {
     theme: { primary: '#203329', accent: '#e5efa4', background: '#f4f2e9', radius: 24 },
+    headingTypeface: 'archivo',
     image: 'workshop',
     layout: 'split',
     heroDesign: { theme: 'soft' },
@@ -12,6 +14,7 @@ const profileDesigns = {
   },
   portfolio: {
     theme: { primary: '#17252f', accent: '#f2c591', background: '#f3f1ea', radius: 18 },
+    headingTypeface: 'space-grotesk',
     image: 'architecture',
     layout: 'panorama',
     intro: 'Ich zeige ausgewählte Arbeiten und die Entscheidungen hinter Material, Form und Bild.',
@@ -20,6 +23,7 @@ const profileDesigns = {
   },
   consulting: {
     theme: { primary: '#25294b', accent: '#d6d9ff', background: '#f0f1f8', radius: 24 },
+    headingTypeface: 'fraunces',
     image: 'planning',
     layout: 'split',
     heroDesign: { theme: 'soft', imageSide: 'left' },
@@ -29,6 +33,7 @@ const profileDesigns = {
   },
   editorial: {
     theme: { primary: '#322a36', accent: '#f0cf85', background: '#f8f4eb', radius: 10 },
+    headingTypeface: 'cormorant-garamond',
     image: 'editorial',
     layout: 'portrait',
     intro: 'Wir schreiben über Räume, Material und die Menschen, die daraus etwas machen.',
@@ -60,7 +65,7 @@ function visualSection(id, type, name, design) {
   return { id, type, name, visible: true, design, content: createStarterVisualContent(type) };
 }
 
-export function applyStarterLayout(content, profile) {
+export function applyStarterLayout(content, profile, aesthetic = 'standard') {
   const selected = profileDesigns[profile];
   const home = content.pages.find(page => page.slug === '');
   const hero = home.sections.find(section => section.id === 'home-hero');
@@ -72,26 +77,35 @@ export function applyStarterLayout(content, profile) {
     content.config.theme.font = 'manrope';
     content.config.designVariant = 1;
   }
-  const design = { ...hero.design, radius: content.config.theme.radius, spacing: 'compact', animation: 'reveal' };
+  const photoAtlas = aesthetic === 'photo-atlas';
+  if (photoAtlas) {
+    Object.assign(content.config.theme, {
+      aesthetic, primary: '#242925', accent: '#d3dfbe', background: '#f8f7f2', radius: 4, font: 'dm-sans',
+    });
+  }
+  const headingTypeface = photoAtlas ? 'dm-sans' : selected.headingTypeface;
+  const type = headingTypeface && aesthetic !== 'liquid-glass' ? { headingTypeface } : {};
+  const design = { ...hero.design, ...type, radius: content.config.theme.radius, spacing: 'compact', animation: 'reveal' };
+  const look = (overrides = {}) => ({ ...design, ...overrides });
   const cta = {
     ...contact,
     design: { ...design, theme: 'accent' },
-    content: {
-      ...contact.content,
-      heading: profile === 'creator' ? 'Lass uns etwas zusammen machen.' : 'Was haben Sie vor?',
-      text: profile === 'creator' ? 'Schreib mir, wenn du eine Idee oder eine Anfrage für eine Kooperation hast.' : 'Erzählen Sie uns kurz, worum es geht. Dann besprechen wir die nächsten Schritte.',
-    },
+    content: { ...contact.content, ...closingCopy(profile), primaryHref: '/kontakt' },
   };
   const cover = {
     ...hero,
     type: profile === 'creator' ? 'creator-hero' : 'showcase-hero',
     name: profile === 'creator' ? 'Creator · Auftakt' : 'Bildbühne',
-    design: { ...design, heroLayout: selected.layout, ...selected.heroDesign },
+    design: {
+      ...design, heroLayout: selected.layout, ...selected.heroDesign,
+      ...(photoAtlas ? { heroLayout: 'split', imageSide: 'left', theme: 'light' } : {}),
+      ...(profile === 'portfolio' && aesthetic === 'standard' ? { radius: 0 } : {}),
+    },
     content: {
       ...hero.content,
       text: selected.intro,
       image: { ...starterArtwork[selected.image] },
-      caption: 'Beispielmotiv',
+      ...(photoAtlas ? {} : { caption: 'Beispielmotiv' }),
     },
   };
 
@@ -111,7 +125,9 @@ export function applyStarterLayout(content, profile) {
   if (profile === 'portfolio') {
     Object.assign(cover.content, { primaryLabel: 'Arbeiten ansehen', primaryHref: '#home-project-stage' });
     const [firstProject, ...otherProjects] = feature.content.items;
-    feature.content.items = [...otherProjects, firstProject];
+    feature.content.items = [...otherProjects, firstProject].map(item => ({ ...item, meta: 'Beispiel · ' + item.meta }));
+    feature.content.heading = 'Ausgewählte Arbeiten.';
+    feature.content.text = 'Drei Beispielprojekte aus Raum, Handwerk und Publikation.';
   }
   if (profile === 'consulting') {
     Object.assign(cover.content, { primaryLabel: 'Ablauf kennenlernen', primaryHref: '#home-story' });
@@ -121,22 +137,13 @@ export function applyStarterLayout(content, profile) {
     Object.assign(cover.content, { primaryLabel: 'Zum Magazin', primaryHref: '/' + content.config.blog.slug });
     feature.content.heading = 'Drei Themen für den Anfang.';
     feature.content.text = 'Beispielbilder für Geschichten über Räume, Handwerk und Gestaltung.';
-    home.sections = [
-      cover,
-      {
-        id: 'home-magazine',
-        type: 'blog-editorial',
-        name: 'Leitbeitrag und Liste',
-        visible: true,
-        content: { heading: 'Neu im Magazin', blogFeed: { limit: 4, archiveLink: true } },
-        design,
-      },
-      feature,
-      cta,
-    ];
-  } else {
-    home.sections = [cover, feature, cta];
+    content.posts = [...(content.posts ?? []), ...examplePosts()];
   }
+  if (profile === 'services') {
+    feature.content.heading = 'So arbeiten wir zusammen.';
+    feature.content.text = 'Ein Beispielablauf vom ersten Gespräch bis zur Übergabe.';
+  }
+  home.sections = homeSections(profile, { config: content.config, cover, cta, feature, look, blogSlug: content.config.blog.slug });
 
   for (const page of content.pages) {
     if (page === home) continue;
@@ -144,7 +151,7 @@ export function applyStarterLayout(content, profile) {
     if (lead?.type !== 'hero') continue;
     const motif = innerPageMotifs[page.slug];
     lead.type = 'showcase-hero';
-    lead.design = { ...lead.design, radius: design.radius, animation: 'reveal', spacing: 'compact',
+    lead.design = { ...lead.design, ...type, radius: design.radius, animation: 'reveal', spacing: 'compact',
       heroLayout: page.slug === 'projekte' ? 'panorama' : 'split', imageSide: page.slug === 'ueber-uns' ? 'left' : 'right' };
     lead.content.image = motif ? { ...starterArtwork[motif] } : undefined;
     lead.content.caption = motif ? 'Beispielmotiv' : undefined;

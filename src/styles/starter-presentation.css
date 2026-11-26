@@ -29,9 +29,8 @@
 
 .ws-site[data-presentation] .ws-showcase-copy .ws-visual-label { margin-bottom: 18px; }
 .ws-site[data-presentation] .ws-showcase-copy .ws-visual-label::before { display: none; }
-.ws-site[data-presentation] .ws-showcase-title { font-weight: 730; text-wrap: balance; }
+.ws-site[data-presentation] .ws-showcase-title { font-weight: 730; letter-spacing: -.035em; text-wrap: balance; }
 .ws-site[data-presentation] .ws-showcase-lead { max-width: 40ch; margin-top: clamp(14px, 2cqi, 24px); }
-.ws-site[data-presentation] .ws-showcase-art .ws-visual-caption { padding-inline: .25em; }
 .ws-site[data-presentation] :is([data-section-id="services-hero"],[data-section-id="about-hero"]) .ws-showcase-image { aspect-ratio: 1.55; }
 
 .ws-site[data-presentation="services"] .ws-header-contact,
@@ -85,12 +84,61 @@
 }
 .ws-site[data-presentation="editorial"] [data-section-id="home-hero"] .ws-visual-label { letter-spacing: .14em; }
 
+.ws-site[data-presentation="consulting"]:not([data-site-aesthetic]) [data-section-id="home-hero"] {
+  border-radius: 0;
+  margin-block-start: clamp(14px, 2.5cqi, 34px);
+}
+.ws-site[data-presentation="consulting"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-title {
+  font-weight: 465;
+  line-height: 1.04;
+}
+.ws-site[data-presentation="portfolio"]:not([data-site-aesthetic]) .ws-section-project-stage .ws-project-panel {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+.ws-site[data-presentation="portfolio"]:not([data-site-aesthetic]) .ws-project-choices button {
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  background: transparent;
+}
+.ws-site[data-presentation="portfolio"]:not([data-site-aesthetic]) .ws-project-choices button[aria-pressed="true"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .44em;
+}
+.ws-site[data-presentation="editorial"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-title {
+  font-size: calc(clamp(2.85rem, 6.8cqi, 6rem) * var(--section-scale));
+  line-height: .97;
+}
+.ws-site[data-presentation="editorial"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-art {
+  padding-block-end: 12px;
+  border-block-end: 1px solid var(--ws-panel-line);
+}
+.ws-site[data-presentation="editorial"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-art > .ws-visual-caption {
+  bottom: 24px;
+}
+
 @container ws-site (width > 860px) {
   .ws-site[data-presentation="services"] [data-section-id="home-hero"] .ws-showcase-hero {
     grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
   }
   .ws-site[data-presentation="consulting"] [data-section-id="home-hero"] .ws-showcase-hero {
     grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+  }
+  .ws-site[data-presentation="consulting"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-section-inner {
+    padding: clamp(24px, 3.5cqi, 54px);
+  }
+  .ws-site[data-presentation="consulting"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-image {
+    aspect-ratio: 1.08;
+  }
+  .ws-site[data-presentation="portfolio"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-image {
+    aspect-ratio: 2.65;
+  }
+  .ws-site[data-presentation="editorial"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-hero[data-layout="portrait"]:has(.ws-showcase-art) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+    gap: clamp(38px, 7cqi, 110px);
   }
 }
 
@@ -107,8 +155,16 @@
   .ws-site[data-presentation] [data-section-id="home-hero"] .ws-showcase-art { margin-top: 0; }
   .ws-site[data-presentation] [data-section-id="home-hero"] .ws-actions { gap: 5px 14px; margin-top: 16px; }
   .ws-site[data-presentation] .ws-showcase-copy .ws-button { min-height: 46px; padding: 9px 12px; }
+  .ws-site[data-presentation="portfolio"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-image { aspect-ratio: 1.28; }
+  .ws-site[data-presentation="editorial"]:not([data-site-aesthetic]) [data-section-id="home-hero"] .ws-showcase-image { aspect-ratio: 1.4; }
 }
 
 @media print {
   .ws-site[data-presentation] [data-section-id="home-hero"] { width: 100%; }
 }
+
+/* Soft bands take a tone of the profile palette instead of the neutral sage default.
+   A palette saved in the CMS sets the same property inline and wins. */
+.ws-site[data-presentation="portfolio"]:not([data-site-aesthetic]) { --ws-palette-surface: #e9e4d8; }
+.ws-site[data-presentation="consulting"]:not([data-site-aesthetic]) { --ws-palette-surface: #e3e5f4; }
+.ws-site[data-presentation="editorial"]:not([data-site-aesthetic]) { --ws-palette-surface: #efe6d5; }

@@ -1,6 +1,6 @@
 # Vereinsverwaltung und Mitgliederbereich
 
-Die Vereinsverwaltung ist optional. Im Briefing `modules.clubManagement.enabled: true`, beim Erzeugen `--features club-management` oder im CMS **Settings → General → Club management** wählen und den Entwurf speichern. Solange das Modul aus ist, sind Mitgliederbereich, Club-API und Mitglieder-App nicht erreichbar. Das Ausschalten löscht keine Daten. Öffentliche Navigation und Spielabschnitte übernehmen die veröffentlichte Website-Konfiguration.
+Die Vereinsverwaltung ist optional. Im Briefing `modules.clubManagement.enabled: true`, beim Erzeugen `--features club-management` oder im CMS **Einstellungen → Allgemein → Vereinsverwaltung** wählen und den Entwurf speichern. Solange das Modul aus ist, sind Mitgliederbereich, Club-API und Mitglieder-App nicht erreichbar. Das Ausschalten löscht keine Daten. Öffentliche Navigation und Spielabschnitte übernehmen die veröffentlichte Website-Konfiguration.
 
 Die öffentliche Website, der private Mitgliederbereich und das CMS haben getrennte Zugänge. Als CMS-Inhaber findest du die Vereinsverwaltung unter `/admin/club`. Ein Vereinsadmin meldet sich unter `/members/login` an und öffnet **Verein verwalten**. Beide erhalten dieselbe Vereinsverwaltung. Der Starter liefert keine Mitglieder, Spielstände, Chats, Geräteanmeldungen oder Kundendaten als Demo.
 
@@ -23,7 +23,7 @@ Die Übersicht nennt offene und abgelaufene Einladungen, fehlende Rückmeldungen
 
 ## Öffentliche Spielübersichten
 
-Ein Spiel erscheint erst nach aktivierter Einstellung **Auf der Website anzeigen** in der öffentlichen Auswahl. In einem Zeitstrahl-Abschnitt lässt sich die Datenquelle auf nächstes Heimspiel, kommende Termine oder Ergebnisse stellen. Veröffentliche den Abschnitt einmal; die Daten aktualisieren sich beim Speichern eines Spiels. Die öffentliche Zeitzone lässt sich in **Settings → General → Club management** setzen (Standard: `Europe/Berlin`). Interne Notizen, Profile und die Liste der Rückmeldungen bleiben privat.
+Ein Spiel erscheint erst nach aktivierter Einstellung **Auf der Website anzeigen** in der öffentlichen Auswahl. In einem Zeitstrahl-Abschnitt lässt sich die Datenquelle auf nächstes Heimspiel, kommende Termine oder Ergebnisse stellen. Veröffentliche den Abschnitt einmal; die Daten aktualisieren sich beim Speichern eines Spiels. Die öffentliche Zeitzone lässt sich in **Einstellungen → Allgemein → Vereinsverwaltung** setzen (Standard: `Europe/Berlin`). Interne Notizen, Profile und die Liste der Rückmeldungen bleiben privat.
 
 ## Mitgliederbereich gestalten
 

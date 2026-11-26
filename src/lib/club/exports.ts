@@ -19,9 +19,8 @@ function fold(line: string) {
   return result;
 }
 
-export function calendarDownload(workspace: ExportWorkspace, now = Date.now()) {
+export function calendarDownload(workspace: ExportWorkspace, now = Date.now(), through = now + 180 * 86_400_000) {
   const teamNames = new Map(workspace.teams.map(team => [team.id, team.name]));
-  const through = now + 180 * 86_400_000;
   const inRange = (startsAt: string) => Date.parse(startsAt) >= now && Date.parse(startsAt) <= through;
   const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Website Starter//Club Calendar//EN', 'CALSCALE:GREGORIAN'];
   const generated = stamp(new Date(now).toISOString());
@@ -41,6 +40,14 @@ export function calendarDownload(workspace: ExportWorkspace, now = Date.now()) {
     lines.push('END:VEVENT');
   }
   return [...lines, 'END:VCALENDAR', ''].map(fold).join('\r\n');
+}
+
+export function calendarEventDownload(workspace: ExportWorkspace, kind: 'training' | 'match', id: string, now = Date.now()) {
+  const trainings = kind === 'training' ? workspace.trainings.filter(item => item.id === id) : [];
+  const matches = kind === 'match' ? workspace.matches.filter(item => item.id === id && item.status === 'scheduled') : [];
+  const event = trainings[0] ?? matches[0];
+  if (!event || !(Date.parse(event.startsAt) >= now) || !workspace.teams.some(team => team.id === event.teamId)) return null;
+  return calendarDownload({ teams: workspace.teams, trainings, matches }, now, Date.parse(event.startsAt));
 }
 
 function csvCell(value: string | number | boolean | null) {

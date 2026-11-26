@@ -3,10 +3,12 @@ import {put,del} from '@vercel/blob';
 import {AppError,deleteRecord,getRecord,hasRetainedMediaReference,setRecord} from './db';
 import {createMediaOperations,MediaOperationError} from './media-operations';
 import type {MediaAsset} from './types';
+import {LOCAL_MEDIA_PREFIX,localMediaEnabled,putLocalMedia,removeLocalMedia} from './local-media';
+// Local installations without a Blob store keep uploads in .data/media, so the media library works end to end.
 const media=createMediaOperations({
- configured:()=>Boolean(process.env.BLOB_READ_WRITE_TOKEN),
- put:async(path,bytes)=>put(path,bytes,{access:'public',addRandomSuffix:true,contentType:'image/webp',token:process.env.BLOB_READ_WRITE_TOKEN}),
- removeBlob:async url=>{await del(url,{token:process.env.BLOB_READ_WRITE_TOKEN});},
+ configured:()=>Boolean(process.env.BLOB_READ_WRITE_TOKEN)||localMediaEnabled(),
+ put:async(path,bytes)=>localMediaEnabled()?putLocalMedia(bytes):put(path,bytes,{access:'public',addRandomSuffix:true,contentType:'image/webp',token:process.env.BLOB_READ_WRITE_TOKEN}),
+ removeBlob:async url=>{if(url.startsWith(LOCAL_MEDIA_PREFIX)){await removeLocalMedia(url);return;}await del(url,{token:process.env.BLOB_READ_WRITE_TOKEN});},
  save:async asset=>setRecord('media',asset.id,asset),find:async id=>getRecord<MediaAsset>('media',id),
  referenced:hasRetainedMediaReference,removeRecord:async id=>deleteRecord('media',id)
 });

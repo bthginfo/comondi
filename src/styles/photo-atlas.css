@@ -1,0 +1,106 @@
+/* Opt-in Panorama treatment. Materials belong to navigation; reading surfaces stay opaque. */
+.ws-site[data-site-aesthetic="photo-atlas"] {
+  --ws-page-gutter: clamp(20px, 3.8cqi, 64px);
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-header {
+  background: var(--ws-paper);
+  border-bottom: 1px solid color-mix(in srgb, var(--ws-ink) 17%, transparent);
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-header-inner {
+  min-height: 68px;
+  border-width: 0;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-menu-toggle {
+  min-width: 44px;
+  min-height: 44px;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-brand-name {
+  font-weight: 680;
+  letter-spacing: -.045em;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-header-contact {
+  border-radius: 6px;
+  background: var(--ws-ink);
+  color: var(--ws-paper);
+  min-height: 44px;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] {
+  width: auto;
+  margin: 0;
+  border-radius: 0;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] .ws-section-inner {
+  width: min(1480px, calc(100% - var(--ws-page-gutter) * 2));
+  padding: clamp(20px, 2.5cqi, 44px) 0 clamp(30px, 4.2cqi, 72px);
+}
+.ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] .ws-showcase-title {
+  font-size: calc(clamp(2.7rem, 4.8cqi, 5.4rem) * var(--section-scale));
+  font-weight: 555;
+  line-height: 1.01;
+  letter-spacing: -.055em;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-showcase-lead {
+  max-width: 39ch;
+  line-height: 1.55;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-showcase-art {
+  margin: 0;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-showcase-copy .ws-button-primary {
+  min-height: 46px;
+  padding-inline: 20px;
+  border-radius: 6px;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-project-panel {
+  border-width: 0;
+  border-radius: 0;
+  padding-inline: 0;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-project-choices button {
+  border-radius: 4px;
+}
+.ws-site[data-site-aesthetic="photo-atlas"] .ws-project-choices button[aria-pressed="true"] {
+  text-decoration: underline;
+  text-underline-offset: .22em;
+}
+@container ws-site (width > 860px) {
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] .ws-showcase-hero[data-layout="split"]:has(.ws-showcase-art) {
+    grid-template-columns: minmax(0, 1.52fr) minmax(0, 1fr);
+    gap: clamp(32px, 5.5cqi, 98px);
+  }
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] .ws-showcase-hero[data-layout="split"][data-image-side="right"]:has(.ws-showcase-art) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.52fr);
+  }
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] [data-layout="split"] .ws-showcase-image {
+    aspect-ratio: 1.24;
+  }
+}
+@container ws-site (width <= 860px) {
+  .ws-site[data-site-aesthetic="photo-atlas"] .ws-header-inner { min-height: 62px; }
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] .ws-showcase-hero[data-layout="split"] {
+    gap: clamp(20px, 4cqi, 32px);
+  }
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] [data-layout="split"] .ws-showcase-art {
+    grid-row: 1;
+  }
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] [data-layout="split"] .ws-showcase-image {
+    aspect-ratio: 1.65;
+  }
+  .ws-site[data-site-aesthetic="photo-atlas"] [data-section-id="home-hero"] .ws-showcase-title {
+    font-size: calc(clamp(2.35rem, 7.9cqi, 4.1rem) * var(--section-scale));
+  }
+}
+/* The solid header is the default, including on engines without preference support. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  @media (prefers-reduced-transparency: no-preference) and (prefers-contrast: no-preference) and (forced-colors: none) {
+    .ws-site[data-site-aesthetic="photo-atlas"] .ws-header {
+      background: color-mix(in srgb, var(--ws-paper) 92%, transparent);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+  }
+}
+@media (forced-colors: active) {
+  .ws-site[data-site-aesthetic="photo-atlas"] .ws-header,
+  .ws-site[data-site-aesthetic="photo-atlas"] .ws-header-contact { border: 1px solid CanvasText; }
+}

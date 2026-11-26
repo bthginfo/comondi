@@ -35,7 +35,7 @@ export function AdminLanguageSwitch({ compact = false, className }: { compact?: 
   const { language, setLanguage, hasProvider } = useAdminLanguage();
   if (!hasProvider) return null;
   return <span role="group" aria-label={language === "en" ? "Interface language" : "Oberflächensprache"} className={["cms-language-switch", compact && "cms-language-switch--compact", className].filter(Boolean).join(" ")}>
-    <button type="button" lang="de" aria-label="Deutsch" aria-pressed={language === "de"} onClick={() => setLanguage("de")}>DE</button>
-    <button type="button" lang="en" aria-label="English" aria-pressed={language === "en"} onClick={() => setLanguage("en")}>EN</button>
+    <button type="button" lang="de" title="Deutsch" aria-pressed={language === "de"} onClick={() => setLanguage("de")}>DE</button>
+    <button type="button" lang="en" title="English" aria-pressed={language === "en"} onClick={() => setLanguage("en")}>EN</button>
   </span>;
 }

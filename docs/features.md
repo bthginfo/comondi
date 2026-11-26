@@ -10,9 +10,14 @@
 | Karten, FAQ und andere Listen pflegen | Enthalten | Im Abschnitt hinzufügen, duplizieren, suchen, sortieren oder mehrere Titel einfügen. Das Raster passt sich der Anzahl an. |
 | Interne Links bei Adressänderungen | Enthalten | Wird eine Seitenadresse oder Sprungmarke im Entwurf geändert, folgen passende interne Links. |
 | Einstellungen suchen | Enthalten | Im Einstellungsbereich nach Begriffen wie SMTP, Schriften oder Consent suchen. |
-| Speichern, Vergleich mit der Live-Fassung, Veröffentlichen, Konflikte, Versionen, Undo/Redo | Enthalten | CMS und `src/lib/db.ts` |
+| Speichern, Vergleich mit der Live-Fassung, Veröffentlichen, Konflikte, Versionen, Undo/Redo | Enthalten | CMS und `src/lib/db.ts`. Seit 1.46.0 mit Neuanmeldung ohne Datenverlust, Tab-Abgleich, lokaler Sicherungskopie und Vorschau aus der Veröffentlichungsprüfung. |
+| Gemeinsame öffentliche Schriftskala | Enthalten seit 1.45.0 | Tokens `--ws-text-xs` bis `--ws-heading-xl` auf `.ws-site`; das Basislayout nutzt sie für Fließtext, Einstieg, Bildunterschriften, Fußbereich und Formularhilfen. [Öffentliche Typografie](../DESIGN.md) |
 | Farben, Typografie, Navigation, Footer, fünf Ausgangslayouts | Enthalten | CMS, profilspezifischer Einstieg bei neuen Projekten und [Designstandard](../skills/website-starter/references/design-and-content.md) für die individuelle Gestaltung |
-| Medienbibliothek, Alt-Text, Fokus, Rasterbild-Upload | Enthalten; eigener Blob-Store für Uploads nötig | CMS Medien |
+| Vollständige Startseiten je Profil | Enthalten seit 1.45.0 | `services`, `portfolio`, `consulting` und `editorial` starten mit sieben bis acht bearbeitbaren Abschnitten: Angebot, Beleg (als Beispiel gekennzeichnet), Ablauf, Ansprechperson, FAQ zu Preislogik, Dauer und Ablauf sowie Abschlussaufruf; `editorial` mit drei Beispielbeiträgen. Jedes Profil hat einen eigenen Rhythmus. |
+| Ausführbare Frontend-Beispiele | Eigenständige Beispielprojekte für Objektstudio, Musikprogramm und Feldjournal | `--example` im neutralen Generator. [Komposition und Beispiele](../skills/website-starter/references/frontend-directions.md) |
+| Visuelle Abnahme und Qualitätsmaßstab | Enthalten; nutzt eine vorhandene Playwright-Installation | `npm run review:visual -- http://localhost:3000`: Bildschirmfolgen, Kontaktbögen, axe, Schriftgrößen, Schrift-Fallbacks und nicht geladene Schriftfamilien, Überlauf, Platzhalter, Hauptaktion, Ladewerte. [Qualitätsmaßstab](../skills/website-starter/references/quality-bar.md) |
+| Liquid Glass · iOS mit räumlicher Tiefe | Enthalten, ausdrückliche Gestaltungsoption für die vier Standardprofile | CMS Gestaltung oder `--aesthetic liquid-glass`; [Anleitung](recipes/liquid-glass.md). Schwebende Glaskapsel als Navigation, geschichtete Glasflächen, Lichtfeld; deckend bei „Transparenz reduzieren“. Bisherige Vorgaben bleiben erhalten. |
+| Medienbibliothek, Alt-Text, Fokus, Rasterbild-Upload | Enthalten; live mit eigenem Blob-Store, lokal ohne Blob-Store in `.data/media` | CMS Medien. Zeigt, wo ein Bild verwendet wird, und fragt nach dem Hochladen die Bildbeschreibung ab. |
 | Galerien, Lightbox, Team, Leistungen, FAQ, Abläufe, Downloads | Enthalten | Abschnittsbibliothek; Downloads verlinken eigene Dateien |
 | Blog, Beitragsstatus und drei Teaser-Layouts | Enthalten, standardmäßig aus | Beiträge, Abschnittsbibliothek und Seitenvorlagen |
 | Seitenvorlagen für Blogübersicht, Beitragsdetail, Produktdetail, Kategorie und Suche | Enthalten | CMS Seitenvorlagen. Shop-Vorlagen erscheinen nach Einrichtung des Shops. |
@@ -35,18 +40,19 @@
 | Podcast-RSS, Archiv, redaktionelle Overrides, Sync | Bauanleitung aus Amélie | [Podcast](recipes/podcast.md) |
 | Bewertungen von externem Anbieter | Bauanleitung | [Bewertungen](recipes/reviews.md) |
 | Visitenkarten / Druckstudio mit PDF-Ausgabe | Bauanleitung aus Amélie | [Druckstudio](recipes/print-studio.md) |
-| Terminbuchung / Kalender | Bauanleitung | [Buchung](recipes/booking.md) |
+| Einzeltermine und Erstgespräche | Enthalten, optional | CMS Termine. Freie Zeitfenster, Buchung, Umbuchung, Absage, E-Mail und optionaler Push. [Anleitung](recipes/consultations.md) |
 | Kundenportal, CRM, Angebote, Rechnungen, Outbox | Bauanleitung; Kantiq vor Wiederverwendung erneut prüfen | [Portal und CRM](recipes/portal-crm.md) |
 | Creator-Profil, optionale Creator-Abschnitte, isoliertes echtes Demo-CMS | Enthalten, nur ausdruecklich aktiviert | [Creator-Module](creator-modules.md) |
 | Creator Media Kit mit Kooperationsanfragen | Enthalten im Creator-Profil | Seite „Media Kit“ oder Startlayout im Editor. Kennzahlen und Zeitraum redaktionell pflegen. |
 | Shop mit Stripe Checkout, optionalem PayPal über Stripe, privaten Downloads und Bestellungen | Optionaler Kern enthalten. Händlerkonto, Webhook und Testkauf pro Projekt prüfen. | Shop und [Einrichtung](recipes/commerce.md) |
+| Shop-Vorschauen und Partnerlinks | Enthalten | Shop sofort ein- oder ausblenden. Kasse, Status, PDF und E-Mails mit Beispielprodukten prüfen. Partnerlinks im Editor kennzeichnen. |
 | Elektronischer Widerruf mit Bestätigung per E-Mail | Optional im Shop. Das Formular legt eine Nachricht im Anfragepostfach ab. | Einstellungen → Shop. Testwiderruf vor dem Start durchführen. |
 | Offizielle Social-Quellen | Adaptervertrag vorhanden; Anbieteradapter je Kunde gesondert implementieren | [Creator-Module](creator-modules.md) |
 | Deutsch und Englisch für Website und CMS | Enthalten. Beide Standardsprachen sind separat im CMS einstellbar | [Mehrsprachigkeit](recipes/multilingual.md) |
 | Coach Studio für Rugby-Taktiken | Enthalten als eigenständiges Opt-in | [Coach Studio](coach-studio.md) |
 | Vereinsverwaltung und privater Mitgliederbereich | Enthalten als eigenes Opt-in, unabhängig vom Coach Studio | [Club management](club-management.md): Rollen, Einladungen, Teams, Detailseiten, Termine, Ergebnisse, News, Nachrichten, Darstellung, App und Push |
 | Interaktive 3D-Scroll-Story | Ausdrückliches Opt-in in jedem Profil | [3D-Scroll-Story](recipes/3d-scroll-story.md) mit kontinuierlicher GLB-Animation, Kapitelgestaltung und Browser-Abnahme |
-| CMS als installierbare App, geführte Tour und Favicon/Appsymbole | Im Kern enthalten, Push je Gerät freiwillig | [App & notifications](workspace-apps.md) |
+| CMS als installierbare App, geführte Tour und Favicon/Appsymbole | Im Kern enthalten, Push je Gerät freiwillig. Die Tour zeigt fünf Kernaufgaben; optionale Bereiche erklärt die Hilfe. | [App & notifications](workspace-apps.md) |
 
 Ein Briefing kann jede dieser Funktionen anfordern. Der Skill verwendet den vorhandenen Kern und ergänzt nur die konkret benötigten Erweiterungen. Keine leeren Menüpunkte oder scheinbar aktiven Funktionsschalter anlegen.
 
@@ -70,7 +76,7 @@ Unter **Abschnitt hinzufügen** stehen diese visuellen Bausteine für alle Profi
 - **Filterbare Projektübersicht** mit einem großen Auftaktprojekt und einer Übersicht der weiteren Arbeiten. Projekte derselben Kategorie erscheinen unter einem Filter.
 - **Themenverzeichnis** mit übersichtlichen Zeilen für Titel, Erklärung, kleines Bild und Link. Es eignet sich für Leistungen, Themen und redaktionelle Empfehlungen.
 
-Das Profil `services` verwendet auf der Leistungsseite die klickbare **Leistungen**-Übersicht. Beim Wechsel passt sich das Bild zusammen mit der Beschreibung an. `consulting` startet mit einem Szenenwechsel und zeigt einen animierten Ablauf unter `/ablauf`. `portfolio` zeigt auf der Projektseite die filterbare Übersicht.
+Die Startseiten der vier Standardprofile setzen diese Bausteine zu einer vollständigen Seite zusammen; Personen, Projekte, Kennzahlen und Beiträge sind bis zum Austausch als Beispiel gekennzeichnet. Die Kennzeichnung „Beispielmotiv“ liegt als kleines Etikett auf dem Bild. Das Profil `services` verwendet auf der Leistungsseite die klickbare **Leistungen**-Übersicht. Beim Wechsel passt sich das Bild zusammen mit der Beschreibung an. `consulting` startet mit einem Szenenwechsel und zeigt einen animierten Ablauf unter `/ablauf`. `portfolio` zeigt auf der Projektseite die filterbare Übersicht.
 
 Im Seiteneditor sind Kapitel und Galerieeinträge direkt zugänglich. Unter **Gestaltung** lassen sich Farben, Abstände, Bildseite und Bewegung einstellen. Ersetzen Sie die lokalen, generierten Beispielmotive und Texte vor dem öffentlichen Start.
 
@@ -93,3 +99,21 @@ Die Modi **Material verwandeln** und **Elemente zusammenführen** stehen weiterh
 Der native Versand ist für Instagram, Facebook-Seiten, Threads, LinkedIn, Pinterest, YouTube und Bluesky enthalten. Alle verwenden die vorhandene dauerhafte Queue, ausdrückliche Inhaltsfreigabe und ein eigens autorisiertes Ziel. TikTok verwendet eine terminierte Inbox-Übergabe über eine beim Anbieter verifizierte HTTPS-Domain; der letzte Veröffentlichungsschritt erfolgt in TikTok. Einrichtung unter **Post-Planer → Kanäle verbinden**. [Prüfbericht und Funktionsmatrix](social-connectors-verification-2026-11-04.md). Ohne eigene Anbieterfreigaben, Konto und Queue wird nichts automatisch gesendet.
 
 Die **Webanalyse** bündelt Besucher, Besuche, Aufrufe, aktive Zeit, Zielseiten und erfasste Geschäftsergebnisse. Zeiträume lassen sich vergleichen und nach Seite, Gerät, Land, Herkunft und Kampagne eingrenzen. Die geschützte Live-Ansicht nutzt die vorhandenen Statistik-Signale der letzten fünf Minuten. Der Consent-Bereich und der dynamische Datenschutzhinweis erläutern diese Auswertung. Bei neuen Starter-Installationen ist die Webanalyse eingeschaltet und misst erst nach ausdrücklicher Statistik-Einwilligung. Unter **Webanalyse → Einrichten** lässt sie sich ausschalten. Gespeicherte Aus-Einstellungen bestehender Projekte bleiben erhalten.
+
+## CMS-Bedienung · 1.46.0
+
+Dieses Update macht die tägliche Arbeit im CMS verlässlicher und übersichtlicher. Inhalte, Datenbankschema und öffentliche Gestaltung bleiben unverändert; es ist keine Migration nötig.
+
+- **Übersicht mit nächstem Schritt.** Die Karte „Website-Stand“ nennt, wie viele gespeicherte Änderungen auf die Veröffentlichung warten und welche Seiten betroffen sind, und öffnet direkt „Prüfen und veröffentlichen“. Darunter sammelt „Zu erledigen“ Bilder ohne Bildbeschreibung, Hinweise des Startchecks und einen fehlenden E-Mail-Versand – jeweils mit Sprung an die richtige Stelle.
+- **Veröffentlichung prüfen.** Die Prüfung zeigt fehlende Pflichtangaben vor dem Veröffentlichen, zählt die Änderungen und öffnet den Entwurf als Desktop-, Tablet- oder Smartphone-Vorschau oder eine bestimmte Seite im Editor.
+- **Sicher speichern.** Der Speicherstatus zeigt „Ungespeicherte Änderungen“, „Entwurf gespeichert um …“ oder „Nicht gespeichert“. Fehlgeschlagenes Speichern oder Veröffentlichen bietet „Erneut versuchen“, die Eingaben bleiben erhalten.
+- **Abgelaufene Sitzung.** Statt zur Anmeldeseite zu wechseln, öffnet sich eine Anmeldung im Fenster. Danach wird das Speichern fortgesetzt; die Änderungen lassen sich vorher auch als Datei sichern.
+- **Zwei Tabs oder zwei Personen.** Beim Zurückkehren in einen Tab prüft das CMS einmal die gespeicherte Fassung. Ein Tab ohne eigene Änderungen zeigt dann den neuen Stand, ein Tab mit eigenen Änderungen wird sofort gewarnt. Überschreiben ohne Rückfrage ist weiterhin ausgeschlossen.
+- **Lokale Sicherungskopie.** Ungespeicherte Änderungen liegen zusätzlich im Browser. Nach einem Absturz oder versehentlichen Neuladen bietet das CMS sie zum Wiederherstellen an, solange der gespeicherte Entwurf unverändert ist; sonst nur als Datei.
+- **Medien.** Format und Größe werden vor dem Hochladen geprüft, mehrere Dateien zeigen „Bild 2 von 5 …“. Nach dem Hochladen öffnet sich die Bildbeschreibung. Der Dialog nennt, wo ein Bild verwendet wird, und sperrt das Löschen verwendeter Bilder. Der Filter „Ohne Bildbeschreibung“ findet fehlende Alt-Texte. Lokal ohne Blob-Store speichert das CMS Bilder in `.data/media`, damit die Mediathek auch in der Testumgebung vollständig funktioniert; der Startcheck meldet solche Bilder vor dem Livegang.
+- **Anfragen.** „Per E-Mail antworten“ und „Als erledigt markieren“ direkt in der Anfrage; ein leeres Postfach erklärt, wie Nachrichten ankommen.
+- **Suche (Strg/⌘ K).** Findet neben Bereichen auch Seiten und Einstellungen, etwa „SMTP“, „Passwort“ oder „Impressum“.
+- **Smartphone und Barrierefreiheit.** Keine Verwaltungsschrift unter 12 px, größere Bedienziele, Einstellungsbereiche als umbrechende Auswahl, mehr Platz für die Vorschau, Hinweise und Speichern-Leisten über der unteren Navigation, kompakter KI-Assistent. Der Sprachschalter erfüllt die Namensregel für Screenreader.
+- **Neue Projekte** starten mit einem deutschen CMS. Bestehende Projekte behalten ihre gespeicherte Spracheinstellung.
+
+Beim Übernehmen mit `npm run upgrade:site` sind keine Datenänderungen nötig. Projekte mit eigenen Anpassungen an `admin-app.tsx`, `media-manager.tsx`, `dashboard-help.tsx` oder `cms-saas.css` prüfen die zusammengeführten Stellen. Eigene Admin-Stylesheets mit Schriftgrößen unter 12 px sollten nachgezogen werden. Die neue Route `/api/media/local/…` liefert nur lokal ohne Blob-Store Bilder aus; auf Vercel antwortet sie mit 404.

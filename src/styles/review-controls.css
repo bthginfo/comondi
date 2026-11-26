@@ -1,4 +1,19 @@
-/* Keep the fixed design chooser clear of legal links and cookie controls. */
-.ws-site:has(.ws-review-fab) :is(.ws-footer,.ed-footer,.iv-footer,.nr-footer,.nv-footer) {
+/* Keep the fixed design chooser clear of legal links and cookie controls. The last element of the
+   page receives the room: the footer, or the privacy-settings link when it follows the footer. */
+.ws-site:has(.ws-review-fab):not(:has(.ws-native-consent-entry)) :is(.ws-footer,.ed-footer,.iv-footer,.nr-footer,.nv-footer) {
   padding-bottom:calc(104px + env(safe-area-inset-bottom,0px));
+}
+.ws-site:has(.ws-review-fab) .ws-native-consent-entry {
+  padding-bottom:calc(84px + env(safe-area-inset-bottom,0px));
+}
+
+/* Phones get a compact chooser that stays out of the reading area. */
+@media (max-width: 600px) {
+  .ws-site .ws-review-switcher { right:max(12px,env(safe-area-inset-right,0px)); bottom:max(12px,env(safe-area-inset-bottom,0px)); }
+  .ws-site .ws-review-fab { min-height:44px; padding:8px 12px; gap:7px; border-radius:22px; font-size:12px !important; box-shadow:0 4px 16px #0b241f24; }
+  .ws-site .ws-review-fab svg { width:18px; height:18px; }
+  .ws-site .ws-review-fab-word { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .ws-site .ws-review-fab-dot { display:none; }
+  .ws-site:has(.ws-review-fab):not(:has(.ws-native-consent-entry)) :is(.ws-footer,.ed-footer,.iv-footer,.nr-footer,.nv-footer) { padding-bottom:calc(76px + env(safe-area-inset-bottom,0px)); }
+  .ws-site:has(.ws-review-fab) .ws-native-consent-entry { padding-bottom:calc(68px + env(safe-area-inset-bottom,0px)); }
 }

@@ -5,7 +5,7 @@ export type AdminTranslator = (message: string, values?: AdminMessageValues) => 
 
 export const ADMIN_LANGUAGE_COOKIE = "ws_admin_language";
 export const REQUEST_LANGUAGE_HEADER = "x-ws-language";
-export const DEFAULT_ADMIN_LANGUAGE: AdminLanguage = "en";
+export const DEFAULT_ADMIN_LANGUAGE: AdminLanguage = "de";
 
 export function parseAdminLanguage(value: unknown): AdminLanguage | undefined {
   return value === "de" || value === "en" ? value : undefined;

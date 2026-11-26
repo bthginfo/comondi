@@ -1,6 +1,7 @@
 "use client";
 
 import { useAdminLanguage } from "./admin-language";
+import { createSessionGate, fetchWithSession, LOGIN_URL } from "@/lib/admin-request";
 import type { AdminLanguage, AdminMessage, AdminTranslator } from "@/lib/admin-i18n/locale";
 import { cloneElement, createContext, isValidElement, useContext, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactElement, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, BriefcaseBusiness, Building2, CalendarDays, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clock3, Columns3, Copy, Download, ExternalLink, Eye, EyeOff, FileText, GripVertical, Image, Layers3, LayoutDashboard, Link, List, LoaderCircle, Mail, MapPin, Menu, MessageSquare, Minus, MoreHorizontal, Move, PanelLeft, PanelRight, Pencil, Phone, Plus, RefreshCw, Search, Settings2, ShieldCheck, Sparkles, Square, Trash2, Type, Upload, Users, X, type LucideIcon } from "lucide-react";
@@ -25,7 +26,7 @@ export function Field({ label, hint, children, className = "" }: { label: string
 export function Input(props: InputHTMLAttributes<HTMLInputElement>) { const field = useContext(FieldContext); return <input aria-labelledby={props["aria-label"] ? undefined : field?.labelId} aria-describedby={field?.hintId} {...props} className={`cms-input ${props.className || ""}`} />; }
 export function Textarea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) { const field = useContext(FieldContext); return <textarea rows={3} aria-labelledby={props["aria-label"] ? undefined : field?.labelId} aria-describedby={field?.hintId} {...props} className={`cms-input cms-textarea ${props.className || ""}`} />; }
 export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) { const field = useContext(FieldContext); return <span className="cms-select-wrap"><select aria-labelledby={props["aria-label"] ? undefined : field?.labelId} aria-describedby={field?.hintId} {...props} className={`cms-input cms-select ${props.className || ""}`} /><ChevronDown size={15} aria-hidden="true" /></span>; }
-export function Toggle({ checked, onChange, label, hint }: { checked: boolean; onChange: (value: boolean) => void; label: string; hint?: string }) { return <label className="cms-toggle-row"><span><span className="cms-label">{label}</span>{hint && <span className="cms-hint">{hint}</span>}</span><input type="checkbox" role="switch" checked={checked} onChange={event => onChange(event.target.checked)} /><span className="cms-toggle" aria-hidden="true" /></label>; }
+export function Toggle({ checked, onChange, label, hint, disabled }: { checked: boolean; onChange: (value: boolean) => void; label: string; hint?: string; disabled?: boolean }) { return <label className="cms-toggle-row"><span><span className="cms-label">{label}</span>{hint && <span className="cms-hint">{hint}</span>}</span><input type="checkbox" role="switch" checked={checked} disabled={disabled} onChange={event => onChange(event.target.checked)} /><span className="cms-toggle" aria-hidden="true" /></label>; }
 
 export function SearchField({ value, onChange, placeholder = "Suchen …", label = "Suchen" }: { value: string; onChange: (value: string) => void; placeholder?: string; label?: string }) {
   const { t: adminText } = useAdminLanguage(); return <label className="cms-search"><Search size={17} aria-hidden="true" /><input type="search" aria-label={adminText(label)} value={value} onChange={event => onChange(event.target.value)} placeholder={adminText(placeholder)} />{value && <button type="button" aria-label={adminText("Suche löschen")} onClick={() => onChange("")}><X size={14} /></button>}</label>; }
@@ -74,13 +75,18 @@ export class ApiError extends Error {
     this.name = "ApiError";
   }
 }
-/** Fired (cancelable) when an admin request finds the session expired. A workspace with unsaved changes cancels it and asks for the password in place. */
-export const sessionExpiredEvent = "cms:session-expired";
+/** The workspace registers its sign-in dialog here, so an expired session never discards unsaved work. */
+export const adminSession = createSessionGate();
 export async function api<T>(url: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(url, { ...options, headers: { ...(options?.body instanceof FormData ? {} : { "Content-Type": "application/json" }), ...options?.headers } });
+  const init = { ...options, headers: { ...(options?.body instanceof FormData ? {} : { "Content-Type": "application/json" }), ...options?.headers } };
+  const { response } = await fetchWithSession(url, init, adminSession);
   const result = await response.json().catch(() => ({}));
   if (!response.ok) {
-    if (response.status === 401 && url !== "/api/admin/login" && window.dispatchEvent(new Event(sessionExpiredEvent, { cancelable: true }))) window.location.assign("/admin/login");
+    if (response.status === 401 && url !== LOGIN_URL) {
+      // Without a registered dialog (for example outside the workspace) the login page remains the way back.
+      if (!adminSession.available) window.location.assign("/admin/login");
+      throw new ApiError("Ihre Sitzung ist abgelaufen. Ihre Änderungen sind noch in diesem Fenster. Melden Sie sich erneut an und speichern Sie dann.", 401);
+    }
     const messages = Array.isArray(result.messages) ? result.messages.filter((item: unknown): item is AdminMessage =>
       typeof item === "object" && item !== null && "message" in item && typeof item.message === "string") : undefined;
     throw new ApiError(result.error || "Die Änderung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.", response.status, messages);

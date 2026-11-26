@@ -21,6 +21,7 @@ import { ArrowDown, ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUp, ArrowUpRigh
 import type { ContentItem, ImageValue, MediaAsset, PageContent, Section, SectionContent, SiteConfig, SiteLanguage } from "@/lib/types";
 import { NewsletterSignup } from "./newsletter-signup";
 import { NewsletterShowcase } from "./newsletter-showcase";
+import { AppointmentBooking } from "./appointment-booking";
 import { ContactForm } from "./contact-form";
 import { ConsentManager, consentEvent, ExternalMedia, type PublishedConsent } from "./consent";
 import { ContentDisclosure, ContentLink, EditableImage, EditableText, safeHref, SiteInteractionContext, SiteMediaContext, teamEmailLabel } from "./editable";
@@ -36,13 +37,16 @@ import { NavySection, NavySite } from "./variants/navy";
 import { ContentIcon } from "./content-icon";
 import { PageHeadingProvider, SectionHeadingProvider, useSectionHeadingLevel } from "./heading-level";
 import { DesignReviewSwitcher, useDesignVariant, type DesignVariant } from "./preview-switcher";
+import { liquidGlassSettings } from '@/lib/liquid-glass.mjs';
 import { paletteFor } from "@/lib/theme";
 import { useSmartHeader } from "./smart-header";
 import { installSiteMotion, sectionEntrance } from "./site-motion";
 import { HeroComposition } from "./variants/hero-compositions";
 import { clubTimelineItems, type PublicClubMatch } from "@/lib/club/fixtures";
+import { ProjectHeroArt } from "./project-hero-art";
 import { ProjectIndex, ProjectStage, SceneSequence, ScrollStory, WorkflowDemo } from "./visual-sections";
 const AssistantShowcase=dynamic(()=>import("@/components/assistant/assistant-showcase").then(module=>module.AssistantShowcase));
+const LiquidGlassLayer = dynamic(() => import("./liquid-glass").then(module => module.LiquidGlassLayer));
 const MotionStory = dynamic(() => import("./motion-story").then(module => module.MotionStory));
 const Scroll3d = dynamic(() => import("./scroll-3d").then(module => module.Scroll3d));
 const CreatorSite=dynamic(()=>import("@/components/creator/creator-editor-site").then(module=>module.CreatorSite));
@@ -105,11 +109,13 @@ function SiteViewBody({ cartHref, consent, creatorComponents, page: authoredPage
   const Main = editable ? "div" : "main";
   const rootRef = useRef<HTMLDivElement>(null);
   const [activeVariant, changeVariant] = useDesignVariant(variant, editable, site.designVariant);
+  const glass = site.theme.aesthetic === "liquid-glass" && activeVariant === 1;
+  const glassSettings = liquidGlassSettings(site.theme.glass);
   useEffect(() => {
     if (editable) return;
     const root = rootRef.current;
     if (!root) return;
-    const stopMotion = installSiteMotion(root);
+    const stopMotion = !glass || glassSettings.enabled && glassSettings.reveal ? installSiteMotion(root) : undefined;
     const scrollToAnchor = (event: MouseEvent) => {
       const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
       if (!link || link.hash.length < 2) return;
@@ -123,7 +129,7 @@ function SiteViewBody({ cartHref, consent, creatorComponents, page: authoredPage
     };
     root.addEventListener("click", scrollToAnchor);
     return () => { stopMotion?.(); root.removeEventListener("click", scrollToAnchor); };
-  }, [page.id, editable, activeVariant]);
+  }, [page.id, editable, activeVariant, glass, glassSettings.enabled, glassSettings.reveal]);
   const palette = paletteFor(site, activeVariant);
   const paletteOverride = Boolean(site.theme.palettes?.[activeVariant]);
   const appearanceId = useId();
@@ -133,14 +139,16 @@ function SiteViewBody({ cartHref, consent, creatorComponents, page: authoredPage
     "--ws-paper": activeVariant === 1 ? palette.background : site.theme.background, "--ws-radius": `${site.theme.radius}px`,
     "--font-body": site.theme.font === "manrope" ? "'Manrope Variable', 'Manrope', sans-serif" : "'DM Sans Variable', 'DM Sans', sans-serif",
     "--ws-display": site.theme.font === "dm-sans" ? "var(--font-body)" : "var(--font-display)",
+    ...(glass ? { "--lg-intensity": String(0.25 + glassSettings.intensity / 100), "--lg-ambient-duration": `${100 - glassSettings.speed * 0.5}s`, "--lg-reveal-duration": `${glassSettings.revealDuration}ms` } : {}),
     ...(paletteOverride ? { "--ws-palette-primary": palette.primary, "--ws-palette-accent": palette.accent, "--ws-palette-background": palette.background, "--ws-palette-text": palette.text, "--ws-palette-surface": palette.surface, "--ws-palette-border": palette.border } : {}),
   } as CSSProperties;
-  const portraits = page.sections.filter((section) => section.visible && ["team", "portrait-mosaic", "portrait-rail", "people-index", "navy-people"].includes(section.type)).flatMap((section) => section.content.items ?? []);
+  const visibleSections = page.sections.filter(section => section.visible);
+  const portraits = visibleSections.filter((section) => ["team", "portrait-mosaic", "portrait-rail", "people-index", "navy-people"].includes(section.type)).flatMap((section) => section.content.items ?? []);
   const sceneImage = page.sections.find((section) => section.visible && section.type === "split" && section.content.image)?.content.image ?? page.sections.find((section) => section.visible && section.content.image)?.content.image;
   const firstHeadingId = page.sections.find((section) => section.visible && section.content.heading.trim() && (!section.type.startsWith("blog-") || (site.blog?.enabled && (section.id === "blog-feed" || section.content.items?.length))))?.id ?? null;
   const PublicCreatorSection=creatorComponents?.section;
   const CreatorLayout=creatorComponents?.site||CreatorSite;
-  const fallback = (section: Section) => <SectionHeadingProvider key={section.id} sectionId={section.id}>{PublicCreatorSection&&section.type.startsWith("creator-")?<PublicCreatorSection section={section} site={site} editable={editable} selected={selectedSectionId === section.id} onSelect={() => onSectionSelect?.(section.id)} onChange={onSectionChange}/>:<SectionRenderer section={section} site={site} language={language} editable={editable} selected={selectedSectionId === section.id} onSelect={() => onSectionSelect?.(section.id)} onChange={onSectionChange} onEditMenu={onEditMenu} portraits={portraits} sceneImage={sceneImage} />}</SectionHeadingProvider>;
+  const fallback = (section: Section) => <SectionHeadingProvider key={section.id} sectionId={section.id}>{PublicCreatorSection&&section.type.startsWith("creator-")?<PublicCreatorSection section={section} site={site} editable={editable} selected={selectedSectionId === section.id} onSelect={() => onSectionSelect?.(section.id)} onChange={onSectionChange}/>:<SectionRenderer glass={glass} section={section} pageSections={visibleSections} site={site} language={language} editable={editable} selected={selectedSectionId === section.id} onSelect={() => onSectionSelect?.(section.id)} onChange={onSectionChange} onEditMenu={onEditMenu} portraits={portraits} sceneImage={sceneImage} />}</SectionHeadingProvider>;
   const variantProps = { page, site, cartHref, editable, selectedSectionId, onSectionSelect, onSectionChange, fallback };
   const languageLinks = !editable && translations?.de !== undefined && translations?.en !== undefined
     ? <nav className="ws-language-switch" aria-label={language === "en" ? "Website language" : "Sprache der Website"}>
@@ -150,7 +158,8 @@ function SiteViewBody({ cartHref, consent, creatorComponents, page: authoredPage
     : null;
   if (page.sections.some(section => section.type.startsWith("comondi-"))) return <SiteMediaContext.Provider value={media}><PageHeadingProvider firstSectionId={firstHeadingId} readOnlySectionIds={readOnlySectionIds}><div ref={rootRef} className={`ws-site comondi-site-root${editable ? " ws-site-editable" : ""}`} lang={language} data-cms-style-scope={appearanceId} style={{...siteStyle, "--ws-ink":"#eef0f8", "--ws-paper":"#0b1020", "--ws-accent":"#e7acd4"} as CSSProperties}>{appearance && <style>{appearance}</style>}{!editable && <a className="ws-skip-link" href="#hauptinhalt">Zum Inhalt springen</a>}<ComondiSite {...variantProps} />{!editable && <ConsentManager site={baseSite} language={language} published={consent} />}</div></PageHeadingProvider></SiteMediaContext.Provider>;
   if(site.modules?.creator?.enabled)return <SiteMediaContext.Provider value={media}><PageHeadingProvider firstSectionId={firstHeadingId} readOnlySectionIds={readOnlySectionIds}><div ref={rootRef} className={`ws-site creator-site${editable?' ws-site-editable':''}`} lang={language} data-cms-style-scope={appearanceId} style={siteStyle}>{appearance && <style>{appearance}</style>}{languageLinks}<CreatorLayout {...variantProps}/>{!editable&&<ConsentManager site={baseSite} language={language} published={consent} />}</div></PageHeadingProvider></SiteMediaContext.Provider>;
-  return <SiteMediaContext.Provider value={media}><PageHeadingProvider firstSectionId={firstHeadingId} readOnlySectionIds={readOnlySectionIds}><div ref={rootRef} className={`ws-site ws-design-${activeVariant}${editable ? " ws-site-editable" : ""}`} lang={language} data-design-version={activeVariant} data-presentation={activeVariant === 1 ? site.theme.presentation : undefined} data-cms-style-scope={appearanceId} style={siteStyle}>{appearance && <style>{appearance}</style>}
+  return <SiteMediaContext.Provider value={media}><PageHeadingProvider firstSectionId={firstHeadingId} readOnlySectionIds={readOnlySectionIds}><div ref={rootRef} className={`ws-site ws-design-${activeVariant}${editable ? " ws-site-editable" : ""}`} lang={language} data-site-aesthetic={activeVariant === 1 && site.theme.aesthetic !== "standard" ? site.theme.aesthetic : undefined} data-glass-motion={glass ? glassSettings.enabled ? "on" : "off" : undefined} data-glass-feedback={glass ? String(glassSettings.enabled && glassSettings.feedback && !editable) : undefined} data-design-version={activeVariant} data-presentation={activeVariant === 1 ? site.theme.presentation : undefined} data-cms-style-scope={appearanceId} style={siteStyle}>{appearance && <style>{appearance}</style>}
+    {glass && <LiquidGlassLayer settings={glassSettings} editable={editable} language={language} />}
     {!editable && <a className="ws-skip-link" href="#hauptinhalt">{language === "en" ? "Skip to content" : "Zum Inhalt springen"}</a>}
     {languageLinks}
     {activeVariant === 2 ? <EditorialSite {...variantProps} /> : activeVariant === 3 ? <ImmersiveSite {...variantProps} /> : activeVariant === 4 ? <NoirSite {...variantProps} /> : activeVariant === 5 ? <NavySite {...variantProps} /> : <>
@@ -205,10 +214,10 @@ function SiteFooter({ site, editable, language }: { site: SiteConfig; editable?:
   </footer>;
 }
 
-type RendererProps = { section: Section; site: SiteConfig; language?: SiteLanguage; editable?: boolean; selected?: boolean; onSelect?: () => void; onChange?: (section: Section) => void; portraits?: ContentItem[]; sceneImage?: ImageValue; onEditMenu?: (selection: MenuSelection) => void };
+type RendererProps = { glass?: boolean; pageSections?: readonly Section[]; section: Section; site: SiteConfig; language?: SiteLanguage; editable?: boolean; selected?: boolean; onSelect?: () => void; onChange?: (section: Section) => void; portraits?: ContentItem[]; sceneImage?: ImageValue; onEditMenu?: (selection: MenuSelection) => void };
 type SectionStyle = CSSProperties & Record<`--${string}`, string | number>;
 
-export function SectionRenderer({ section, site, language = "de", editable = false, selected, onSelect, onChange, portraits, sceneImage, onEditMenu }: RendererProps) {
+export function SectionRenderer({ section, pageSections = [], site, language = "de", editable = false, selected, onSelect, onChange, portraits, sceneImage, onEditMenu, glass = false }: RendererProps) {
   const { t: adminText } = useAdminLanguage();
   const { content: c, design: d } = section;
   const teamGridRef = useRef<HTMLDivElement>(null);
@@ -240,9 +249,16 @@ export function SectionRenderer({ section, site, language = "de", editable = fal
   </div> : null;
   const intro = (className = "") => <div className={`ws-section-intro ${className}`}><div>{heading()}{c.subheading && text("subheading", "p", "ws-section-subheading")}</div>{c.text && text("text", "p", "ws-section-text")}</div>;
   const items = c.items ?? [];
+  const partnerMarker = (item: ContentItem) => {
+    if (item.tags?.includes("affiliate")) return language === "en" ? "Advertising · affiliate link" : "Werbung · Affiliate-Link";
+    if (item.tags?.includes("partner-code")) return language === "en" ? "Advertising · discount code" : "Werbung · Rabattcode";
+    if (item.tags?.includes("affiliate-example")) return language === "en" ? "Example partner link" : "Muster-Partnerlink";
+    return "";
+  };
   const details = (item: ContentItem, index: number) => item.details?.length ? <ul className="ws-detail-list">{item.details.map((detail, detailIndex) => <li key={detailIndex}><Check size={16} /><EditableText as="span" value={detail} editable={editable} onChange={(value) => updateItem(index, "details", item.details!.map((entry, entryIndex) => entryIndex === detailIndex ? value : entry))} /></li>)}</ul> : null;
-  const themeDefaults = d.theme === "dark" ? { background: "var(--ws-ink)", color: "var(--ws-paper)" } : d.theme === "accent" ? { background: "var(--ws-accent)", color: "var(--ws-ink)" } : d.theme === "soft" ? { background: "var(--ws-palette-surface, #e8ece4)", color: "var(--ws-palette-text, var(--ws-ink))" } : { background: "var(--ws-paper)", color: "var(--ws-palette-text, var(--ws-ink))" };
+  const themeDefaults = glass ? { background: "transparent", color: "var(--ws-palette-text, var(--ws-ink))" } : d.theme === "dark" ? { background: "var(--ws-ink)", color: "var(--ws-paper)" } : d.theme === "accent" ? { background: "var(--ws-accent)", color: "var(--ws-ink)" } : d.theme === "soft" ? { background: "var(--ws-palette-surface, #e8ece4)", color: "var(--ws-palette-text, var(--ws-ink))" } : { background: "var(--ws-paper)", color: "var(--ws-palette-text, var(--ws-ink))" };
   const style: SectionStyle = {
+    ...(glass && d.cardBackground ? { "--lg-surface": d.cardBackground } : {}),
     "--section-bg": d.background || themeDefaults.background, "--section-fg": d.textColor || themeDefaults.color,
     "--section-accent": d.accentColor || "var(--ws-accent)", "--section-scale": d.fontScale,
     "--section-radius": `${d.radius}px`, "--section-columns": collectionColumns(d.columns, c.items?.length ?? 0),
@@ -280,13 +296,13 @@ export function SectionRenderer({ section, site, language = "de", editable = fal
         <div className="ws-showcase-copy">
           {text("subheading", "p", "ws-visual-label")}
           {heading("ws-showcase-title")}
-          {text("text", "p", "ws-showcase-lead")}
-          {actions()}
+          {glass ? <div className="ws-glass-copy-panel">{text("text", "p", "ws-showcase-lead")}{actions()}</div> : <>{text("text", "p", "ws-showcase-lead")}{actions()}</>}
         </div>
         {(c.image?.src || editable) && <figure className="ws-showcase-art">
           <EditableImage image={c.image} editable={editable} onChange={value => update("image", value)}
             className="ws-showcase-image" priority={headingLevel === "h1"}
             sizes={layout === "panorama" ? "(max-width: 1500px) 92vw, 1424px" : "(max-width: 860px) 90vw, (max-width: 1550px) 52vw, 780px"} />
+          <ProjectHeroArt section={section} pageSections={pageSections} language={language} editable={editable} />
           <EditableText as="figcaption" value={c.caption} editable={editable}
             onChange={value => update("caption", value)} className="ws-visual-caption" />
         </figure>}
@@ -308,7 +324,7 @@ export function SectionRenderer({ section, site, language = "de", editable = fal
         language,
         media: (item: ContentItem, index: number) => item.image?.src || editable ? (
           <EditableImage image={item.image} editable={editable} onChange={value => updateItem(index, "image", value)}
-            className="ws-visual-image" sizes={section.type === "editorial-index" ? "(max-width: 350px) 75vw, 256px" : "(max-width: 860px) 90vw, (max-width: 1550px) 52vw, 780px"} />
+            className="ws-visual-image" sizes={section.type === "editorial-index" ? "(max-width: 350px) 75vw, 256px" : section.type === "scene-sequence" ? "100vw" : "(max-width: 860px) 90vw, (max-width: 1550px) 52vw, 780px"} />
         ) : null,
         copy: (item: ContentItem, index: number) => <>
           {itemText(item, index, "meta", "p", "ws-visual-label")}
@@ -375,20 +391,21 @@ export function SectionRenderer({ section, site, language = "de", editable = fal
       {(item.email || item.phone) && <div className="ws-person-contact">{item.email && <ContentLink href={`mailto:${item.email}`} editable={editable} label={teamEmailLabel(item)}><Mail size={17} /><span>{item.label === "Sekretariat" ? "Sekretariat: " : ""}{item.email}</span></ContentLink>}{item.phone && <ContentLink href={`tel:${item.phone.replace(/[^+\d]/g, "")}`} editable={editable}><Phone size={16} />{item.phone}</ContentLink>}</div>}
     </article>)}</div>{actions("ws-section-bottom-actions")}</>; break;
     case "split": body = <div className={`ws-split-layout ws-image-${d.imageSide}`}>{image("ws-split-image")}<div className="ws-split-copy">{heading()}{c.subheading && text("subheading", "p", "ws-section-subheading")}{text("text", "p", "ws-split-text")}{items.length > 0 && <ul className="ws-split-facts">{items.map((item, index) => <li key={item.id} data-item-id={item.id}><ContentIcon name={item.icon} editable={editable} itemId={item.id} sectionId={section.id} /><div>{itemText(item, index, "title", "h3")}{itemText(item, index, "text")}</div></li>)}</ul>}{actions()}</div></div>; break;
-    case "contact": body = <>{intro("ws-contact-intro")}<div className="ws-contact-layout"><div className="ws-contact-info">
+    case "contact": body = <>{intro("ws-contact-intro")}{site.modules?.consultations?.enabled&&
+      (editable?<p>{adminText("Freie Termine erscheinen hier aus dem CMS.")}</p>:<AppointmentBooking language={language}/>)}<div className="ws-contact-layout"><div className="ws-contact-info">
       <ContentLink href={`tel:${site.phone.replace(/[^+\d]/g, "")}`} editable={editable} className="ws-contact-phone"><Phone size={23} /><span>{site.phone}</span><ArrowUpRight size={22} /></ContentLink>
       <ContentLink href={`mailto:${site.email}`} editable={editable} className="ws-contact-email"><Mail size={21} /><span>{site.email}</span><ArrowUpRight size={20} /></ContentLink>
       <div className="ws-contact-address"><MapPin size={21} /><div><strong>{site.name}</strong><address>{site.address}<br />{site.postalCode} {site.city}</address><ContentLink href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.address}, ${site.postalCode} ${site.city}`)}`} editable={editable} className="ws-inline-link" target="_blank">Anfahrt planen<ArrowUpRight size={15} /></ContentLink></div></div>
       <div className="ws-contact-hours"><Clock3 size={21} /><div><h3>Unsere Bürozeiten</h3>{site.openingHours.map((entry) => <p key={entry.day}><span>{entry.day}</span><span>{entry.hours}</span></p>)}</div></div>
       {site.fax && <p className="ws-contact-fax">Fax {site.fax}</p>}
-    </div><ContactForm editable={editable} copy={c.form} informal={site.modules?.creator?.enabled} /></div></>; break;
+    </div>{site.modules?.consultations?.enabled?<div><p className="ws-contact-alternative">{language==="en"?"Prefer to send a message?":"Lieber erst eine Nachricht schreiben?"}</p><ContactForm editable={editable} copy={c.form} informal={site.modules?.creator?.enabled} /></div>:<ContactForm editable={editable} copy={c.form} informal={site.modules?.creator?.enabled} />}</div></>; break;
     case "faq": case "accordion": body = <div className="ws-faq-layout"><div>{heading()}{text("text", "p", "ws-section-text")}{actions()}</div><div className="ws-faq-list">{items.map((item, index) => <ContentDisclosure editable={editable} key={item.id} data-item-id={item.id} className="ws-faq-item" summary={<>{itemText(item, index, "title", "h3")}<span className="ws-disclosure-icon"><Plus size={21} /><Minus size={21} /></span></>}><div className="ws-faq-answer">{itemText(item, index, "text")}{details(item, index)}{item.href && <ContentLink href={item.href} editField="href" editItemId={item.id} editable={editable} className="ws-inline-link">{item.label || "Mehr erfahren"}<ArrowUpRight size={15} /></ContentLink>}</div></ContentDisclosure>)}</div></div>; break;
     case "steps": body = <>{intro()}<ol className="ws-steps">{items.map((item, index) => <li key={item.id} data-item-id={item.id}><span className="ws-step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div>{itemText(item, index, "title", "h3")}{itemText(item, index, "text")}{details(item, index)}</div></li>)}</ol>{actions("ws-section-bottom-actions")}</>; break;
-    case "stats": body = <>{intro()}<dl className="ws-stats">{items.map((item, index) => <div key={item.id} data-item-id={item.id}><dt>{itemText(item, index, "text", "span")}</dt><dd>{itemText(item, index, "title", "span")}</dd>{item.meta && itemText(item, index, "meta", "p")}</div>)}</dl></>; break;
+    case "stats": body = <>{intro()}<dl className="ws-stats">{items.map((item, index) => <div key={item.id} data-item-id={item.id}><dt>{itemText(item, index, "text", "span")}</dt><dd>{itemText(item, index, "title", "span")}</dd>{(item.meta || editable) && <dd className="ws-stats-note">{itemText(item, index, "meta", "span")}</dd>}</div>)}</dl></>; break;
     case "gallery": body = <>{intro()}<div className="ws-gallery">{(c.images ?? []).map((entry, index) => <EditableImage key={index} image={entry} editable={editable} className="ws-gallery-image" caption onOpen={button => gallery.openImage(index, button)} onChange={(value) => update("images", c.images!.map((current, i) => index === i ? value : current))} />)}</div>{actions()}{!editable && gallery.lightbox}</>; break;
     case "richtext": body = <div className="ws-richtext"><header className="ws-richtext-header">{heading()}{c.subheading && text("subheading", "p", "ws-section-subheading")}{c.image && image("ws-richtext-image")}{actions()}</header><div className="ws-richtext-reading">{text("text", "div", "ws-richtext-body")}{items.map((item, index) => <article key={item.id} data-item-id={item.id} className="ws-richtext-block">{itemText(item, index, "title", "h3")}{itemText(item, index, "text", "p")}{details(item, index)}{item.href && <ContentLink href={item.href} editField="href" editItemId={item.id} editable={editable} className="ws-inline-link">{item.label || item.href}<ArrowUpRight size={16} /></ContentLink>}</article>)}</div></div>; break;
     case "cta": body = <div className="ws-cta-layout"><div>{heading("ws-cta-heading")}{text("text", "p", "ws-cta-text")}</div>{actions("ws-cta-actions")}</div>; break;
-    case "cards": body = <>{intro()}<div className="ws-editorial-cards">{items.map((item, index) => <article key={item.id} data-item-id={item.id} className="ws-editorial-card">{item.image ? itemImage(item, index) : <span className="ws-editorial-card-icon"><ContentIcon name={item.icon} size={29} editable={editable} itemId={item.id} sectionId={section.id} /></span>}{itemText(item, index, "meta", "span", "ws-card-meta")}{itemText(item, index, "title", "h3")}{itemText(item, index, "text")}{details(item, index)}{item.href && <ContentLink href={item.href} editField="href" editItemId={item.id} editable={editable} className="ws-inline-link">{item.label || "Weiterlesen"}<ArrowUpRight size={18} /></ContentLink>}</article>)}</div>{actions()}</>; break;
+    case "affiliate-links": case "cards": body = <>{intro()}<div className="ws-editorial-cards">{items.map((item, index) => <article key={item.id} data-item-id={item.id} className="ws-editorial-card">{section.type === "affiliate-links" && partnerMarker(item) && <p className="ws-partner-marker">{partnerMarker(item)}</p>}{item.image ? itemImage(item, index) : <span className="ws-editorial-card-icon"><ContentIcon name={item.icon} size={29} editable={editable} itemId={item.id} sectionId={section.id} /></span>}{itemText(item, index, "meta", "span", "ws-card-meta")}{itemText(item, index, "title", "h3")}{itemText(item, index, "text")}{details(item, index)}{item.href && <ContentLink href={item.href} editField="href" editItemId={item.id} editable={editable} className="ws-inline-link" sponsored={section.type === "affiliate-links" && item.tags?.some(tag => tag === "affiliate" || tag === "partner-code")} target={section.type === "affiliate-links" ? "_blank" : undefined}>{item.label || (language === "en" ? "Read more" : "Weiterlesen")}<ArrowUpRight size={18} /></ContentLink>}</article>)}</div>{actions()}</>; break;
     case "list": body = <>{intro()}<ul className="ws-content-list">{items.map((item, index) => <li key={item.id} data-item-id={item.id}><span className="ws-list-check"><ContentIcon name={item.icon || "check"} size={21} editable={editable} itemId={item.id} sectionId={section.id} /></span><div>{itemText(item, index, "title", "h3")}{itemText(item, index, "text")}{details(item, index)}</div>{item.href && <ContentLink href={item.href} editField="href" editItemId={item.id} editable={editable} label={item.label || `${item.title} öffnen`} className="ws-list-arrow"><ArrowUpRight size={24} /></ContentLink>}</li>)}</ul>{actions()}</>; break;
     case "downloads": body = <>{intro()}<div className="ws-downloads">{items.map((item, index) => <article key={item.id} data-item-id={item.id}><span className="ws-download-file"><FileText size={28} /></span><div>{itemText(item, index, "title", "h3")}{itemText(item, index, "text")}{itemText(item, index, "meta", "span", "ws-download-meta")}</div><ContentLink href={item.href} editField="href" editItemId={item.id} editable={editable} className="ws-download-button" label={`${item.label || "Herunterladen"} – ${item.title}`} download><ArrowDownToLine size={22} /><span>{item.label || "Herunterladen"}</span></ContentLink></article>)}</div></>; break;
     case "quote": body = <figure className="ws-quote">{c.image && image("ws-quote-portrait")}<div>{c.heading && heading("ws-quote-heading")}{text("quote", "blockquote", "ws-quote-text")}<figcaption>{text("attribution", "span", "ws-quote-attribution")}{c.text && text("text", "span", "ws-quote-caption")}</figcaption></div></figure>; break;

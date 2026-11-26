@@ -9,6 +9,7 @@ import { ContentLink, SiteInteractionContext } from "@/components/site/editable"
 import { creatorBase, useCreatorCart } from "../shop/cart-state";
 import styles from "./profile.module.css";
 import { useScrollNavigation } from "../motion/creator-motion";
+import { copyrightText } from "@/lib/site-config";
 
 export function CreatorProfileLayout(props: CreatorLayoutProps) {
   return <ProfileShell {...props} />;
@@ -44,6 +45,6 @@ function ProfileShell({ cartHref, page, site, editable = false, children }: Crea
     {menu && <nav id="mika-menu" className={styles.mobileNav} aria-label="Mobile Creator-Navigation">{site.navigation.map(item => <div key={item.href} onClick={() => setMenu(false)}><ContentLink href={item.href} editable={editable}>{item.label}<ArrowUpRight size={22} /></ContentLink></div>)}{isolated && <ContentLink href={`${base}/cms`} editable={editable}>Diese Website bearbeiten<ArrowUpRight size={22} /></ContentLink>}</nav>}
     </div>
     <Main key={resetCount} id="hauptinhalt" tabIndex={editable ? undefined : -1} className={styles.main}>{children}</Main>
-    <footer className={styles.footer}><div className={styles.footerTop}><ContentLink href={base || "/"} editable={editable} className={styles.footerBrand}>{site.footer?.brandText || site.name}<Zap fill="currentColor" strokeWidth={1} /></ContentLink>{site.footer?.ctaLabel && <ContentLink href={site.footer.ctaHref} editable={editable} className={styles.footerCta}>{site.footer.ctaLabel}<ArrowUpRight size={25} /></ContentLink>}</div><p>{site.footerText}</p><div className={styles.footerBottom}><span>{site.footer?.copyright}</span><div><FooterLegalLinks site={site} editable={editable} /></div></div></footer>
+    <footer className={styles.footer}><div className={styles.footerTop}><ContentLink href={base || "/"} editable={editable} className={styles.footerBrand}>{site.footer?.brandText || site.name}<Zap fill="currentColor" strokeWidth={1} /></ContentLink>{site.footer?.ctaLabel && <ContentLink href={site.footer.ctaHref} editable={editable} className={styles.footerCta}>{site.footer.ctaLabel}<ArrowUpRight size={25} /></ContentLink>}</div><p>{site.footerText}</p><div className={styles.footerBottom}><span>{copyrightText(site)}</span><div><FooterLegalLinks site={site} editable={editable} /></div></div></footer>
   </div>;
 }

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { DEFAULT_CLUB_APPEARANCE } from '../src/lib/club/appearance-model';
-import { calendarDownload, fixtureExport } from '../src/lib/club/exports';
+import { calendarDownload, calendarEventDownload, fixtureExport } from '../src/lib/club/exports';
 import type { ClubMatch, ClubPerson, ClubTeam, ClubTraining, ClubWorkspace } from '../src/lib/club/model';
 import { clubAttention, clubRecordHref, clubRecordRef, trainingReadiness } from '../src/lib/club/records';
 
@@ -61,4 +61,20 @@ test('club exports omit private notes, escape spreadsheet formulas and calendar 
   assert(ics.split('\r\n').every(line => Buffer.byteLength(line) <= 75));
   const csv = fixtureExport(selected, 'en');
   assert(csv.includes("\"'  =1+1\"") && !csv.includes('Internal') && !csv.includes('Foreign club'));
+});
+
+test('single-event calendar exports only a future event within the viewer’s teams', () => {
+  const laterMatch = match('later', 181 * 24, 'scheduled');
+  const cancelled = match('cancelled', 4, 'cancelled');
+  const foreign = { ...match('foreign', 6, 'scheduled'), teamId: 'team-2' };
+  const schedule = { ...workspace, matches: [...workspace.matches, laterMatch, cancelled, foreign] };
+  const matchFile = calendarEventDownload(schedule, 'match', laterMatch.id, now);
+  assert(matchFile);
+  assert(matchFile.includes('UID:match-later@club-calendar'));
+  assert.equal(matchFile.split('\r\n').filter(line => line === 'BEGIN:VEVENT').length, 1);
+  assert(!calendarDownload(schedule, now).includes('UID:match-later'));
+  assert(calendarEventDownload(schedule, 'training', training.id, now)?.includes('LOCATION:Club pitch'));
+  for (const id of [cancelled.id, foreign.id, 'ongoing', 'unknown']) {
+    assert.equal(calendarEventDownload(schedule, 'match', id, now), null);
+  }
 });

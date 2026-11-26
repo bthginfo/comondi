@@ -82,6 +82,10 @@ export function ProjectStage({ items, editable, language = "de", media, copy }: 
 
   return <div className="ws-project-stage">
     {!editable && items.length > 1 && <div className="ws-project-controls">
+      <select className="ws-project-picker" data-long-list={items.length > 8 || undefined}
+        aria-label={text.choose} value={active.id} onChange={event => setActiveId(event.target.value)}>
+        {items.map((item, index) => <option key={item.id} value={item.id}>{item.title || `${text.view} ${index + 1}`}</option>)}
+      </select>
       {items.length <= 8 && <div className="ws-project-choices" role="group" aria-label={text.choose}>
         {items.map((item, index) => <button type="button" key={item.id} aria-pressed={index === selected}
           aria-controls={`${listId}-${index}`} onClick={() => setActiveId(item.id)}>
@@ -158,8 +162,12 @@ export function SceneSequence({ items, editable, motion, media, copy }: ItemsPro
       if (!host || !scene || !host.hasAttribute("data-pinned")) return;
       const distance = host.offsetHeight - scene.offsetHeight;
       const position = clamp01(-host.getBoundingClientRect().top / Math.max(1, distance)) * (panels.length - 1 + lastSceneHold);
+      // Copy leaves first, then the picture slides away, so no headline is ever cut by the stage edge.
+      // The last scene is the resting end state: it stays in place while the stage releases.
       for (const [index, panel] of panels.entries()) {
-        panel.style.setProperty("--scene-exit", String(clamp01((position - index - .36) / .64)));
+        const last = index === panels.length - 1;
+        panel.style.setProperty("--scene-fade", String(last ? 0 : clamp01((position - index - .14) / .2)));
+        panel.style.setProperty("--scene-exit", String(last ? 0 : clamp01((position - index - .36) / .64)));
       }
     }
     function request() {
@@ -266,6 +274,16 @@ export function WorkflowDemo({ items, editable, motion, language = "de", media, 
     setPaused(true);
   }
 
+  function togglePlayback() {
+    setPaused(running);
+    const widget = root.current;
+    if (running || !widget) return;
+    const bounds = widget.getBoundingClientRect();
+    if (bounds.top < 0 || bounds.bottom > window.innerHeight) {
+      widget.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+  }
+
   return <div className="ws-workflow" ref={root} data-playing={running && visible || undefined}
     style={{ "--workflow-step-time": `${workflowStepDuration}ms` } as CSSProperties} onFocusCapture={event => {
     if ((event.target as HTMLElement).closest(".ws-workflow-panels")) setPaused(true);
@@ -287,7 +305,7 @@ export function WorkflowDemo({ items, editable, motion, language = "de", media, 
     </div>
     {!editable && items.length > 1 && <div className="ws-workflow-controls">
       <span>{current + 1} / {items.length}</span>
-      {canPlay && <button type="button" onClick={() => setPaused(running)}>{running ? <Pause size={16} /> : <Play size={16} />}{running ? text.pause : text.play}</button>}
+      {canPlay && <button type="button" onClick={togglePlayback}>{running ? <Pause size={16} /> : <Play size={16} />}{running ? text.pause : text.play}</button>}
       <button type="button" onClick={() => select((current + 1) % items.length)}><ArrowRight size={16} />{text.next}</button>
       <button type="button" aria-label={text.reset} onClick={() => setActive(0)}><RotateCcw size={16} /></button>
     </div>}

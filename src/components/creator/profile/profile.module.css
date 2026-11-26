@@ -13,3 +13,7 @@
 @media(prefers-reduced-motion:reduce){.navShell{transition:none}.cart span{animation:none}}
 
 .profile[data-editable=true] *{animation:none!important;transition:none!important}
+
+/* Legal links stay readable and comfortably tappable. */
+.footerBottom{font-size:12px}
+.footerBottom a{display:inline-flex;align-items:center;min-height:32px}

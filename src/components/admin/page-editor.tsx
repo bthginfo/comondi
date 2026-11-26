@@ -1,4 +1,5 @@
 "use client";
+import { DraftStatus, SectionOutline } from "./editor-feedback";
 import { updateDraftAddresses } from "@/lib/draft-link-addresses";
 import { useAdminLanguage } from "./admin-language";
 import { creatorMediaKitContent } from '@/lib/creator/media-kit.mjs';
@@ -11,8 +12,8 @@ import {applyAssistantPagePlan,assistantSectionCatalog} from "@/lib/assistant/pa
 import { hasBilingualHomepage, languageForSlug, localeForSlug, languageSwitchSlugs, publishedPagePath } from "@/lib/site-languages";
 import { isReservedPageSlug, normalizeSlug } from "@/lib/slug";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { Monitor, Smartphone, Undo2, Redo2, History, Globe, FilePlus2, Settings2, CircleDashed, ArrowLeft, Ellipsis, PanelLeft, Save, Download } from "lucide-react";
+import { useEffect, useId, useRef, useMemo, useState, type ReactNode } from "react";
+import { Monitor, Smartphone, Undo2, Redo2, History, Globe, FilePlus2, Settings2, ArrowLeft, Ellipsis, PanelLeft, Save, Download } from "lucide-react";
 import { SiteView } from "@/components/site/site-view";
 import { RestaurantMenuManager } from "./restaurant-menu-manager";
 import type { MenuSelection } from "@/lib/restaurant-menu/model";
@@ -27,12 +28,13 @@ import type { MediaActions } from "./media-manager";
 import { useCanvasTextDraft } from "./use-canvas-text-draft";
 import { PrivateCanvasTools, type CanvasSelection } from "./private-canvas-tools";
 import { CanvasEditorTools, focusSectionText } from "./canvas-editor-tools";
-import { PreviewFrame, usePreviewDevice } from "./preview-frame";
+import { PreviewFrame, usePreviewDevice, type PreviewDevice } from "./preview-frame";
 import { CreatorLibraryContext, SectionLibraryDialog, SectionPreview } from "./section-library-dialog";
 
-export type EditorProps = { privateCanvasTools?: boolean; onAssistantNavigate?:(id:AssistantActionId)=>void; assistantMode?:"demo"|"real"; assistantOpenSignal?:number; onSocialSuggestion?:(post:SocialSuggestion)=>void; onExport?:()=>void; sessionLocal?:boolean; embedded?:boolean; onShowWebsite?:()=>void; extraActions?:ReactNode; templateSource?: WebsiteContent; initialPageId?: string; content: WebsiteContent; cmsState: CmsState; onChange: (content: WebsiteContent) => void; media: MediaAsset[]; onUpload: MediaActions["onUpload"]; dirty: boolean; busy: string | null; onSave: () => Promise<void>; onPublish?: () => Promise<void>; onRestore?: (id: string) => Promise<void>; undo: () => void; redo: () => void; canUndo: boolean; canRedo: boolean };
+export type EditorProps = {
+  focusRequest?: { pageId?: string; device?: PreviewDevice; id: string }; saveError?: boolean; privateCanvasTools?: boolean; emphasizeNextAction?: boolean; onAssistantNavigate?:(id:AssistantActionId)=>void; assistantMode?:"demo"|"real"; assistantOpenSignal?:number; onSocialSuggestion?:(post:SocialSuggestion)=>void; onExport?:()=>void; sessionLocal?:boolean; embedded?:boolean; onShowWebsite?:()=>void; extraActions?:ReactNode; templateSource?: WebsiteContent; initialPageId?: string; content: WebsiteContent; cmsState: CmsState; onChange: (content: WebsiteContent) => void; media: MediaAsset[]; onUpload: MediaActions["onUpload"]; dirty: boolean; busy: string | null; onSave: () => Promise<void>; onPublish?: () => Promise<void>; onRestore?: (id: string) => Promise<void>; undo: () => void; redo: () => void; canUndo: boolean; canRedo: boolean };
 
-export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, assistantMode, assistantOpenSignal, onSocialSuggestion, onExport, sessionLocal = false, embedded = false, onShowWebsite, extraActions, templateSource, initialPageId, content, cmsState, onChange, media, onUpload, dirty, busy, onSave, onPublish, onRestore, undo, redo, canUndo, canRedo }: EditorProps) {
+export function PageEditor({ focusRequest, saveError = false, privateCanvasTools = false, emphasizeNextAction = false, onAssistantNavigate, assistantMode, assistantOpenSignal, onSocialSuggestion, onExport, sessionLocal = false, embedded = false, onShowWebsite, extraActions, templateSource, initialPageId, content, cmsState, onChange, media, onUpload, dirty, busy, onSave, onPublish, onRestore, undo, redo, canUndo, canRedo }: EditorProps) {
   const { t: adminText, language } = useAdminLanguage();
   const initialPage = content.pages.find(page => page.id === initialPageId) ?? content.pages[0];
   const [previewVariant, setPreviewVariant] = useState<DesignVariant>(1); const [selectedItemId, setSelectedItemId] = useState<string | undefined>(); const [pageId, setPageId] = useState(initialPage?.id || ""); const [sectionId, setSectionId] = useState(initialPage?.sections[0]?.id || ""); const [device, setDevice] = usePreviewDevice(); const [mobileTab, setMobileTab] = useState<"outline" | "preview" | "properties">("preview"); const [library, setLibrary] = useState(false); const [pageModal, setPageModal] = useState(false); const [inspectorMode, setInspectorMode] = useState<"section" | "page">("section"); const [deleteSection, setDeleteSection] = useState<Section | null>(null); const [deletePage, setDeletePage] = useState(false); const [revisions, setRevisions] = useState(false); const [restoreId, setRestoreId] = useState<string | null>(null); const stage = useRef<HTMLDivElement>(null);
@@ -43,7 +45,7 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
   const [settingsRequest, setSettingsRequest] = useState<{ pageId: string; sectionId: string; tab: "content" | "design"; itemId?: string }>();
   const assistantDraft=useRef({snapshot:"",token:""}); const assistantSnapshot=JSON.stringify(content); if(assistantDraft.current.snapshot!==assistantSnapshot)assistantDraft.current={snapshot:assistantSnapshot,token:crypto.randomUUID()};
   const [embeddedPreviewOnly,setEmbeddedPreviewOnly]=useState(()=>embedded);
-  const unpublished=JSON.stringify(cmsState.draft)!==JSON.stringify(cmsState.published);
+  const unpublished = useMemo(() => JSON.stringify(cmsState.draft) !== JSON.stringify(cmsState.published), [cmsState.draft, cmsState.published]);
   const [previewValue, setPreviewValue] = useState("");
   const [menuSelection, setMenuSelection] = useState<MenuSelection>();
   const centralMenu = content.config.modules?.restaurantMenu;
@@ -69,6 +71,10 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
       ? { ...authored, content: { ...authored.content, heading: next.content.heading, text: next.content.text } }
       : next);
   }
+  const canPublishDraft = unpublished || (!sessionLocal && !cmsState.publishedAt);
+  function outlineTypeLabel(candidate: Section) {
+    return adminText(sectionLibrary.find(item => item.type === candidate.type)?.name || candidate.type);
+  }
   function updatePage(next: PageContent) {
     const before = content.pages.find(candidate => candidate.id === next.id);
     const draft = { ...content, pages: content.pages.map(candidate => candidate.id === next.id ? next : candidate) };
@@ -77,13 +83,21 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
   function updateSection(next: Section) { if (page) updatePage({ ...page, sections: page.sections.map(candidate => candidate.id === next.id ? next : candidate) }); }
   const menuEditor = !embedded && !templateKey && centralMenu?.enabled ? setMenuSelection : undefined;
   function selectPage(id: string) { if (privateCanvasTools) { setCanvasSelection(undefined); setSelectedItemId(undefined); setSettingsRequest(undefined); } const next = content.pages.find(candidate => candidate.id === id); setPageId(id); setPreviewValue(""); setSectionId(next?.sections[0]?.id || ""); setInspectorMode("section"); if (stage.current) stage.current.scrollTop = 0; }
+  const handledFocus = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (!focusRequest || handledFocus.current === focusRequest.id) return;
+    handledFocus.current = focusRequest.id;
+    if (focusRequest.pageId && content.pages.some(candidate => candidate.id === focusRequest.pageId)) selectPage(focusRequest.pageId);
+    if (focusRequest.device) setDevice(focusRequest.device);
+    setMobileTab("preview");
+  }); // eslint-disable-line react-hooks/exhaustive-deps
   function selectSection(id: string, fromOutline = false) { setSectionId(id); setInspectorMode("section"); if (fromOutline && privateCanvasTools) { setCanvasSelection(undefined); setSelectedItemId(undefined); setSettingsRequest(undefined); } if (fromOutline) { const element = stage.current?.querySelector(`[data-section-id="${CSS.escape(id)}"]`) || stage.current?.querySelector(`[data-section="${CSS.escape(id)}"]`); if (element && stage.current?.clientHeight) { const host=stage.current; const offset=element.getBoundingClientRect().top-host.getBoundingClientRect().top-18; host.scrollBy({top:offset,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"}); }; } }
   function selectFromCanvas(value: CanvasSelection) {
     selectSection(value.sectionId);
     setSelectedItemId(value.itemId);
     setCanvasSelection(previous => previous?.sectionId === value.sectionId && previous.itemId === value.itemId && previous.field === value.field && previous.textRole === value.textRole ? previous : value);
   }
-  const activeCanvasSelection = canvasSelection?.sectionId === section?.id ? canvasSelection : undefined;
+  const activeCanvasSelection = canvasSelection && canvasSelection.sectionId === section?.id && (!canvasSelection.itemId || section.content.items?.some(item => item.id === canvasSelection.itemId)) ? canvasSelection : undefined;
   function openCanvasSettings(tab: "content" | "design") {
     if (!section) return;
     setInspectorMode("section");
@@ -97,7 +111,7 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
   function addSection(type: SectionType, position: "before" | "after" | "end") { if (!page) return; const added = createSection(type); const sections = [...page.sections]; const selectedIndex = sections.findIndex(candidate => candidate.id === sectionId); sections.splice(position === "end" || selectedIndex < 0 ? sections.length : selectedIndex + (position === "after" ? 1 : 0), 0, added); updatePage({ ...page, sections }); setSectionId(added.id); setInspectorMode("section"); setLibrary(false); setMobileTab("properties"); }
   function duplicateSection() { if (!page || !section || locked(section.id)) return; const duplicated = clone(section); duplicated.id = newId(); delete duplicated.anchor; duplicated.name += " · Kopie"; if (duplicated.content.items) duplicated.content.items = duplicated.content.items.map(item => ({ ...item, id: newId() })); const sections = [...page.sections]; sections.splice(sections.findIndex(candidate => candidate.id === section.id) + 1, 0, duplicated); updatePage({ ...page, sections }); setSectionId(duplicated.id); }
   function removeSection() { if (!page || !deleteSection || locked(deleteSection.id)) return; const index = page.sections.findIndex(candidate => candidate.id === deleteSection.id); const sections = page.sections.filter(candidate => candidate.id !== deleteSection.id); updatePage({ ...page, sections }); setSectionId(sections[Math.max(0, index - 1)]?.id || ""); setDeleteSection(null); }
-  if (!page) return <div className="cms-page"><EmptyState title={adminText("Noch keine Seiten")} action={<Button variant="primary" onClick={() => setPageModal(true)}><Plus size={16} />{adminText("Erste Seite anlegen")}</Button>}>{adminText("Legen Sie eine Seite an und fügen Sie Abschnitte aus der Bibliothek hinzu.")}</EmptyState>{pageModal && <NewPageDialog creator={content.config.modules?.creator?.enabled===true&&!sessionLocal} existing={content.pages} onClose={() => setPageModal(false)} onCreate={next => { onChange({ ...content, pages: [...content.pages, next] }); selectPage(next.id); setPageModal(false); }} />}</div>;
+  if (!page) return <div className="cms-page"><EmptyState title={adminText("Noch keine Seiten")} action={<Button variant="primary" onClick={() => setPageModal(true)}><Plus size={16} />{adminText("Erste Seite anlegen")}</Button>}>{adminText("Legen Sie eine Seite an und fügen Sie Abschnitte aus der Bibliothek hinzu.")}</EmptyState>{pageModal && <NewPageDialog creator={content.config.modules?.creator?.enabled===true&&!sessionLocal} existing={content.pages} onClose={() => setPageModal(false)} onCreate={next => { onChange({ ...content, pages: [...content.pages, next] }); setPageId(next.id); setSectionId(next.sections[0]?.id || ""); setInspectorMode("page"); setPageModal(false); }} />}</div>;
   return (
     <CreatorLibraryContext.Provider value={content.config.modules?.creator?.enabled===true}><CurrentLinkPageProvider pageId={page.id}><div className={`cms-editor${embedded ? " cms-editor--embedded" : ""}${embedded&&embeddedPreviewOnly?" cms-editor--preview-only":""}`}><h1 className="cms-visually-hidden">{templateKey ? adminText("Seitenvorlagen") : adminText("Seiten bearbeiten")}</h1>
       <div className="cms-editor-toolbar">
@@ -109,24 +123,28 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
         </div>
         <div className="cms-editor-actions">
           <div className="cms-history-buttons"><IconButton label={adminText("Rückgängig")} disabled={!canUndo} onClick={undo}><Undo2 size={17} /></IconButton><IconButton label={adminText("Wiederholen")} disabled={!canRedo} onClick={redo}><Redo2 size={17} /></IconButton></div>
-          <span className={`cms-save-state ${hasEdits ? "cms-save-state--dirty" : ""}`}>{hasEdits ? <CircleDashed size={14} /> : <CheckCheck size={14} />}{hasEdits ? adminText("Ungespeicherte Änderungen") : adminText("Entwurf gespeichert")}</span>
-          <Button onClick={() => void saveDraft()} busy={busy === "save"} disabled={!hasEdits || Boolean(busy)} aria-label={adminText("Entwurf speichern")}>{embedded ? adminText("Speichern") : <><span className="cms-editor-action-full">{adminText("Entwurf speichern")}</span><span className="cms-editor-action-short">{adminText("Speichern")}</span></>}</Button>
-          {onPublish && <Button variant="primary" onClick={() => void onPublish()} busy={busy === "publish"} disabled={hasEdits || Boolean(busy)} title={hasEdits ? adminText("Speichern Sie zuerst Ihren Entwurf.") : adminText("Gespeicherten Entwurf auf der Website veröffentlichen")}><Globe size={15} />{embedded ? adminText("Anwenden") : adminText("Veröffentlichen")}</Button>}
+          <Button variant={emphasizeNextAction && hasEdits ? "primary" : "default"} onClick={() => void saveDraft()} busy={busy === "save"} disabled={!hasEdits || Boolean(busy)} aria-label={adminText("Entwurf speichern")}>{embedded ? adminText("Speichern") : <><span className="cms-editor-action-full">{adminText("Entwurf speichern")}</span><span className="cms-editor-action-short">{adminText("Speichern")}</span></>}</Button>
+          {onPublish && <Button variant={emphasizeNextAction && (hasEdits || !canPublishDraft) ? "default" : "primary"} onClick={() => void onPublish()} busy={busy === "publish"} disabled={hasEdits || Boolean(busy) || !canPublishDraft} title={hasEdits ? adminText("Speichern Sie zuerst Ihren Entwurf.") : adminText("Gespeicherten Entwurf auf der Website veröffentlichen")}><Globe size={15} />{embedded ? adminText("Anwenden") : adminText("Veröffentlichen")}</Button>}
         </div>
         {embedded&&<div className="cms-embedded-controls"><button type="button" className="cms-embedded-back" onClick={onShowWebsite} disabled={!onShowWebsite} aria-label={adminText("Zur Website")}><ArrowLeft size={18}/><span>Website</span></button><button type="button" onClick={()=>setPageModal(true)} aria-label={adminText("Neue Seite anlegen")}><FilePlus2 size={18}/></button></div>}
       </div>
-      <div className="cms-editor-subbar"><span>{templateKey ? adminText("Das Layout gilt für alle Seiten dieses Typs.") : adminText("Änderungen sind erst nach dem Veröffentlichen öffentlich.")}</span>{onRestore && <button type="button" onClick={() => setRevisions(true)}><History size={14} />{adminText("Versionen")}</button>}</div>
+      <div className="cms-editor-subbar"><DraftStatus busy={busy} dirty={hasEdits} pending={canPublishDraft} local={sessionLocal} english={language === "en"} error={saveError} savedAt={sessionLocal ? undefined : cmsState.updatedAt} />{templateKey && <span>{adminText("Das Layout gilt für alle Seiten dieses Typs.")}</span>}{onRestore && <button type="button" onClick={() => setRevisions(true)}><History size={14} />{adminText("Versionen")}</button>}</div>
       <div className="cms-editor-mobile-tabs" role="group" aria-label={adminText("Editor-Bereich")}>{([{ value: "outline", label: "Aufbau" }, { value: "preview", label: "Vorschau" }, { value: "properties", label: "Bearbeiten" }] as const).map(tab => <button key={tab.value} type="button" aria-pressed={mobileTab === tab.value} onClick={() => {setMobileTab(tab.value);setEmbeddedPreviewOnly(false);}}>{adminText(tab.label)}</button>)}</div>
       <div className={`cms-editor-panes cms-editor-panes--${mobileTab}`}>
         <aside className="cms-outline" aria-label={adminText("Seitenaufbau")}>
           <div className="cms-pane-heading"><div><Layers3 size={17} /><h2>{adminText("Seitenaufbau")}</h2></div><span>{page.sections.length}</span></div>
-          <p className="cms-outline-hint">{adminText("Abschnitt auswählen oder in der Vorschau anklicken.")}</p>
-          <ol className="cms-section-list">{page.sections.map((candidate, index) => (
+          <SectionOutline key={page.id} sections={page.sections} typeLabel={outlineTypeLabel} english={language === "en"}>
+            {(candidate, index, searching) => (
             <li key={candidate.id} className={`${candidate.id === sectionId && inspectorMode === "section" ? "cms-section-row--active" : ""} ${!candidate.visible ? "cms-section-row--hidden" : ""}`}>
-              <button type="button" className="cms-section-select" onClick={() => selectSection(candidate.id, true)} aria-current={candidate.id === sectionId ? "true" : undefined}><SectionDiagram type={candidate.type} mini /><span><strong>{candidate.name || candidate.content.heading || adminText("Abschnitt")}</strong><small>{adminText(sectionLibrary.find(item => item.type === candidate.type)?.name || candidate.type)}</small></span></button>
-              <div className="cms-section-row-actions">{!locked(candidate.id) && <IconButton label={candidate.visible ? adminText("Abschnitt ausblenden") : adminText("Abschnitt einblenden")} aria-pressed={candidate.visible} onClick={() => updateSection({ ...candidate, visible: !candidate.visible })}>{candidate.visible ? <Eye size={13} /> : <EyeOff size={13} />}</IconButton>}<IconButton label={adminText("{p1} nach oben verschieben", { p1: String(candidate.name) })} disabled={index === 0} onClick={() => moveSection(index, -1)}><ArrowUp size={13} /></IconButton><IconButton label={adminText("{p1} nach unten verschieben", { p1: String(candidate.name) })} disabled={index === page.sections.length - 1} onClick={() => moveSection(index, 1)}><ArrowDown size={13} /></IconButton></div>
+              <button type="button" className="cms-section-select" onClick={event => {
+                selectSection(candidate.id, true);
+                const properties = event.currentTarget.closest(".cms-editor")?.querySelector<HTMLButtonElement>(".cms-editor-mobile-tabs > button:last-child");
+                if (properties?.getClientRects().length) { properties.click(); properties.focus(); }
+              }} aria-current={candidate.id === sectionId ? "true" : undefined}><SectionDiagram type={candidate.type} mini /><span><strong>{candidate.name || candidate.content.heading || adminText("Abschnitt")}</strong>{outlineTypeLabel(candidate) !== (candidate.name || candidate.content.heading) && <small>{outlineTypeLabel(candidate)}</small>}</span></button>
+              <div className="cms-section-row-actions">{!locked(candidate.id) && <IconButton label={candidate.visible ? adminText("Abschnitt ausblenden") : adminText("Abschnitt einblenden")} aria-pressed={candidate.visible} onClick={() => updateSection({ ...candidate, visible: !candidate.visible })}>{candidate.visible ? <Eye size={13} /> : <EyeOff size={13} />}</IconButton>}<IconButton label={adminText("{p1} nach oben verschieben", { p1: String(candidate.name) })} disabled={searching || index === 0} onClick={() => moveSection(index, -1)}><ArrowUp size={13} /></IconButton><IconButton label={adminText("{p1} nach unten verschieben", { p1: String(candidate.name) })} disabled={searching || index === page.sections.length - 1} onClick={() => moveSection(index, 1)}><ArrowDown size={13} /></IconButton></div>
             </li>
-          ))}</ol>
+            )}
+          </SectionOutline>
           <Button className="cms-add-section" onClick={() => setLibrary(true)}><Plus size={17} />{adminText("Abschnitt hinzufügen")}</Button>
           <div className="cms-outline-bottom"><button type="button" onClick={() => { setInspectorMode("page"); setMobileTab("properties"); }}><Settings2 size={15} />{adminText("SEO & Seiteneinstellungen")}</button>{!templateKey && page.slug !== "" && <button type="button" className="cms-danger-text" onClick={() => setDeletePage(true)}><Trash2 size={14} />{adminText("Seite löschen")}</button>}</div>
         </aside>
@@ -137,7 +155,8 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
               : <Field label={preview.sample ? adminText("Vorschau mit Beispieldaten") : exampleLabel}><Select value={preview.options.some(option => option.id === previewValue) ? previewValue : preview.options[0].id} onChange={event => setPreviewValue(event.target.value)}>{preview.options.map(option => <option key={option.id} value={option.id}>{option.title}</option>)}</Select></Field>}
           </div>}
           {privateCanvasTools && inspectorMode === "section" && section && <PrivateCanvasTools key={page.id + ":" + section.id + ":" + (activeCanvasSelection?.itemId || "")}
-            stage={stage} section={section} selection={activeCanvasSelection} lockedContent={Boolean(preview?.readOnlySectionIds.includes(section.id)) || templateKey === "blog-post" && section.id === TEMPLATE_CONTENT_ID}
+            stage={stage} section={section} selection={activeCanvasSelection}
+            lockedContent={Boolean(preview?.readOnlySectionIds.includes(section.id)) || templateKey === "blog-post" && section.id === TEMPLATE_CONTENT_ID}
             lockedFormat={templateKey === "blog-post" && section.id === TEMPLATE_CONTENT_ID} lockedLinks={locked(section.id)}
             onSection={() => { selectFromCanvas({ sectionId: section.id }); requestAnimationFrame(() => stage.current?.parentElement?.querySelector<HTMLButtonElement>('[data-private-canvas-content]')?.focus({ preventScroll: true })); }}
             onSettings={openCanvasSettings} onChange={updateSection} />}
@@ -149,7 +168,7 @@ export function PageEditor({ privateCanvasTools = false, onAssistantNavigate, as
       {embedded&&<div className="cms-embedded-dock" role="group" aria-label={adminText("Website bearbeiten")}><span className="cms-embedded-dock-status" role="status">{dirty?adminText("Ungespeicherter Entwurf"):unpublished?adminText("Gespeichert · noch nicht angewendet"):adminText("Lokale Beispielwebsite aktuell")}</span><button type="button" aria-pressed={!embeddedPreviewOnly} onClick={()=>{setEmbeddedPreviewOnly(false);setMobileTab('properties');}}><PanelLeft size={17}/><span>CMS</span></button><button type="button" aria-pressed={embeddedPreviewOnly} onClick={()=>{setEmbeddedPreviewOnly(true);setMobileTab('preview');}}><Eye size={17}/><span>{adminText("Vorschau")}</span></button><button type="button" disabled={!dirty||Boolean(busy)} onClick={()=>void onSave()} aria-label={adminText("Entwurf lokal speichern")}><Save size={17}/><span>{adminText("Speichern")}</span></button><button type="button" className="cms-embedded-apply" disabled={dirty||!unpublished||Boolean(busy)} onClick={()=>void onPublish?.()} aria-label={adminText("Gespeicherten Entwurf in der Demo anwenden")}><Globe size={17}/><span>{adminText("Anwenden")}</span></button><button type="button" ref={actionsButton} popoverTarget={actionsId} aria-label={adminText("Mehr Editor-Aktionen")} aria-haspopup="dialog"><Ellipsis size={18}/><span>{adminText("Mehr")}</span></button></div>}
       {embedded&&<div id={actionsId} popover="auto" className="cms-embedded-menu" role="dialog" aria-label={adminText("Editor-Aktionen")} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closeEmbeddedActions();}}} onClick={event=>{if((event.target as Element).closest('button,a'))closeEmbeddedActions();}}>
         <Button onClick={()=>void onSave()} disabled={!dirty||Boolean(busy)}><CheckCheck size={16}/>{adminText("Entwurf speichern")}</Button>
-        <Button variant="primary" onClick={()=>void onPublish?.()} disabled={dirty||Boolean(busy)}><Globe size={16}/>{adminText("In der Demo anwenden")}</Button>
+        <Button variant="primary" onClick={()=>void onPublish?.()} disabled={dirty||Boolean(busy)||!canPublishDraft}><Globe size={16}/>{adminText("In der Demo anwenden")}</Button>
         <div className="cms-embedded-menu-row"><Button onClick={undo} disabled={!canUndo}><Undo2 size={16}/>{adminText("Zurück")}</Button><Button onClick={redo} disabled={!canRedo}><Redo2 size={16}/>{adminText("Wiederholen")}</Button></div>
         <Button onClick={()=>setRevisions(true)}><History size={16}/>{adminText("Versionen")}</Button>
         <Button onClick={()=>setPageModal(true)}><FilePlus2 size={16}/>{adminText("Neue Seite")}</Button>

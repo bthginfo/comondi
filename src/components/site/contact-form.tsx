@@ -50,7 +50,7 @@ export function ContactForm({ editable = false, copy, informal = false, compact 
         }),
       });
       const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(english ? "Your message could not be sent. Check the fields and try again." : result.error ?? "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.");
+      if (!response.ok || result?.ok !== true) throw new Error(english ? "Your message could not be sent. Check the fields and try again." : result?.error ?? "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.");
       void reportConfirmedOutcome(result.statisticsProof);
       setStatus("success");
       form.reset();

@@ -8,6 +8,10 @@ Push wird pro Gerät nach einer ausdrücklichen Auswahl freigeschaltet. CMS-Inha
 
 Für Push ist kein externer API-Schlüssel nötig. Die Site erzeugt einen eigenen VAPID-Schlüssel und verschlüsselt den privaten Teil sowie die Geräteabonnements mit `AUTH_SECRET`. Keine Schlüssel zwischen Projekten kopieren. Die produktive Site-URL in den CMS-Einstellungen auf die tatsächliche HTTPS-Adresse setzen. Abmeldung oder Geräte-Deaktivierung entfernt das Abonnement aus der Site; eine Neuinstallation kann eine erneute Freigabe erfordern.
 
+## Einführung und Hilfe
+
+Die geführte Einführung zeigt fünf Kernaufgaben: Seite bearbeiten, Medien, Speichern und Veröffentlichen (für Redaktionszugänge: Entwurf speichern), Anfragen und Hilfe. Bereiche, die der Zugang nicht öffnen darf, werden übersprungen. Termine, Shop, Vereinsverwaltung, Coach Studio und die App-Installation erklärt die **Hilfe** als eigene Anleitungen, sobald der Bereich verfügbar ist; jede Anleitung führt direkt in den Bereich. Über **Einführung wiederholen** startet der Rundgang erneut.
+
 ## Favicon und Appsymbole
 
 Unter **Settings → App & notifications → Brand icons** kann der CMS-Inhaber ein öffentliches Favicon und ein CMS-Appsymbol hochladen. Ist Vereinsverwaltung aktiv, erscheint auch das separate Mitglieder-Appsymbol. Die Vorschau verwendet die gespeicherte Datei; **Reset** stellt den jeweiligen Standard wieder her. Verwende ein gut erkennbares, möglichst quadratisches PNG, JPEG, WebP oder AVIF unter 3 MB. Die App erzeugt die Varianten für Browser, Apple-Startbildschirm und maskierbare Appsymbole. Installierte Symbole können vom Betriebssystem zwischengespeichert werden.

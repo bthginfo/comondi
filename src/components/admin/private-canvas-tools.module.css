@@ -10,7 +10,7 @@
 .bar { display: flex; align-items: center; gap: 4px; padding: 2px 8px; background: #f7f9fb; border-bottom: 1px solid #cad3db; }
 .target { flex: 1; min-width: 0; padding-inline: 5px; }
 .target span, .target strong { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.target span, .panelHead span, .list small { color: #526374; font-size: 11px; }
+.target span, .panelHead span, .list small { color: #526374; font-size: 12px; }
 .target strong { font-size: 13px; font-weight: 650; }
 .tools button { color: inherit; font: inherit; cursor: pointer; }
 .tab, .icon, .settings { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; min-width: 44px; border: 1px solid transparent; border-radius: 7px; background: transparent; }

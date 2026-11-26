@@ -2,6 +2,7 @@
 
 import styles from "./dashboard-clarity.module.css";
 
+import {HelpCards} from "./help-cards";
 import { useAdminLanguage } from "./admin-language";
 import { useContext, useMemo, useRef, useState } from "react";
 import {OperationsCheck} from './operations-check';
@@ -11,12 +12,14 @@ import {CreatorLibraryContext} from "./section-library-dialog";
 import { sectionLibrary } from "@/lib/section-library";
 import { launchPublicationIssues } from "@/lib/launch-content.mjs";
 import { searchReadinessIssues } from "@/lib/search-readiness.mjs";
+import { overviewTasks, publicationSummary, type OverviewTarget } from "@/lib/admin-overview";
 import type { AdminBootstrap, WebsiteContent } from "@/lib/types";
 import { ArrowRight, Button, Check, CircleHelp, Download, ExternalLink, FileText, Image, Layers3, Mail, Notice, SearchField, ShieldCheck, formatDate } from "./admin-ui";
 import { SectionDiagram } from "./page-editor";
 import type { AdminView } from "./admin-app";
+import { contextualHelp } from "./guided-tour";
 
-export function Dashboard({ data, content, dirty, onNavigate, onCompleteOnboarding, onStartTour, onOperation }: { data: AdminBootstrap; content: WebsiteContent; dirty: boolean; onNavigate: (view: AdminView) => void; onCompleteOnboarding: () => Promise<void>; onStartTour?: () => void; onOperation: (action: OperationAction) => void }) {
+export function Dashboard({ data, content, dirty, onNavigate, onCompleteOnboarding, onStartTour, onOperation, onPublish }: { data: AdminBootstrap; content: WebsiteContent; dirty: boolean; onNavigate: (view: AdminView) => void; onCompleteOnboarding: () => Promise<void>; onStartTour?: () => void; onOperation: (action: OperationAction) => void; onPublish?: () => void }) {
   const { t: adminText, language } = useAdminLanguage();
  const [completing,setCompleting]=useState(false);
  const launch=useRef<HTMLDetailsElement>(null);
@@ -28,7 +31,15 @@ export function Dashboard({ data, content, dirty, onNavigate, onCompleteOnboardi
   launch.current.querySelector('summary')?.focus();
  }
  const newInquiries=data.inquiries.filter(inquiry=>inquiry.status==="new").length;
- const differsFromPublished=JSON.stringify(data.state.draft)!==JSON.stringify(data.state.published);
+ const publication=useMemo(()=>publicationSummary({draft:data.state.draft,published:data.state.published,publishedAt:data.state.publishedAt,unsaved:dirty}),[data.state.draft,data.state.published,data.state.publishedAt,dirty]);
+ const differsFromPublished=publication.state==="pending"||publication.state==="first";
+ const tasks=overviewTasks({publication,newInquiries,media:data.media,launchIssues:launchIssues.length,smtpReady:data.system.smtp,owner:Boolean(onPublish)}).filter(task=>task.id!=="publish"&&task.id!=="inquiries");
+ function openTask(target:OverviewTarget){
+  if(target==="publish")onPublish?.();
+  else if(target==="settings-email")onOperation("email");
+  else if(target==="launch-check")openLaunchCheck();
+  else onNavigate(target);
+ }
  const studioEnabled=content.config.modules?.socialStudio?.enabled===true;
  const plannerEnabled=studioEnabled&&content.config.modules?.socialPublishing?.enabled===true;
   return (
@@ -52,17 +63,35 @@ export function Dashboard({ data, content, dirty, onNavigate, onCompleteOnboardi
             <strong>
               {dirty
                 ? adminText("Ungespeicherte Änderungen")
-                : differsFromPublished
-                  ? adminText("Ein Entwurf wartet auf Veröffentlichung")
-                  : data.state.publishedAt
-                    ? adminText("Website ist veröffentlicht")
-                    : adminText("Erste Veröffentlichung vorbereiten")}
+                : publication.state === "first"
+                  ? adminText("Erste Veröffentlichung vorbereiten")
+                  : differsFromPublished
+                    ? adminText("Ein Entwurf wartet auf Veröffentlichung")
+                    : adminText("Website ist veröffentlicht")}
             </strong>
           </div>
-          <Button variant="primary" onClick={() => onNavigate("editor")}>
-            {adminText("Seiten bearbeiten")}
-            <ArrowRight size={15} />
-          </Button>
+          <p className={styles.statusDetail}>
+            {publication.state === "unsaved"
+              ? adminText("Speichern Sie Ihre Änderungen im Editor. Die Website zeigt weiter den veröffentlichten Stand.")
+              : differsFromPublished
+                ? publication.changes
+                  ? adminText(publication.changes === 1 ? "1 Änderung: {p1}" : "{p2} Änderungen: {p1}", { p1: publication.names.join(" · ") + (publication.changes > publication.names.length ? " …" : ""), p2: publication.changes })
+                  : adminText("Der gespeicherte Entwurf ist bereit für die erste Veröffentlichung.")
+                : data.state.publishedAt
+                  ? adminText("Zuletzt veröffentlicht: {p1}", { p1: formatDate(data.state.publishedAt, true, language) })
+                  : adminText("Prüfen Sie Inhalte und Kontaktangaben vor dem Start.")}
+          </p>
+          <div className={styles.actions}>
+            {onPublish && differsFromPublished && !dirty && (
+              <Button variant="primary" onClick={onPublish}>
+                {adminText("Prüfen und veröffentlichen")}
+              </Button>
+            )}
+            <Button variant={onPublish && differsFromPublished && !dirty ? "default" : "primary"} onClick={() => onNavigate("editor")}>
+              {dirty ? adminText("Weiter bearbeiten") : adminText("Seiten bearbeiten")}
+              <ArrowRight size={15} />
+            </Button>
+          </div>
           <details className={styles.metadata}>
             <summary>{language === "en" ? "Website details" : "Details zur Website"}</summary>
             <dl>
@@ -120,6 +149,30 @@ export function Dashboard({ data, content, dirty, onNavigate, onCompleteOnboardi
           </Button>
         </section>
       </div>
+      <section className={styles.tasks} aria-labelledby="cms-overview-tasks">
+        <h2 id="cms-overview-tasks">{adminText("Zu erledigen")}</h2>
+        {tasks.length ? (
+          <ul>
+            {tasks.map(task => (
+              <li key={task.id} className={task.tone === "attention" ? styles.attention : undefined}>
+                <span>
+                  <strong>{adminText(task.title, task.values)}</strong>
+                  <small>{adminText(task.detail)}</small>
+                </span>
+                <Button onClick={() => openTask(task.target)}>
+                  {adminText(task.action)}
+                  <ArrowRight size={15} />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.allDone}>
+            <Check size={17} aria-hidden="true" />
+            {adminText("Alles erledigt. Gerade braucht nichts Ihre Aufmerksamkeit.")}
+          </p>
+        )}
+      </section>
       <div className={styles.shortcuts}>
         {studioEnabled && (
           <button type="button" onClick={() => onNavigate(plannerEnabled ? "planner" : "social")}>
@@ -315,9 +368,13 @@ const guides = [
   { id: "revisions", title: "Eine frühere Fassung wiederherstellen", terms: "version sicherung backup undo rückgängig wiederherstellen", paragraphs: ["Unter „Versionen“ im Seiteneditor sehen Sie gespeicherte Fassungen. Wählen Sie „Wiederherstellen“, um eine Fassung als neuen Entwurf zu laden.", "Dabei wird der aktuelle Entwurf ersetzt. Ungespeicherte Änderungen gehen verloren. Prüfen Sie die wiederhergestellte Fassung vor dem Veröffentlichen.", "Eine Inhaltsdatei können Sie unter „Einstellungen → Allgemein“ herunterladen. Diese Sicherung enthält Entwurf und veröffentlichte Inhalte, aber keine Passwörter und keine Kontaktanfragen."] },
 ];
 
-export function HelpPanel({ onNavigate, onStartTour }: { onNavigate: (view: AdminView) => void; onStartTour?: () => void }) {
+export function HelpPanel({ onNavigate, onStartTour, commerce, appointments, onEmail, availableViews }: { onNavigate: (view: AdminView) => void; onStartTour?: () => void; commerce?:boolean; appointments?:boolean; onEmail?:()=>void; availableViews?: readonly AdminView[] }) {
   const { t: adminText } = useAdminLanguage();
   const enabled=useContext(CreatorLibraryContext);const library=sectionLibrary.filter(item=>!item.type.startsWith("creator-")||enabled);
-  const [search, setSearch] = useState(""); const query = search.toLowerCase(); const filtered = guides.filter(guide => [adminText(guide.title), guide.terms, ...guide.paragraphs.map(paragraph => adminText(paragraph))].join(" ").toLowerCase().includes(query));
-  return <div className="cms-page cms-help-page"><div className="cms-page-heading"><div><h1>{adminText("Wie können wir helfen?")}</h1><p>{adminText("Kurze Anleitungen für die Arbeit mit Ihrer Website.")}</p></div><div className="cms-tour-launch-actions">{onStartTour && <Button variant="primary" onClick={onStartTour}><CircleHelp size={16} />{adminText("Einführung wiederholen")}</Button>}<Button onClick={() => onNavigate("editor")}>{adminText("Zum Seiteneditor")}<ArrowRight size={15} /></Button></div></div><SearchField value={search} onChange={setSearch} placeholder={adminText("Zum Beispiel Bild ändern oder E-Mail einrichten …")} label={adminText("Hilfe durchsuchen")} /><div className="cms-help-layout"><section className="cms-help-guides"><h2>{adminText("Anleitungen")}</h2>{filtered.length ? filtered.map((guide, index) => <details key={guide.id} className="cms-help-guide" open={Boolean(search) || index === 0 && undefined}><summary>{adminText(guide.title)}</summary><div>{guide.paragraphs.map(paragraph => <p key={paragraph}>{adminText(paragraph)}</p>)}</div></details>) : <Notice>{adminText("Zu diesem Suchbegriff gibt es keine Anleitung. Versuchen Sie es mit „Bild“, „Anfrage“, „E-Mail“ oder „Veröffentlichen“.")}</Notice>}</section><aside className="cms-help-aside"><div><h2>{adminText("Gut zu wissen")}</h2><p>{adminText("Ein Entwurf ist noch nicht öffentlich. Erst „Veröffentlichen“ gibt die gespeicherten Inhalte für alle Besucher frei.")}</p></div><div><h3>{adminText("Tastatur")}</h3><dl><div><dt><kbd>{adminText("Strg")}</kbd> + <kbd>S</kbd></dt><dd>{adminText("Entwurf speichern")}</dd></div><div><dt><kbd>{adminText("Strg")}</kbd> + <kbd>Z</kbd></dt><dd>{adminText("Änderung rückgängig")}</dd></div><div><dt><kbd>Esc</kbd></dt><dd>{adminText("Dialog schließen")}</dd></div><div><dt><kbd>Tab</kbd></dt><dd>{adminText("Zum nächsten Feld")}</dd></div></dl><p className="cms-hint">{adminText("Auf dem Mac verwenden Sie ⌘ statt Strg. In Textfeldern gelten die üblichen Tastaturbefehle des Browsers.")}</p></div><a href="/api/admin/export" className="cms-text-link" download><Download size={16} />{adminText("Inhalte sichern")}</a></aside></div><section className="cms-help-library"><h2>{adminText("Ihre Abschnittsbibliothek")}</h2><p>{adminText("Alle {count} Bausteine sind im Seiteneditor unter „Abschnitt hinzufügen“ verfügbar.", { count: library.length })}</p><div>{library.filter(item => !search || [adminText(item.name), adminText(item.description)].join(" ").toLowerCase().includes(query)).map(item => <div key={item.type}><SectionDiagram type={item.type} mini /><div><strong>{adminText(item.name)}</strong><span>{adminText(item.description)}</span></div></div>)}</div></section></div>;
+  // Optional areas the account can open get their own short guide with a direct way into the area.
+  const areaGuides: { id: string; title: string; terms: string; paragraphs: string[]; view?: AdminView }[] = contextualHelp
+    .filter(topic => !availableViews || availableViews.includes(topic.view))
+    .map(topic => ({ id: "area-" + topic.view, title: topic.area, terms: topic.terms, paragraphs: [topic.title, topic.text, topic.hint], view: topic.view }));
+  const [search, setSearch] = useState(""); const query = search.toLowerCase(); const allGuides: typeof areaGuides = [...guides, ...areaGuides]; const filtered = allGuides.filter(guide => [adminText(guide.title), guide.terms, ...guide.paragraphs.map(paragraph => adminText(paragraph))].join(" ").toLowerCase().includes(query));
+  return <div className="cms-page cms-help-page"><div className="cms-page-heading"><div><h1>{adminText("Wie können wir helfen?")}</h1><p>{adminText("Kurze Anleitungen für die Arbeit mit Ihrer Website.")}</p></div><div className="cms-tour-launch-actions">{onStartTour && <Button variant="primary" onClick={onStartTour}><CircleHelp size={16} />{adminText("Einführung wiederholen")}</Button>}<Button onClick={() => onNavigate("editor")}>{adminText("Zum Seiteneditor")}<ArrowRight size={15} /></Button></div></div><SearchField value={search} onChange={setSearch} placeholder={adminText("Zum Beispiel Bild ändern oder E-Mail einrichten …")} label={adminText("Hilfe durchsuchen")} />{!search&&<HelpCards commerce={commerce} appointments={appointments} onNavigate={onNavigate} onEmail={onEmail}/>}<div className="cms-help-layout"><section className="cms-help-guides"><h2>{adminText("Anleitungen")}</h2>{filtered.length ? filtered.map((guide, index) => <details key={guide.id} className="cms-help-guide" open={Boolean(search) || index === 0 && undefined}><summary>{adminText(guide.title)}</summary><div>{guide.paragraphs.map(paragraph => <p key={paragraph}>{adminText(paragraph)}</p>)}{guide.view && <Button onClick={() => onNavigate(guide.view!)}>{adminText("Bereich öffnen")}<ArrowRight size={15} /></Button>}</div></details>) : <Notice>{adminText("Zu diesem Suchbegriff gibt es keine Anleitung. Versuchen Sie es mit „Bild“, „Anfrage“, „E-Mail“ oder „Veröffentlichen“.")}</Notice>}</section><aside className="cms-help-aside"><div><h2>{adminText("Gut zu wissen")}</h2><p>{adminText("Ein Entwurf ist noch nicht öffentlich. Erst „Veröffentlichen“ gibt die gespeicherten Inhalte für alle Besucher frei.")}</p></div><div><h3>{adminText("Tastatur")}</h3><dl><div><dt><kbd>{adminText("Strg")}</kbd> + <kbd>S</kbd></dt><dd>{adminText("Entwurf speichern")}</dd></div><div><dt><kbd>{adminText("Strg")}</kbd> + <kbd>Z</kbd></dt><dd>{adminText("Änderung rückgängig")}</dd></div><div><dt><kbd>Esc</kbd></dt><dd>{adminText("Dialog schließen")}</dd></div><div><dt><kbd>Tab</kbd></dt><dd>{adminText("Zum nächsten Feld")}</dd></div></dl><p className="cms-hint">{adminText("Auf dem Mac verwenden Sie ⌘ statt Strg. In Textfeldern gelten die üblichen Tastaturbefehle des Browsers.")}</p></div><a href="/api/admin/export" className="cms-text-link" download><Download size={16} />{adminText("Inhalte sichern")}</a></aside></div><section className="cms-help-library"><h2>{adminText("Ihre Abschnittsbibliothek")}</h2><p>{adminText("Alle {count} Bausteine sind im Seiteneditor unter „Abschnitt hinzufügen“ verfügbar.", { count: library.length })}</p><div>{library.filter(item => !search || [adminText(item.name), adminText(item.description)].join(" ").toLowerCase().includes(query)).map(item => <div key={item.type}><SectionDiagram type={item.type} mini /><div><strong>{adminText(item.name)}</strong><span>{adminText(item.description)}</span></div></div>)}</div></section></div>;
 }

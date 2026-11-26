@@ -71,6 +71,7 @@ export function preflightContentIssues(content, t = germanMessage){
     }
   }
   if(unfinished)issues.push(t('Die öffentlichen Inhalte enthalten noch nicht freigegebene Platzhalter.'));
+  if(JSON.stringify({config,published}).includes('/api/media/local/'))issues.push(t('Ein Bild stammt aus dem lokalen Testspeicher. Laden Sie es im Live-CMS erneut hoch.'));
   return issues;
 }
 

@@ -31,3 +31,6 @@
 @container (max-width: 640px) {
   .route .catalog, .productDetail .product { grid-template-columns: minmax(0, 1fr); }
 }
+
+.storeLink { display:inline-flex; min-height:44px; align-items:center; margin-top:12px; text-underline-offset:.22em; }
+.sample { font-size:.75rem; font-weight:750; width:fit-content; padding:5px 9px; border-radius:6px; background:color-mix(in srgb,var(--ws-palette-surface,#f1f4f3) 74%,transparent); }

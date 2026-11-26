@@ -17,7 +17,7 @@ export function CreatorHero({ section, site, editable, onChange }: CreatorSectio
   const heroRef = useRef<HTMLDivElement>(null), artworkRef = useRef<HTMLDivElement>(null);
   useArtworkMotion(heroRef, artworkRef, Boolean(editable));
   const update = (key: string, value: unknown) => onChange?.({ ...section, content: { ...c, [key]: value } });
-  if (section.design.creatorHero) return <HeroCanvas preset={section.design.creatorHero as HeroPreset} creator={c.subheading || site.name} title={c.heading} description={c.text} image={c.image} cta={c.primaryLabel} href={c.primaryHref} secondaryCta={c.secondaryLabel} secondaryHref={c.secondaryHref} headingTag={headingLevel} ui={ui} editable={editable} onTitle={value => update("heading", value)} onCreator={value => update("subheading", value)} onDescription={value => update("text", value)} onImage={value => update("image", value)} onCta={value => update("primaryLabel", value)} />;
+  if (section.design.creatorHero) return <HeroCanvas preset={section.design.creatorHero as HeroPreset} creator={c.subheading ?? ""} title={c.heading} description={c.text} image={c.image} cta={c.primaryLabel} href={c.primaryHref} secondaryCta={c.secondaryLabel} secondaryHref={c.secondaryHref} headingTag={headingLevel} ui={ui} editable={editable} onTitle={value => update("heading", value)} onCreator={value => update("subheading", value)} onDescription={value => update("text", value)} onImage={value => update("image", value)} onCta={value => update("primaryLabel", value)} />;
   const home = section.design.heroLayout === "panorama";
   const items = c.items?.filter(item => !item.tags?.includes("ui")) ?? [];
   const Heading = headingLevel;

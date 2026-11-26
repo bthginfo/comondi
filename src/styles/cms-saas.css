@@ -1,6 +1,6 @@
 /* Neutral SaaS workspace. Website branding and public renderer styles stay independent. */
 .cms-app--saas{
- --cms-ink:#243545;--cms-muted:#697887;--cms-line:#e4e9ef;--cms-surface:#f5f7f9;
+ --cms-ink:#243545;--cms-muted:#5a6673;--cms-line:#e4e9ef;--cms-surface:#f5f7f9;
  --cms-accent:#e7efe9;--admin-accent:#315f4d;
  font-family:-apple-system,BlinkMacSystemFont,'Inter Variable','DM Sans Variable',sans-serif;
  background:#f5f6f8;color:#243545;color-scheme:light;font-size:14px;line-height:1.55;
@@ -17,27 +17,27 @@
 .cms-brand-initial{display:grid;place-items:center;flex:none;width:37px;height:37px;border-radius:11px;background:#e9efeb;color:#315e4b;font-size:21px;font-weight:600}
 .cms-brand-home>span:last-child{display:flex;flex-direction:column;gap:3px;min-width:0}
 .cms-brand-home strong{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;max-width:150px;white-space:nowrap}
-.cms-brand-home small{font-size:10px;color:#5c6875}
+.cms-brand-home small{font-size:12px;color:#5c6875}
 .cms-workspace-search{display:flex;align-items:center;gap:9px;width:100%;min-height:39px;padding:9px 11px;border:1px solid #e1e6ec;background:#fff;color:#5c6875;border-radius:10px;font:inherit;font-size:12px;margin-bottom:18px}
 .cms-workspace-search>span{flex:1;text-align:left}
-.cms-workspace-search>kbd{font-family:inherit;font-size:11px;white-space:nowrap}
+.cms-workspace-search>kbd{font-family:inherit;font-size:12px;white-space:nowrap}
 .cms-app--saas .cms-sidebar nav{display:block;min-height:0;overflow:auto;padding:0 0 17px;flex:1}
 .cms-nav-group+.cms-nav-group{margin-top:22px}
-.cms-nav-group-label{display:block;font-size:11px;font-weight:500;color:#5c6875;padding:0 12px;margin-bottom:7px}
+.cms-nav-group-label{display:block;font-size:12px;font-weight:500;color:#5c6875;padding:0 12px;margin-bottom:7px}
 .cms-app--saas .cms-sidebar nav button{display:flex;align-items:center;gap:11px;min-height:39px;width:100%;padding:9px 12px;border:0;border-radius:9px;text-align:left;background:transparent;color:#5d6e7d;font-size:13px;font-family:inherit;font-weight:450;transition:background 160ms,color 160ms}
 .cms-app--saas .cms-sidebar nav button:hover{background:#eef1f4;color:#263e50}
 .cms-app--saas .cms-sidebar nav button[aria-current=page]{background:#e8f0eb;color:#315e4b;font-weight:600}
 .cms-app--saas .cms-sidebar nav button>span:first-of-type{flex:1}
-.cms-app--saas .cms-nav-badge{font-size:10px;background:#e3eae6;color:#456451;border-radius:6px;min-width:19px;padding:3px 5px}
+.cms-app--saas .cms-nav-badge{font-size:12px;background:#e3eae6;color:#456451;border-radius:6px;min-width:19px;padding:3px 5px}
 .cms-app--saas .cms-sidebar-bottom{margin-top:0;padding:14px 9px 18px;border-top:1px solid #e5eaf0}
 .cms-app--saas .cms-sidebar-bottom>:is(a,button){min-height:35px;font-size:12px;color:#5c6875}
-.cms-app--saas .cms-session{font-size:10px;color:#5c6875}
+.cms-app--saas .cms-session{font-size:12px;color:#5c6875}
 .cms-app--saas .cms-app-header{height:64px;padding:0 32px;background:#ffffffed;backdrop-filter:blur(14px);border-color:#e6ebf0}
 .cms-app--saas .cms-app-header>div{font-size:12px;gap:11px;color:#5c6875}
 .cms-app--saas .cms-app-header strong{font-weight:550;color:#3b5367}
 .cms-app--saas .cms-header-end{gap:7px}
 .cms-app--saas .cms-header-end .cms-environment{display:none}
-.cms-app--saas .cms-avatar{width:31px;height:31px;border-radius:10px;font-size:10px;background:#e9eef2;color:#5c6875}
+.cms-app--saas .cms-avatar{width:31px;height:31px;border-radius:10px;font-size:12px;background:#e9eef2;color:#5c6875}
 .cms-app--saas .cms-page{padding:30px 32px 50px;max-width:1500px;margin-inline:auto}
 .cms-app--saas .cms-page-heading{margin-bottom:26px;gap:20px;align-items:center}
 .cms-app--saas .cms-page-heading h1{font-family:inherit;font-size:30px;line-height:1.2;margin-bottom:7px;letter-spacing:-.025em}
@@ -47,7 +47,7 @@
 .cms-app--saas .cms-button:active:not(:disabled){transform:scale(.985)}
 .cms-app--saas .cms-button--primary{background:#315f4d;border-color:#315f4d;color:#fff}
 .cms-app--saas .cms-button--primary:hover{background:#264c3d;border-color:#264c3d;color:#fff}
-.cms-app--saas .cms-button--quiet{background:transparent;border-color:transparent;color:#5d7487}
+.cms-app--saas .cms-button--quiet{background:transparent;border-color:transparent;color:#4a6073}
 .cms-app--saas .cms-button--danger{background:#b74437;border-color:#b74437;color:#fff}
 .cms-app--saas .cms-icon-button{min-width:36px;min-height:36px;border-radius:9px;color:#5c6875}
 .cms-app--saas .cms-icon-button:hover{background:#edf1f5}
@@ -82,7 +82,7 @@
 .cms-command-results>button{display:flex;align-items:center;gap:12px;justify-content:space-between;width:100%;min-height:46px;border:0;border-radius:9px;background:transparent;padding:12px;color:#3e5a70;font:inherit;font-size:14px;text-align:left}
 .cms-command-results>button:hover{background:#f2f5f8}
 .cms-command-results>p{font-size:14px;color:#5c6875;padding:15px 0}
-.cms-command-hint{display:flex;align-items:center;gap:6px;font-size:11px;color:#5c6875;margin:16px 0 0;padding-top:14px;border-top:1px solid #edf0f4}
+.cms-command-hint{display:flex;align-items:center;gap:6px;font-size:12px;color:#5c6875;margin:16px 0 0;padding-top:14px;border-top:1px solid #edf0f4}
 .cms-quick-tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:17px;margin-bottom:24px}
 .cms-quick-task{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:1px solid #e3e9ef;border-radius:16px;background:#fff;padding:25px;color:#2d4659;font:inherit;min-width:0;transition:border-color 180ms}
 .cms-quick-task:hover{border-color:#aabac7}
@@ -140,7 +140,7 @@
 .cms-app--saas .social-studio .social-pane-heading h2{font-size:14px}
 .cms-app--saas .social-studio .social-field{font-size:12px;gap:7px}
 .cms-app--saas .social-studio .social-template-meta strong{font-size:12px}
-.cms-app--saas .social-studio .social-template-meta>span{font-size:11px}
+.cms-app--saas .social-studio .social-template-meta>span{font-size:12px}
 .cms-app--saas .social-studio .social-workboard{background:#e9edf2;background-image:none}
 .cms-app--saas .post-planner.planner-product{display:block;min-height:0;overflow:auto;background:#f5f6f8;padding:28px 30px 40px;font-family:inherit}
 .cms-app--saas .planner-product .planner-heading{background:transparent;padding:0;border:0;align-items:flex-end;margin:0 0 28px;gap:20px}
@@ -159,21 +159,21 @@
 .cms-app--saas .planner-editor-layout{grid-template-columns:minmax(230px,.85fr) minmax(300px,1.15fr);gap:27px}
 .cms-app--saas .planner-current-media{background:#f0f3f6;border-radius:12px;overflow:hidden}
 .cms-app--saas .planner-current-media>img,.cms-app--saas .planner-current-media>video{display:block;width:100%;height:auto;max-height:510px;object-fit:contain}
-.cms-app--saas .planner-editor-preview>p{font-size:11px;line-height:1.65;color:#5c6875}
+.cms-app--saas .planner-editor-preview>p{font-size:12px;line-height:1.65;color:#5c6875}
 .cms-app--saas .planner-prepared{padding:15px;border-radius:10px;background:#f0f5f1;border:0;margin-top:17px}
 .cms-app--saas .planner-prepared h3{font-size:12px;margin-bottom:9px}
-.cms-app--saas .planner-prepared>span{font-size:11px}
+.cms-app--saas .planner-prepared>span{font-size:12px}
 .cms-app--saas .planner-editor-fields>.cms-form-grid{gap:14px}
 .cms-app--saas .planner-channel-help{font-size:12px;color:#5c6875;line-height:1.7;padding:0 0 13px;border-bottom:1px solid #e9edf2;margin-bottom:20px}
 .cms-app--saas .planner-channel-help>summary{font-size:12px;font-weight:500;min-height:38px;padding:9px 0;color:#5c6875;cursor:pointer}
 .cms-app--saas .planner-channel-help p{font-size:12px;line-height:1.7}
 .cms-app--saas .planner-media-actions>p,.cms-app--saas .planner-send-actions>p{font-size:12px;line-height:1.7;color:#5c6875}
 .cms-app--saas .planner-handoff{font-size:12px}
-.cms-app--saas .planner-handoff>p{font-size:11px;line-height:1.65}
+.cms-app--saas .planner-handoff>p{font-size:12px;line-height:1.65}
 .cms-app--saas .planner-source-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:23px}
 .cms-app--saas .planner-source-shortcuts>button{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:17px 14px;border:1px solid transparent;border-radius:11px;background:#f2f5f7;color:#5c6875;text-align:left}
 .cms-app--saas .planner-source-shortcuts>button[aria-pressed=true]{background:#edf4ef;border-color:#b5cbbd;color:#3c6652}
-.cms-app--saas .planner-source-shortcuts strong{font-size:12px;color:#354f63}.cms-app--saas .planner-source-shortcuts span{font-size:11px;color:#5c6875;line-height:1.6}
+.cms-app--saas .planner-source-shortcuts strong{font-size:12px;color:#354f63}.cms-app--saas .planner-source-shortcuts span{font-size:12px;color:#5c6875;line-height:1.6}
 .planner-quick-help>ol{margin:0 0 22px;padding-left:20px;display:grid;gap:23px}
 .planner-quick-help strong{font-size:14px;font-weight:600}
 .planner-quick-help p{font-size:13px;line-height:1.75;color:#5c6875;margin-top:6px}
@@ -189,7 +189,7 @@
  .cms-app--saas .cms-app-header{padding:0 24px}
  .cms-app--saas .cms-sidebar-brand{padding-top:24px}
  .cms-mobile-dock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;inset:auto 12px max(10px,env(safe-area-inset-bottom));height:64px;padding:5px;border:1px solid #e2e8ef;background:#ffffffed;backdrop-filter:blur(18px);border-radius:18px;z-index:60}
- .cms-mobile-dock>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;border-radius:12px;background:transparent;color:#5c6875;font:inherit;font-size:10px}
+ .cms-mobile-dock>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;border-radius:12px;background:transparent;color:#5c6875;font:inherit;font-size:12px}
  .cms-mobile-dock>button[aria-current=page]{background:#eaf1ec;color:#426a55}
 }
 @media(max-width:750px){
@@ -236,7 +236,7 @@
  .cms-app--saas .cms-quick-task h2{font-size:17px}
  .cms-task-icon{width:37px;height:37px;margin-bottom:17px}
  .cms-app--saas .cms-quick-task>p{font-size:12px;margin-bottom:17px}
- .cms-task-link{font-size:11px;line-height:1.5}
+ .cms-task-link{font-size:12px;line-height:1.5}
  .cms-app--saas .cms-dashboard-main>section{padding:22px 20px}
  .cms-app--saas .cms-onboarding--optional{padding-inline:18px}
  .cms-app--saas .cms-settings-nav{margin-inline:0}
@@ -258,7 +258,7 @@
 .cms-app--saas .planner-optional-fields,.cms-app--saas details.planner-handoff{border:0;border-top:1px solid var(--cms-border,#e6e9ee);padding:13px 0;background:transparent}.cms-app--saas .planner-optional-fields>summary,.cms-app--saas details.planner-handoff>summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--cms-ink,#1c2835);padding:2px 0}.cms-app--saas .planner-optional-fields[open]>summary,.cms-app--saas details.planner-handoff[open]>summary{margin-bottom:14px}
 
 .cms-app--saas .planner-editor-preview>.social-preview{display:block;width:100%;max-width:100%;overflow:hidden;border-radius:12px}.cms-app--saas .planner-editor-preview>.social-preview canvas{display:block;width:100%;height:100%;object-fit:contain}
-@media(max-width:750px){.cms-app--saas .planner-editor-preview{display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px 14px;width:100%;max-width:none;align-self:stretch}.cms-app--saas .planner-editor-preview>:is(.social-preview,.planner-current-media,.planner-reference-preview){grid-column:1;grid-row:1/5;width:96px;max-height:155px;overflow:hidden;align-self:start}.cms-app--saas .planner-editor-preview>.social-preview canvas{width:96px;height:auto}.cms-app--saas .planner-editor-preview>:not(.social-preview):not(.planner-current-media):not(.planner-reference-preview){grid-column:2}.cms-app--saas .planner-editor-preview>p{margin:0}.cms-app--saas .planner-editor-preview>.cms-button{padding:7px 8px;font-size:11px;min-height:38px;white-space:normal}.cms-app--saas .planner-prepared{margin:0;padding:9px}.cms-app--saas .planner-prepared>.cms-button{font-size:10px;white-space:normal}}
+@media(max-width:750px){.cms-app--saas .planner-editor-preview{display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px 14px;width:100%;max-width:none;align-self:stretch}.cms-app--saas .planner-editor-preview>:is(.social-preview,.planner-current-media,.planner-reference-preview){grid-column:1;grid-row:1/5;width:96px;max-height:155px;overflow:hidden;align-self:start}.cms-app--saas .planner-editor-preview>.social-preview canvas{width:96px;height:auto}.cms-app--saas .planner-editor-preview>:not(.social-preview):not(.planner-current-media):not(.planner-reference-preview){grid-column:2}.cms-app--saas .planner-editor-preview>p{margin:0}.cms-app--saas .planner-editor-preview>.cms-button{padding:7px 8px;font-size:12px;min-height:38px;white-space:normal}.cms-app--saas .planner-prepared{margin:0;padding:9px}.cms-app--saas .planner-prepared>.cms-button{font-size:12px;white-space:normal}}
 
 .cms-app--saas .planner-editor-layout{display:grid}.cms-app--saas .planner-product .planner-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}@media(max-width:750px){.cms-app--saas .planner-editor-layout{display:flex}.cms-app--saas .planner-product .planner-heading{flex-direction:column;align-items:stretch}}
 
@@ -280,4 +280,73 @@
   .cms-app--saas .cms-quick-task { padding: 16px; min-height: 0; }
   .cms-app--saas .cms-task-icon { width: 34px; height: 34px; margin-bottom: 12px; }
   .cms-app--saas .cms-quick-task > p { margin-bottom: 13px; }
+}
+
+/* 1.46 · Robust saving: retry in messages, sign-in without leaving, recovered changes. */
+.cms-toast .cms-toast-action{flex:none;min-height:36px;padding:7px 12px;border-color:#ffffff59;background:#ffffff1a;color:#fff;font-size:13px}
+.cms-toast .cms-toast-action:hover{background:#ffffff33;color:#fff}
+.cms-session-form{display:grid;gap:16px}
+.cms-session-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:4px}
+.cms-recovery{align-items:center}
+.cms-recovery>.cms-button{min-height:44px}
+@media(max-width:1180px){.cms-app--saas .cms-toasts{bottom:calc(86px + env(safe-area-inset-bottom));right:16px}}
+@media(max-width:600px){.cms-session-actions>.cms-button{flex:1 1 auto}.cms-session-actions>.cms-spacer{display:none}}
+
+/* 1.46 · Publication review: blocking issues first, then the draft at every width. */
+.cms-review-issues{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.cms-review-preview{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 14px;padding:8px 10px;border:1px solid #e3e9ef;border-radius:12px;background:#f7f9fb}
+.cms-review-preview>span{font-size:13px;font-weight:600;color:#3f4e5c;margin-right:4px}
+.cms-review-preview .cms-button{min-height:40px}
+.cms-review-count{margin:0 0 4px;font-size:13px;color:#5c6875}
+.cms-publication-review .cms-review-open{margin:0 16px 14px;min-height:40px}
+@media(max-width:600px){.cms-review-preview .cms-button{flex:1 1 30%;justify-content:center;padding-inline:6px}.cms-review-preview>span{flex-basis:100%}}
+
+/* 1.46 · Media: upload progress, missing descriptions, where a file is used. */
+.cms-upload-errors{margin:0;padding-left:18px;display:grid;gap:4px}
+.cms-filter-chip{min-height:40px;padding:8px 14px;border:1px solid #dfe5ec;border-radius:999px;background:#fff;color:#30495c;font:inherit;font-size:13px;cursor:pointer}
+.cms-filter-chip[aria-pressed=true]{background:#e8f0eb;border-color:#9fbcaa;color:#264c3d;font-weight:600}
+.cms-filter-chip:focus-visible{outline:2px solid #59836e;outline-offset:3px}
+.cms-media-tile small.cms-media-missing{color:#a34b20}
+.cms-media-usage{display:grid;gap:6px;margin:4px 0 14px}
+.cms-media-usage ul{margin:0;padding-left:18px;display:grid;gap:3px;font-size:13px;color:#30495c}
+.cms-media-usage p{margin:0}
+
+/* 1.46 · Inquiries: one teaching empty state, reply and close in one step. */
+.cms-inbox-empty{background:#fff;border:1px solid #e4e9ef;border-radius:16px;padding:clamp(24px,5vw,56px) 20px}
+.cms-inbox-empty .cms-empty{max-width:520px;margin:0 auto}
+.cms-inbox-empty-actions{justify-content:center;flex-wrap:wrap;gap:10px;margin-top:6px}
+.cms-inquiry-quick{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.cms-inquiry-quick .cms-button{min-height:44px}
+
+/* 1.46 · Workspace search finds areas, pages and settings. */
+.cms-command-results>button>span{display:grid;gap:1px;min-width:0}
+.cms-command-results>button>span>small{font-size:12px;font-weight:600;color:#5c6875;text-transform:none}
+
+/* 1.46 · The assistant launcher never covers the inspector actions or the phone dock. */
+@media(min-width:1181px){.cms-app--editor .assistant-host:not(.assistant-host--open) .assistant-launcher{bottom:84px}}
+@media(max-width:1180px){.cms-app--saas .assistant-launcher{bottom:calc(86px + env(safe-area-inset-bottom))}}
+
+/* 1.46 · Phone and touch: more room for the page, nothing hidden behind the dock. */
+.cms-editor-subbar>button{min-height:32px;padding:4px 6px;border-radius:6px}
+.cms-settings-search input{min-height:36px}
+.cms-settings-save--dirty{box-shadow:inset 3px 0 0 #a34b20}
+.cms-settings-save--dirty strong{color:#8a4a12;font-weight:600}
+@media(max-width:1180px){.cms-app--saas .cms-settings-save{bottom:calc(84px + env(safe-area-inset-bottom))}}
+@media(max-width:760px){
+ .cms-app--saas .cms-settings-nav{flex-wrap:wrap;overflow:visible;margin-inline:0;padding:6px}
+ .cms-app--saas .cms-settings-nav>.cms-settings-search{flex:1 1 100%}
+ .cms-app--saas .cms-settings-nav>button{flex:0 1 auto;white-space:normal}
+}
+@media(max-width:600px){
+ .cms-preview-zoom-hint{display:none}
+ .cms-preview-stage--mobile .cms-preview-scale-tools{display:none}
+ .cms-preview-bar .cms-select-wrap{display:none}
+ .cms-preview-bar{flex-wrap:nowrap}
+}
+/* Long button labels wrap instead of widening the page. */
+@media(max-width:600px){
+ .cms-app--saas .cms-form-section>.cms-button,.cms-app--saas .cms-settings-main .cms-button{max-width:100%;white-space:normal;text-align:left;height:auto}
+ .cms-app--saas .cms-settings-save:not(.cms-settings-save--dirty){position:static}
+ .cms-app--saas .assistant-host:not(.assistant-host--open) .assistant-launcher{width:48px;height:48px;padding:0;justify-content:center;border-radius:24px}
+ .cms-app--saas .assistant-host:not(.assistant-host--open) .assistant-launcher>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 }

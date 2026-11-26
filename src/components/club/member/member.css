@@ -15,7 +15,7 @@
   min-width: 0;
   background: var(--club-paper);
   color: var(--club-ink);
-  font-family: var(--ws-preloaded-body, "DM Sans Variable"), "Segoe UI", sans-serif;
+  font-family: "DM Sans Variable", "DM Sans", "Segoe UI", sans-serif;
   font-size: 15px;
   line-height: 1.48;
   caret-color: var(--club-link);
@@ -457,4 +457,37 @@ button.club-member-calendar-day[aria-pressed="true"] { background: var(--club-ac
 }
 @media (prefers-reduced-motion: reduce) {
   .club-member :is(.club-member-button, .club-member-rsvp button) { transition: none; }
+}
+
+.club-member-schedule { display: grid; gap: 14px; min-width: 0; container: member-schedule / inline-size; }
+@container member-schedule (min-width: 44rem) {
+  .club-member-calendar-layout:not([data-view="month"]) .club-member-training {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 24px;
+  }
+  .club-member-calendar-layout:not([data-view="month"]) .club-member-rsvp {
+    grid-column: 2; grid-row: 1 / span 2; margin-top: 0;
+  }
+  .club-member-calendar-layout:not([data-view="month"]) .club-member-event-export,
+  .club-member-calendar-layout:not([data-view="month"]) .club-member-event-detail { grid-column: 1; justify-self: start; }
+}
+.club-member-calendar-layout:not([data-view="month"]) { grid-template-columns: minmax(0, 1fr); }
+.club-member-schedule-views {
+  display: flex; flex-wrap: wrap; gap: 3px; width: fit-content; max-width: 100%;
+  padding: 3px; border: 1px solid var(--club-rule); border-radius: 11px; background: var(--club-card);
+}
+.club-member-schedule-views button {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0 10px;
+  border: 0; border-radius: 8px; color: var(--club-muted); background: transparent;
+  font-size: .85rem; font-weight: 700;
+}
+.club-member-schedule-views button[aria-pressed="true"] { background: var(--club-feature); color: #fff; }
+.club-member-schedule-views button span { font-variant-numeric: tabular-nums; }
+.club-member-event-export { min-height: 44px; margin-top: 4px; }
+.club-member-training-featured .club-member-event-export { color: inherit; }
+.club-member-rsvp button { min-height: 44px; }
+@media (prefers-reduced-motion: no-preference) {
+  .club-member-schedule-views button:active svg { transform: scale(.9); }
+  .club-member-schedule-views button svg { transition: transform 140ms ease-out; }
+  .club-member-rsvp button:active:not(:disabled) svg { transform: scale(.85); }
+  .club-member-rsvp button svg { transition: transform 140ms ease-out; }
 }

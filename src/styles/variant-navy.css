@@ -527,7 +527,7 @@
   .ws-site .nv-header-inner { min-height: 85px; padding-block: 16px; gap: 15px; }
   .ws-site .nv-brand { max-width: 72%; gap: 6px; }
   .ws-site .nv-brand > strong { font-size: 1.32rem; }
-  .ws-site .nv-brand > span { font-size: .65rem; max-width: 36ch; }
+  .ws-site .nv-brand > span { font-size: .75rem; max-width: 36ch; }
   .ws-site .nv-header-cta { display: none; }
   .ws-site .nv-heading { font-size: calc(clamp(1.9rem, 8.6cqi, 2.7rem) * var(--nv-scale)); line-height: 1.19; }
   .ws-site .nv-intro { margin-bottom: 30px; gap: 24px; }

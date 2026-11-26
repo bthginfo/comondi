@@ -8,8 +8,10 @@
 6. Das passende Startprofil wählen und den [Designstandard](skills/website-starter/references/design-and-content.md) auf das Projekt anwenden. Die Richtung unter `style` festhalten. Fertige Hero-Texte können über `hero.heading` und `hero.text` direkt in den Erstentwurf. Die [visuellen Abschnitte](docs/features.md#visuelle-abschnitte) lassen sich im CMS einsetzen. Farben und Bewegung unter **Gestaltung** prüfen.
    [Texte, SEO und KI-Suchen](skills/website-starter/references/search-and-copy.md) für jede Seite anwenden: aus Sicht des Anbieters schreiben, Belege prüfen und Metadaten je URL ausarbeiten.
 7. Lokale Einrichtung und eigene Produktionsressourcen nach `docs/setup.md` vornehmen.
-8. `npm run typecheck`, `npm test`, `npm run build` und den lokalen CMS-Ablauf prüfen. Neue externe Funktionen separat mit Testdaten überprüfen.
+8. `npm run typecheck`, `npm test`, `npm run build` und den lokalen CMS-Ablauf prüfen. Öffentliche Seiten mit `npm run review:visual -- http://localhost:3000` aufnehmen und nach dem [Qualitätsmaßstab](skills/website-starter/references/quality-bar.md) abnehmen. Neue externe Funktionen separat mit Testdaten überprüfen.
 9. Vor Veröffentlichung `docs/launch.md` anwenden und tatsächliche offene Punkte melden.
+
+Für einen neuen Auftritt oder eine zusätzliche Seite [Komposition und interaktive Frontend-Beispiele](skills/website-starter/references/frontend-directions.md) lesen. Die Beispiele lassen sich über `--example` erzeugen. Ihr Briefing, ihre CMS-Inhalte, die Interaktion der Bildbühne und ihr Stylesheet stehen im neutralen Starter unter `examples/frontends/`.
 
 Wichtige Dateien: `AGENTS.md`, `DESIGN.md`, `docs/architecture.md`, `docs/recipes/README.md`.
 
@@ -21,7 +23,7 @@ Der [Newsletter](docs/newsletter.md) ist optional. Aktivieren Sie ihn nur auf Wu
 
 Das [Social-Studio](docs/social-studio.md) ist ein eigenes optionales Modul für alle fünf Profile. Es bleibt auch im Creator-Profil aus, bis es im Briefing, per `--features social-studio` oder im CMS ausdrücklich aktiviert und gespeichert wird.
 
-Die Standardsprachen für CMS und Website werden getrennt unter **Settings → General** gesetzt. Die [Anleitung für DE und EN](docs/recipes/multilingual.md) zeigt, wie Sprachfassungen miteinander verknüpft werden.
+Die Standardsprachen für CMS und Website werden getrennt unter **Einstellungen → Allgemein** gesetzt; neue Projekte starten mit einem deutschen CMS. Die [Anleitung für DE und EN](docs/recipes/multilingual.md) zeigt, wie Sprachfassungen miteinander verknüpft werden.
 
 Cookie-Dialog und eigene Webanalyse gehören zur Standardinstallation. Messung startet erst mit Statistik-Einwilligung. CMS-App, Tour, Favicon und CMS-Appsymbol stehen in [App & notifications](docs/workspace-apps.md) bereit.
 
@@ -31,10 +33,14 @@ Das [Coach Studio](docs/coach-studio.md) ist nur für ausdrücklich beauftragte 
 
 Für [filmische Hero-Szenen](docs/recipes/cinematic-hero.md) gelten die Vorgaben zu Kamerafahrt, Material, Bewegungsprobe und responsiver Auslieferung.
 
-[Interaktive 3D-Scroll-Stories](docs/recipes/3d-scroll-story.md) sind ein ausdrückliches Opt-in über `--features scroll-3d` oder im CMS. Die Aktivierung schaltet den Baustein in der Bibliothek frei. Der Abschnitt wird auf der gewünschten Seite eingefügt und gestaltet.
+[Interaktive 3D-Scroll-Stories](docs/recipes/3d-scroll-story.md) sind ein ausdrückliches Opt-in über `--features scroll-3d` oder im CMS. Die Aktivierung schaltet den Baustein in der Bibliothek frei. Das Rezept begleitet die Asset-Produktion, die Scroll- und Kollisionsprüfung und auf Wunsch den Reel-Export.
 
 Neue Bausteine nach [Visueller Editor und responsive Vorschau](skills/website-starter/references/visual-editor.md) umsetzen und abnehmen.
 
 Der [CMS-Assistent](docs/ai-assistant.md) ist ein weiteres unabhängiges Opt-in (`--features ai-assistant`). Reale Vorschläge benötigen einen eigenen serverseitigen Anbieterzugang. Öffentliche CMS-Beispiele bleiben sichtbar gekennzeichnete lokale Simulationen ohne KI-Verbindung.
 
 Der [Post-Planer](docs/social-publishing.md) ergänzt das Social-Studio nur bei ausdrücklichem Opt-in (`--features social-publishing`). Private Planung ist auch ohne Zugang nutzbar; automatisches Senden an Instagram, Facebook-Seiten, Threads, LinkedIn, Pinterest, YouTube und Bluesky bleibt bis zur eigenen Konto-, Medien- und Queue-Einrichtung gesperrt. TikTok übergibt Videos zur abschließenden Veröffentlichung in der App.
+
+## Optionale Glasästhetik
+
+[Liquid Glass · iOS](docs/recipes/liquid-glass.md) ist eine eigene Auswahl für die vier Standardprofile: `--aesthetic liquid-glass`. Dunkle Glasflächen, Tiefe, ruhige Lichtnebel oder Sterne und Interaktionsfeedback sind im CMS bearbeitbar. Ohne Auswahl bleiben die bisherigen Entwürfe erhalten.

@@ -19,7 +19,7 @@
 .cms-operation-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:10px}
 .cms-operation-cards article{display:grid;align-content:start;gap:9px;padding:14px;border:1px solid var(--cms-line);border-radius:12px;background:#fff}
 .cms-operation-cards article>div{display:flex;justify-content:space-between;align-items:baseline;gap:5px 12px;flex-wrap:wrap}
-.cms-operation-cards article>div>span{font-size:11px;color:var(--cms-muted)}
+.cms-operation-cards article>div>span{font-size:12px;color:var(--cms-muted)}
 .cms-operation-cards article>div>span[data-state=attention]{color:#9a401f}
 .cms-operation-cards article>div>span[data-state=confirmed]{color:#246544}
 .cms-operation-cards .cms-button{justify-self:start}

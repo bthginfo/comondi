@@ -10,7 +10,7 @@ export function prepareCommercePages(content:WebsiteContent){
  const add=(mode:'catalog'|'cart',base:string,title:string)=>{
   let slug=base,number=2;while(reserved.has(slug))slug=`${base}-${number++}`;reserved.add(slug);
   const section=createSection('creator-shop');section.name=title;section.content={...section.content,heading:title,text:mode==='catalog'?'Entdecken Sie unser Sortiment.':'Prüfen Sie Ihre Auswahl vor dem Bezahlen.',caption:mode};
-  const page:PageContent={id:crypto.randomUUID(),slug,title,locale:'de',seo:{title,description:mode==='catalog'?'Produkte und Preise unseres Shops.':'Ihre Produktauswahl im Warenkorb.'},sections:[section]};pages.push(page);
+  const page:PageContent={id:crypto.randomUUID(),slug,title,locale:'de',translationKey:mode==='catalog'?'shop':'cart',seo:{title,description:mode==='catalog'?'Produkte und Preise unseres Shops.':'Ihre Produktauswahl im Warenkorb.'},sections:[section]};pages.push(page);
  };
  if(!routes.catalog)add('catalog','shop','Shop');
  if(!routes.cart)add('cart','warenkorb','Warenkorb');

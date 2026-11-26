@@ -36,6 +36,9 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   const renderedKey = tracking && published?.analytics ? JSON.stringify(published.analytics) : "";
   const renderedConfig = useMemo(() => renderedKey ? JSON.parse(renderedKey) as AnalyticsPublic : null, [renderedKey]);
   const nativeConfig = renderedConfig ?? fetchedConfig;
+  const configRequest = useRef<Promise<AnalyticsPublic | null> | null>(null);
+  const decision = useRef(0);
+  const [saving, setSaving] = useState(false);
   const [ready, setReady] = useState(false);
   const [choice, setChoice] = useState<Consent | null>(null);
   const [options, setOptions] = useState<OptionalChoice | null>(null);
@@ -47,11 +50,12 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   useEffect(() => {
     if (!tracking || renderedKey) return;
     const abort = new AbortController();
-    void fetch("/api/analytics/config", { signal: abort.signal, cache: "no-store" })
+    const request: Promise<AnalyticsPublic | null> = fetch("/api/analytics/config", { signal: abort.signal, cache: "no-store" })
       .then(response => response.ok ? response.json() : null)
-      .then((config: AnalyticsPublic | null) => { if (config && !abort.signal.aborted) setNativeConfig(config); })
-      .catch(() => {});
-    return () => abort.abort();
+      .catch(() => null);
+    configRequest.current = request;
+    void request.then(config => { if (config && !abort.signal.aborted) setNativeConfig(config); });
+    return () => { decision.current++; configRequest.current = null; abort.abort(); };
   }, [tracking, renderedKey]);
 
   useEffect(() => {
@@ -99,7 +103,18 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   const statisticsGeneration = tracking ? nativeConfig?.generation : undefined;
   const statisticsEnabled = tracking && nativeConfig?.enabled === true;
   const scriptGeneration = scripts?.generation;
-  const requireStatisticsChoice = statisticsEnabled && choice?.statisticsGeneration !== statisticsGeneration;
+  const unversionedDenial = choice?.analytics === false && choice.statisticsGeneration === undefined;
+  const requireStatisticsChoice = statisticsEnabled && !unversionedDenial && choice?.statisticsGeneration !== statisticsGeneration;
+  useEffect(() => {
+    if (!unversionedDenial || statisticsGeneration === undefined) return;
+    const stored = readConsent();
+    if (stored?.analytics !== false || stored.statisticsGeneration !== undefined || stored.savedAt !== choice?.savedAt) return;
+    // A refusal made while loading applies immediately. Record the first known
+    // version so a future, genuinely changed purpose still follows the usual flow.
+    const denial = { ...stored, statisticsGeneration };
+    storeConsent(denial);
+    setChoice(denial);
+  }, [choice?.savedAt, statisticsGeneration, unversionedDenial]);
   const requireScriptChoice = Boolean(scripts && choice?.scriptsGeneration !== scriptGeneration);
   const visible = options !== null || ready && ((!choice && site.consent.enabled) || requireStatisticsChoice || requireScriptChoice);
   const custom = options !== null;
@@ -107,6 +122,8 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   useEffect(() => {
     if (isolated) return;
     const open = () => {
+      decision.current++;
+      setSaving(false);
       previousFocus.current = document.activeElement as HTMLElement | null;
       const saved = readConsent();
       setOptions({
@@ -135,18 +152,36 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
   }
 
   function closeSettings() {
+    decision.current++;
+    setSaving(false);
     setOptions(null);
     restoreFocus();
   }
 
-  function save(selected: OptionalChoice) {
+  async function save(selected: OptionalChoice) {
+    if (saving && selected.analytics) return;
+    const current = ++decision.current;
+    let generation = statisticsGeneration;
+    if (selected.analytics && tracking && generation === undefined && configRequest.current) {
+      const previous = readConsent();
+      setSaving(true);
+      generation = (await configRequest.current)?.generation;
+      if (current !== decision.current) return;
+      const latest = readConsent();
+      if (latest?.savedAt !== previous?.savedAt) {
+        setChoice(latest);
+        setSaving(false);
+        return;
+      }
+    }
+    setSaving(false);
     const consent: Consent = {
       version: 1,
       necessary: true,
       analytics: selected.analytics,
       external: selected.external,
       marketing: selected.marketing,
-      statisticsGeneration,
+      statisticsGeneration: generation,
       scriptsGeneration: scriptGeneration,
       savedAt: new Date().toISOString(),
     };
@@ -169,6 +204,8 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
         {names.length > 0 && <small>{t("Dienste", "Services")}: {names.join(", ")}</small>}
       </span>
       <input type="checkbox" checked={options?.[id] ?? false} onChange={event => {
+        decision.current++;
+        setSaving(false);
         const checked = event.currentTarget.checked;
         setOptions(current => current ? { ...current, [id]: checked } : current);
       }} />
@@ -209,10 +246,11 @@ export function ConsentManager({ site, language = "de", published }: { site: Sit
           {category("external", t("Externe Medien", "External media"), t("Erlaubt Videos, Karten und weitere eingebundene Dienste.", "Allows embedded videos, maps and other external services."))}
           {hasMarketing && category("marketing", t("Marketing", "Marketing"), t("Erlaubt optionale Dienste zur Kampagnenmessung und Personalisierung.", "Allows optional services for campaign measurement and personalisation."))}
         </div>}
+        {saving && <p role="status">{t("Auswahl wird gespeichert …", "Saving your choices …")}</p>}
         <div className="ws-consent-actions">
-          <button type="button" className="ws-button ws-button-outline" onClick={() => save(essentials)}>{t("Nur notwendige", "Essential only")}</button>
-          <button type="button" className="ws-button ws-button-outline" onClick={() => save({ analytics: true, external: true, marketing: hasMarketing })}>{t("Alle akzeptieren", "Accept all")}</button>
-          {options ? <button type="button" className="ws-text-button" onClick={() => save(options)}>{t("Auswahl speichern", "Save choices")} <Check size={16} /></button>
+          <button type="button" className="ws-button ws-button-outline" onClick={() => void save(essentials)}>{t("Nur notwendige", "Essential only")}</button>
+          <button type="button" className="ws-button ws-button-outline" aria-disabled={saving || undefined} onClick={() => void save({ analytics: true, external: true, marketing: hasMarketing })}>{t("Alle akzeptieren", "Accept all")}</button>
+          {options ? <button type="button" className="ws-text-button" aria-disabled={saving || undefined} onClick={() => void save(options)}>{t("Auswahl speichern", "Save choices")} <Check size={16} /></button>
             : <button type="button" ref={settingsButton} className="ws-text-button" onClick={openSettings}>{t("Einstellungen", "Settings")} <ArrowUpRight size={16} /></button>}
         </div>
         <div className="ws-consent-links">

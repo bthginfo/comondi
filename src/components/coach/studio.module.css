@@ -917,3 +917,33 @@
   .studio :where(button, summary, a, .feature, .featurePitch > svg) { transition-duration: 0s; }
   .dialog[open] { animation: none; }
 }
+.scrubber {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px;
+}
+.phasePicker {
+  grid-column: 1; grid-row: 1; width: 100%; min-width: 0; max-width: 100%;
+  color: var(--deck-ink); background: var(--deck-surface); border: 0; border-radius: 4px;
+  font: inherit; font-size: 12px; font-weight: 700; text-overflow: ellipsis; cursor: pointer;
+}
+.phasePicker:disabled { opacity: 1; appearance: none; cursor: default; }
+.timeReadout { grid-column: 2; grid-row: 1; }
+.scrubber .seekTrack { grid-column: 1 / -1; grid-row: 2; }
+@media (pointer: coarse) {
+  .transportButtons .iconButton, .transportExtras .iconButton, .loopMenu > summary { width: 44px; min-height: 44px; }
+  .transportExtras > select, .phasePicker, .scrubber .seekTrack, .scrubber input { min-height: 44px; }
+  .seekTicks { inset-block-start: calc(50% - 3px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .playButton svg { animation: coach-transport-icon 170ms ease-out; }
+  @keyframes coach-transport-icon { from { opacity: .55; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+}
+
+.libraryTools { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-block: 0 20px; }
+.libraryTools .filters { margin: 0; }
+.libraryTools .search { min-height: 44px; }
+.libraryTools .filters button { min-height: 44px; }
+.libraryCollection .collectionTitle [role="status"] { font-size: .9rem; color: var(--secondary-ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .libraryTools .search { width: 100%; }
+  .libraryTools .filters { gap: 4px; }
+}

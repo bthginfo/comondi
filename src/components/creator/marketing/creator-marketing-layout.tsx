@@ -8,6 +8,7 @@ import type {CreatorLayoutProps} from '@/lib/creator/types';
 import {ContentLink} from '@/components/site/editable';
 import {useEditorialMotion,useScrollNavigation} from '../motion/creator-motion';
 import styles from './neutral-marketing.module.css';
+import { copyrightText } from "@/lib/site-config";
 
 /** Neutral Starter shell. Customer wordmarks and brand geometry stay in their own project. */
 export function CreatorMarketingLayout({page,site,editable,children}:CreatorLayoutProps){
@@ -31,7 +32,7 @@ export function CreatorMarketingLayout({page,site,editable,children}:CreatorLayo
     <footer className={styles.footer}>
       <div><ContentLink href="/" editable={editable} className={styles.footerBrand}>{footer?.brandText||site.name}</ContentLink><p>{site.footerText}</p>{site.email&&<ContentLink href={`mailto:${site.email}`} editable={editable}>{site.email}</ContentLink>}</div>
       {footer?.columns.map(column=><div key={column.id}><h2>{column.title}</h2>{column.links.map(link=><ContentLink key={link.href} href={link.href} editable={editable}>{link.label}</ContentLink>)}</div>)}
-      <div className={styles.legal}><span>{footer?.copyright}</span><FooterLegalLinks site={site} editable={editable} /></div>
+      <div className={styles.legal}><span>{copyrightText(site)}</span><FooterLegalLinks site={site} editable={editable} /></div>
     </footer>
   </div>;
 }

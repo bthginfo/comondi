@@ -1,5 +1,7 @@
 # Individuelles Design und redaktioneller Aufbau
 
+Beginne mit [Komposition, Bewegung und ausführbaren Frontend-Beispielen](frontend-directions.md). Dort stehen drei erzeugbare Projekte, konkrete Interaktionszustände und die Browserabnahme vom Einstieg bis zum Ergebnis.
+
 ## Visuelle Idee
 
 Leite aus Zielgruppe, Inhalt und gewünschter Handlung eine projektspezifische Richtung ab. Halte unter `style` fest, welches Motiv den Einstieg trägt, welche Typografie und Farbrollen die Marke wiedererkennbar machen und wie die Seite auf einem schmalen Gerät beginnt. Plane für jede zentrale Route eine eigene Komposition. Die Profile liefern Einstiege, Bildformate und Rhythmus für unterschiedliche Aufgaben.
@@ -11,11 +13,17 @@ Leite aus Zielgruppe, Inhalt und gewünschter Handlung eine projektspezifische R
 
 ## Bewegung und Interaktion
 
+Lege zuerst fest, was Besucher bei einer Aktion erkennen sollen. Beim Kontaktformular hebt das Papierflugzeug beim Senden ab. Der Haken erscheint nach der Serverbestätigung. Ein fehlgeschlagener Versuch lässt die Eingaben stehen und ermöglicht einen erneuten Versand. Für eine Galerie passt ein Wechsel des Motivs, für einen Akkordeon-Eintrag die Drehung seines Öffnen-Symbols. Nutze bei reduzierter Bewegung stabile Icons und denselben verständlichen Statustext.
+
 - Wähle die Bewegung aus der Komposition. Eine Textgruppe darf kurz von unten eintreten, ein Kartenraster erscheint in kleinen Versätzen und eine Galerie zeigt beim Wechsel, welches Bild neu ist. Eine erkennbare Reihenfolge pro Abschnitt genügt. Variiere den Rhythmus zwischen ruhigen und aktiveren Abschnitten.
 - Der Starter aktiviert „Sanft einblenden“ für passende Inhaltsabschnitte. Im CMS lässt sich die Bewegung je Abschnitt anpassen oder ausschalten. Auf Wunsch kann die Gestaltung in Sonderkomponenten eigene Übergänge haben. Verwende deren Timelines für bereits animierte Bereiche.
 - Halte Einstiege ungefähr bei 8–16 px Weg und 460–520 ms Dauer. Auf kleinen Geräten fällt der Weg kürzer aus. Gestaffelte Karten bleiben zügig zusammen sichtbar. Für normale Einstiege genügen Deckkraft und Verschiebung. Inhalte im ersten Bildschirm, beim schnellen Scrollen und ohne JavaScript bleiben lesbar.
 - Zeige an bedienbaren Karten, Buttons, Menüs und Tabs, was ausgewählt oder gerade ausgelöst wurde. Hover ist eine Ergänzung für präzise Zeiger. Auf Touch und per Tastatur sind Zustände und Aktionen ebenso klar erkennbar. Halte den Fokus sichtbar und das Ziel stabil.
 - Prüfe am Desktop und auf einem schmalen Touch-Viewport den normalen und schnellen Scroll, das Öffnen interaktiver Details und den Sprung zu einem Abschnitt. Bei „Bewegung reduzieren“ werden Inhalte direkt sichtbar. Scrolle zurück und prüfe, dass Einblendungen einmalig sind und die CMS-Vorschau sofort bearbeitbar bleibt.
+
+## Bildgeführte Gestaltung
+
+Der optionale [Bildatlas](photo-atlas.md) verbindet eine großformatige Aufnahme mit einer klar getrennten Textspalte. Verwende ihn für Aufträge, bei denen die Fotografie das Angebot zeigen kann.
 
 ## Referenzen aus dem Starter
 
@@ -35,10 +43,27 @@ Jede Route beantwortet eine andere Frage. Die Startseite fasst zusammen und verw
 
 Bilder an Ausschnitt, Licht und Aufgabe ausrichten. Hohe Auflösung für große Motive, responsive Dateien und ein brauchbares Standbild für Video oder 3D. Eigene oder lizenzierte Medien verwenden. KI-generierte Bilder nicht als dokumentarische Aufnahme ausgeben.
 
+Ein vorbereitetes Titelbild kann beim Erzeugen bereits Teil der Bildbühne sein. Lege das optimierte Bild neben die Briefing-Datei oder in einen Unterordner und gib den relativen Pfad unter `hero.image.file` an. JPEG, WebP und PNG sind möglich. `alt` beschreibt das Motiv. Mit `position` wählst du aus den neun Fokuspositionen des Bildeditors. Ohne eigenes Bild liefert der Generator weiterhin das gekennzeichnete Profilmotiv für den Entwurf.
+
+```json
+{
+  "hero": {
+    "heading": "Umbau am Innenhof",
+    "image": {
+      "file": "bilder/innenhof.webp",
+      "alt": "Blick durch die geöffnete Holztür in den begrünten Innenhof",
+      "position": "50% 100%"
+    }
+  }
+}
+```
+
+Stimme die Schrift des Einstiegs auf das eigentliche Material ab. Der Starter setzt bei Dienstleistungen auf Archivo, bei Portfolios auf Space Grotesk, bei Beratung auf Fraunces und im Magazin auf Cormorant Garamond. Du kannst die Schrift pro Abschnitt im CMS wechseln. Vergleiche bei der Abnahme die Aufnahme des Einstiegs mit dem ersten Arbeitsbeispiel. Sind Ausschnitt, Maßstab oder Aufbau fast gleich, variiere die Komposition dort, wo es den Inhalt besser verständlich macht. Prüfe am Smartphone, ob ein langes Wort und ein anderer Bildfokus funktionieren und ob sich die Hauptaktion direkt bedienen lässt.
+
 ## CMS und Abnahme
 
 Sichtbare Texte, Medien, Alt-Texte, Fokusbereiche, Links, Sichtbarkeit, Reihenfolge und Abschnittsfarben editierbar halten. Neue Typen in Schema, Registry, Inspector, Renderer und Mehrsprachigkeit durchgängig ergänzen. Vorschau und Produktion verwenden dieselbe Logik. Bei einer öffentlichen Live-Datenquelle die redaktionellen Felder und die Backend-Daten im Inspector klar erklären.
 
 DE/EN-Routen, Navigation, Footer, Consent, Buttons, Formulare und Fehlermeldungen prüfen. Website- und CMS-Standards bleiben getrennt. Redaktionsinhalte brauchen ihre eigenen gepflegten Übersetzungen.
 
-Prüfe im Browser die Startseite mit dem ersten Beleg, eine repräsentative Unterseite und die wichtigste Aktion. Vergleiche Desktop, Tablet und etwa 390 px breite Smartphone-Ansicht. Kontrolliere Bildbeschnitt, Überschriftenumbrüche, Kontrast, Fokus, Scrollverhalten und den ersten mobilen Bildschirm mit eingeblendeter Einwilligung. Bediene Formulare, Navigation und Tabs mit Tastatur und Touch. Wiederhole die entscheidende Interaktion mit reduzierter Bewegung und bei langsamer Verbindung. Verwende im finalen Review tatsächliche Projekttexte und passende, scharf ausgelieferte Medien. Liefere bei einer Designabnahme Ansichten der geprüften Größen und benenne noch offene Inhalte oder Medien.
+Prüfe im Browser die Startseite mit dem ersten Beleg, eine repräsentative Unterseite und die wichtigste Aktion. `npm run review:visual` erzeugt dafür Bildschirmfolgen, Kontaktbögen und einen Prüfbericht; die Untergrenzen stehen im [Qualitätsmaßstab](quality-bar.md). Vergleiche Desktop, Tablet und etwa 390 px breite Smartphone-Ansicht. Kontrolliere Bildbeschnitt, Überschriftenumbrüche, Kontrast, Fokus, Scrollverhalten und den ersten mobilen Bildschirm mit eingeblendeter Einwilligung. Bediene Formulare, Navigation und Tabs mit Tastatur und Touch. Wiederhole die entscheidende Interaktion mit reduzierter Bewegung und bei langsamer Verbindung. Verwende im finalen Review tatsächliche Projekttexte und passende, scharf ausgelieferte Medien. Liefere bei einer Designabnahme Ansichten der geprüften Größen und benenne noch offene Inhalte oder Medien.

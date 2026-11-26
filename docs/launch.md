@@ -3,6 +3,7 @@
 - Tatsächliches Briefing umgesetzt; alle gewünschten Seiten und Funktionen funktionieren. Musterstudio, Musterstadt, SVG-Platzhalter, Beispielnummern und `.invalid`-Adressen entfernt.
 - Anbieterangaben und Datenschutz für den konkreten Betrieb und die verwendeten Dienste ergänzt und geprüft. Die mitgelieferten Rechtstextseiten sind ausdrücklich Platzhalter.
 - Für kommerzielle Projekte einen dafür vorgesehenen Hosting-Tarif bestätigen. Vercel Hobby ist für persönliche, nicht kommerzielle Nutzung vorgesehen. [Vercel-Tarife](https://vercel.com/docs/plans/hobby)
+- Der freizugebende Commit liegt im eigenen privaten GitHub-Repository. Das zugehörige Vercel-Projekt ist mit diesem Repository verbunden. Produktionsbranch, Build-Verzeichnis und Git-Vorschau sind geprüft.
 - Eigenes Vercel-Projekt, eigenes Neon-Projekt mit bestätigtem Free-Tarif und eigener Datenbank, eigener Blob-Store und unabhängige Schlüssel eingerichtet. Zuordnung ohne Geheimnisse in `project/infrastructure.json` dokumentiert; keine gemeinsame Kundendatenbank und kein geteilter Blob-Store. Preview von Produktionsdaten getrennt halten und keine Kundendatenbanken für Tests verwenden.
 - Erstzugang eingerichtet; Passwortwechsel, Abmeldung, abgelaufene Sitzung, nicht angemeldeter API-Zugriff und unzulässige Schreibherkunft geprüft.
 - Entwurf öffentlich unsichtbar, Veröffentlichung sichtbar, Konflikte nachvollziehbar und Wiederherstellung als Entwurf möglich. Medien und Kontaktformular mit Testdaten geprüft.

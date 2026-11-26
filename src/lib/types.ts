@@ -4,7 +4,7 @@ import type {RouteTemplate} from './route-templates';
 import type { MenuPlacement, RestaurantMenu } from './restaurant-menu/model';
 import type { ReservationLayout, ReservationsModule } from './reservations/model';
 import type {CmsAppearance} from './cms-typefaces';
-export const SECTION_TYPES = ["comondi-hero", "comondi-proof", "comondi-intro", "comondi-worlds", "comondi-process", "comondi-culture", "comondi-cta", "comondi-inner", "comondi-team", "comondi-contact", "comondi-faq", "comondi-articles", "comondi-legal", "restaurant-menu", "reservation", "newsletter-signup", "newsletter-showcase", "assistant-showcase", "hero", "showcase-hero", "scroll-story", "scene-sequence", "workflow-demo", "project-stage", "project-index", "editorial-index", "statement", "services", "team", "split", "contact", "faq", "steps", "stats", "gallery", "richtext", "cta", "cards", "list", "downloads", "quote", "logos", "video", "map", "divider", "timeline", "accordion", "notice", "announcement", "comparison", "columns", "opening-hours", "editorial-hero", "portrait-mosaic", "service-explorer", "editorial-statement", "contact-poster", "editorial-gallery", "cinematic-hero", "motion-story", "scroll-3d", "focus-finder", "portrait-rail", "stacked-panels", "kinetic-statement", "contact-dock", "blog-cards", "blog-editorial", "blog-list", "noir-hero", "case-deck", "people-index", "image-curtain", "noir-manifesto", "noir-contact", "navy-hero", "navy-bento", "navy-service-tabs", "navy-people", "navy-process", "navy-contact", "creator-hero", "creator-social", "creator-shop", "creator-tools", "creator-hero-stack", "creator-media-kit", "creator-links", "creator-demo", "creator-remix", "creator-engagement", "creator-journey", "creator-lens", "creator-orbit", "creator-scroll-story"] as const;
+export const SECTION_TYPES = ["comondi-hero", "comondi-proof", "comondi-intro", "comondi-worlds", "comondi-process", "comondi-culture", "comondi-cta", "comondi-inner", "comondi-team", "comondi-contact", "comondi-faq", "comondi-articles", "comondi-legal", "restaurant-menu", "reservation", "newsletter-signup", "newsletter-showcase", "assistant-showcase", "hero", "showcase-hero", "scroll-story", "scene-sequence", "workflow-demo", "project-stage", "project-index", "affiliate-links", "editorial-index", "statement", "services", "team", "split", "contact", "faq", "steps", "stats", "gallery", "richtext", "cta", "cards", "list", "downloads", "quote", "logos", "video", "map", "divider", "timeline", "accordion", "notice", "announcement", "comparison", "columns", "opening-hours", "editorial-hero", "portrait-mosaic", "service-explorer", "editorial-statement", "contact-poster", "editorial-gallery", "cinematic-hero", "motion-story", "scroll-3d", "focus-finder", "portrait-rail", "stacked-panels", "kinetic-statement", "contact-dock", "blog-cards", "blog-editorial", "blog-list", "noir-hero", "case-deck", "people-index", "image-curtain", "noir-manifesto", "noir-contact", "navy-hero", "navy-bento", "navy-service-tabs", "navy-people", "navy-process", "navy-contact", "creator-hero", "creator-social", "creator-shop", "creator-tools", "creator-hero-stack", "creator-media-kit", "creator-links", "creator-demo", "creator-remix", "creator-engagement", "creator-journey", "creator-lens", "creator-orbit", "creator-scroll-story"] as const;
 export const CREATOR_REMIX_MODULES = ["content", "community", "shop", "kit"] as const;
 export type CreatorRemixModule = typeof CREATOR_REMIX_MODULES[number];
 export const CREATOR_TOOLS = ['planner', 'campaign', 'merch', 'publishing'] as const;
@@ -15,8 +15,8 @@ export type ImagePosition = "0% 0%" | "50% 0%" | "100% 0%" | "0% 50%" | "50% 50%
 export interface ImageValue { srcSet?:string;sizes?:string;width?:number;height?:number;src: string; alt: string; position: ImagePosition; caption?: string }
 export type CreatorHeroPreset = "gaming"|"beauty"|"fitness"|"food"|"travel"|"fashion"|"music"|"tech"|"lifestyle"|"art";
 export type CreatorPlatform = "instagram"|"tiktok"|"youtube"|"twitch"|"spotify"|"discord";
-export interface CommerceProduct { id:string;slug:string;title:string;description:string;kind:"physical"|"digital"|"service";groupId?:string;taxRuleId?:string;priceCents:number;image?:ImageValue;variants?:string[];stock?:number;active:boolean }
-export interface SiteModules { restaurantMenu?: RestaurantMenu; reservations?: ReservationsModule; creator?:{enabled:boolean;surface:"marketing"|"profile";demoBasePath:string};commerce?:{enabled:boolean;consumerSales?:boolean;currency:"EUR";shippingCents:number;freeShippingAboveCents?:number;products:CommerceProduct[];productGroups?:ProductGroup[];taxRules?:TaxRule[];shippingZones?:ShippingZone[]};socialStudio?:{enabled:boolean};coachStudio?:{enabled:boolean};clubManagement?:{enabled:boolean;timeZone?:string};scroll3d?:{enabled:boolean};aiAssistant?:{enabled:boolean};socialPublishing?:{enabled:boolean};proposals?:{enabled:boolean} }
+export interface CommerceProduct { id:string;slug:string;title:string;description:string;titleEn?:string;descriptionEn?:string;sample?:boolean;kind:"physical"|"digital"|"service";groupId?:string;taxRuleId?:string;priceCents:number;image?:ImageValue;variants?:string[];stock?:number;active:boolean }
+export interface SiteModules { consultations?:{enabled:boolean}; restaurantMenu?: RestaurantMenu; reservations?: ReservationsModule; creator?:{enabled:boolean;surface:"marketing"|"profile";demoBasePath:string};commerce?:{enabled:boolean;consumerSales?:boolean;currency:"EUR";shippingCents:number;freeShippingAboveCents?:number;products:CommerceProduct[];productGroups?:ProductGroup[];taxRules?:TaxRule[];shippingZones?:ShippingZone[]};socialStudio?:{enabled:boolean};coachStudio?:{enabled:boolean};clubManagement?:{enabled:boolean;timeZone?:string};scroll3d?:{enabled:boolean};aiAssistant?:{enabled:boolean};socialPublishing?:{enabled:boolean};proposals?:{enabled:boolean} }
 export interface CreatorLensPreset { x:number;y:number;radius:number }
 export interface Scroll3dChapterDesign {
   start?: number;
@@ -83,6 +83,16 @@ export interface ComondiMotionSettings {
   design?: ComondiDesign;
 }
 export type ComondiDesign = "kosmos" | "atlas";
+export interface LiquidGlassSettings {
+  enabled: boolean;
+  background: "aurora" | "space" | "none";
+  intensity: number;
+  speed: number;
+  depth: number;
+  reveal: boolean;
+  feedback: boolean;
+  revealDuration: number;
+}
 export interface SiteConfig {
   comondiMotion?: ComondiMotionSettings;
   defaultAdminLanguage?: SiteLanguage;
@@ -91,7 +101,7 @@ export interface SiteConfig {
   modules?: SiteModules;
   name: string; legalName: string; tagline: string; phone: string; email: string; fax: string; address: string; city: string; postalCode: string;
   navigation: NavItem[]; footerText: string; openingHours: {day: string; hours: string}[];
-  theme: {primary: string; accent: string; background: string; radius: number; font: "manrope" | "dm-sans"; presentation?: "services" | "portfolio" | "consulting" | "editorial"; palettes?:Partial<Record<DesignVariant,ColorPalette>>};
+  theme: {primary: string; accent: string; background: string; radius: number; font: "manrope" | "dm-sans"; aesthetic?: "standard" | "liquid-glass" | "photo-atlas"; glass?: LiquidGlassSettings; presentation?: "services" | "portfolio" | "consulting" | "editorial"; palettes?:Partial<Record<DesignVariant,ColorPalette>>};
   designVariant?:DesignVariant;
   consent: {enabled: boolean; title: string; text: string; english?: import("./consent/model").ConsentBannerCopy; scripts?: import("./consent/model").ConsentScript[]}; analytics: {googleId: string; matomoUrl: string; matomoSiteId: string};
   footer?:FooterConfig;blog?:BlogConfig;
@@ -105,4 +115,4 @@ export interface SmtpSettings {host: string; port: number; secure: boolean; user
 export interface EmailTemplates {orderSubject?:string;orderBody?:string;refundSubject?:string;refundBody?:string;contactSubject?:string;contactBody?:string;partialRefundSubject?:string;partialRefundBody?:string}
 export interface SiteSettings {emailTemplates?:EmailTemplates;smtp: SmtpSettings; retentionDays: number; onboardingComplete: boolean; siteUrl: string; storageRegion: string; databaseRegion: string}
 export interface SystemStatus {database: boolean; blob: boolean; smtp: boolean; region: string; mode: "production" | "development"; initialized: boolean; launchIssues?: string[]}
-export interface AdminBootstrap {state: CmsState; settings: SiteSettings; media: MediaAsset[]; inquiries: Inquiry[]; account?: {role: import("./auth-session").StaffRole; name?: string}; system: SystemStatus}
+export interface AdminBootstrap {state: CmsState; settings: SiteSettings; media: MediaAsset[]; inquiries: Inquiry[]; account?: {role: import("./auth-session").StaffRole; name?: string; login?: string}; system: SystemStatus}

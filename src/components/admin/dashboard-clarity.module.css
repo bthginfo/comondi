@@ -19,7 +19,21 @@
   padding: clamp(1rem, 2.6vw, 1.75rem);
 }
 .work h2 { margin: 0 0 .75rem; }
-.publication :global(.cms-publication-status) { margin: 0 0 1rem; }
+.publication :global(.cms-publication-status) { margin: 0 0 .35rem; }
+.statusDetail { margin: 0 0 1rem; font-size: .875rem; line-height: 1.55; color: #47594c; overflow-wrap: anywhere; }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.tasks { margin-top: 1rem; background: var(--overview-paper); border: 1px solid var(--overview-rule); border-radius: 1rem; padding: clamp(1rem, 2.6vw, 1.5rem) clamp(1rem, 2.6vw, 1.75rem); }
+.tasks h2 { margin: 0 0 .5rem; font-family: inherit; font-size: 1.125rem; font-weight: 630; }
+.tasks ul { list-style: none; margin: 0; padding: 0; }
+.tasks li { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0 .8rem .85rem; border-top: 1px solid var(--overview-rule); border-left: 3px solid #b9c7d3; }
+.tasks li:first-child { border-top: 0; }
+.tasks li.attention { border-left-color: #a34b20; }
+.tasks li > span { display: grid; gap: .15rem; min-width: 0; }
+.tasks strong { font-size: .9375rem; }
+.tasks small { font-size: .8125rem; line-height: 1.5; color: #47594c; }
+.tasks li :global(.cms-button) { flex: none; min-height: 44px; }
+.allDone { display: flex; align-items: center; gap: .5rem; margin: .25rem 0 0; font-size: .9rem; color: #2a6a4c; }
+@media (max-width: 720px) { .tasks li { flex-direction: column; align-items: stretch; } .tasks li :global(.cms-button) { justify-content: space-between; } .actions :global(.cms-button) { flex: 1 1 auto; justify-content: center; } }
 .publication :global(.cms-row) { display: flex; flex-wrap: wrap; gap: .5rem; }
 .work :is(button,a), .disclosure :is(button,a) { min-height: 44px; }
 .metadata { margin-top: 1rem; border-top: 1px solid var(--overview-rule); }

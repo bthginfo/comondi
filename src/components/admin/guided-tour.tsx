@@ -23,7 +23,7 @@ type TourStep = {
 type Rect = { left: number; top: number; width: number; height: number };
 type Viewport = { width: number; height: number };
 
-export const guidedTourStorageKey = "ws-admin-guided-tour-v2";
+export const guidedTourStorageKey = "ws-admin-guided-tour-v3";
 export function browserTourComplete() { try { return window.localStorage.getItem(guidedTourStorageKey) === "complete"; } catch { return false; } }
 export function markBrowserTourComplete() { try { window.localStorage.setItem(guidedTourStorageKey, "complete"); } catch { /* The tour remains closed for this visit when storage is unavailable. */ } }
 
@@ -35,30 +35,19 @@ const appStep = {
   selectors: [".cms-workspace-app-settings [data-workspace-app-install]", ".cms-workspace-app-settings"],
 };
 
+/** Five core tasks. Everything module-specific lives in `contextualHelp` on the Help page. */
 const tourSteps: TourStep[] = [
-  {
-    view: "dashboard", area: "Übersicht", title: "Ihre Website selbst pflegen.",
-    text: "Hier sehen Sie den Stand Ihrer Website und neue Kontaktanfragen. In dieser Einführung lernen Sie die wichtigsten Bereiche kennen.",
-    hint: "Die Einführung verändert keine Inhalte. Sie können sie jederzeit beenden.",
-    selectors: [".cms-dashboard-publication", ".cms-dashboard-main", ".cms-dashboard"],
-  },
   {
     view: "editor", editor: "preview", area: "Seiten bearbeiten", title: "Texte direkt auf der Seite ändern.",
     text: "Wählen Sie oben eine Seite aus. Klicken Sie in der Vorschau auf einen Text und schreiben Sie Ihre Änderung direkt hinein.",
-    hint: "Die Symbole für Bildschirm und Smartphone wechseln die Vorschaugröße.",
+    hint: "Links ordnen Sie die Abschnitte der Seite. Rechts ändern Sie Bilder, Links und Gestaltung des gewählten Abschnitts.",
     selectors: [".cms-editor .cms-preview", ".cms-editor"],
   },
   {
-    view: "editor", editor: "outline", area: "Seitenaufbau", title: "Seiten aus Abschnitten aufbauen.",
-    text: `Links sehen Sie den Aufbau Ihrer Seite. Über „Abschnitt hinzufügen“ wählen Sie passende Bausteine – etwa Karten, Bilder, Listen oder Galerien.`,
-    hint: "Pfeile ändern die Reihenfolge. Das Auge blendet einen Abschnitt aus. Hier öffnen Sie auch die SEO- und Seiteneinstellungen.",
-    selectors: [".cms-editor .cms-outline", ".cms-editor .cms-add-section"],
-  },
-  {
-    view: "editor", editor: "properties", area: "Inhalt und Gestaltung", title: "Jeden Abschnitt passend gestalten.",
-    text: "Rechts ändern Sie Bilder, Links und weitere Angaben. Unter „Gestaltung“ wählen Sie Farben, Schrift, Abstände und Formen für diesen Abschnitt.",
-    hint: "Ein Klick auf ein Symbol in der Vorschau öffnet die durchsuchbare Symbolauswahl.",
-    selectors: [".cms-editor .cms-inspector", ".cms-editor"],
+    view: "media", area: "Medien", title: "Bilder an einem Ort verwalten.",
+    text: "Hier laden Sie Bilder hoch und finden vorhandene Dateien. Eine Bildbeschreibung hilft Menschen, die sich Inhalte vorlesen lassen.",
+    hint: "Mit dem Raster aus neun Punkten richten Sie den Bildausschnitt aus. Bei Porträts sollte das Gesicht gut sichtbar bleiben.",
+    selectors: [".cms-media-page"],
   },
   {
     view: "editor", editor: "preview", audience: "owner", area: "Speichern und veröffentlichen", title: "Erst speichern, dann veröffentlichen.",
@@ -73,67 +62,49 @@ const tourSteps: TourStep[] = [
     selectors: [".cms-editor .cms-editor-actions", ".cms-editor .cms-editor-toolbar"],
   },
   {
-    view: "media", area: "Medien", title: "Bilder an einem Ort verwalten.",
-    text: "Hier laden Sie Bilder hoch und finden vorhandene Dateien. Eine Bildbeschreibung hilft Menschen, die sich Inhalte vorlesen lassen.",
-    hint: "Mit dem Raster aus neun Punkten richten Sie den Bildausschnitt aus. Bei Porträts sollte das Gesicht gut sichtbar bleiben.",
-    selectors: [".cms-media-page"],
-  },
-  {
-    view: "blog", area: "Beiträge", title: "Beiträge in Ruhe vorbereiten.",
-    text: "Legen Sie einen Beitrag mit Texten, Bildern und Abschnitten an. Jeder Beitrag wird einzeln veröffentlicht.",
-    hint: "Der Blog bleibt ausgeblendet, bis Sie ihn in den Blog-Einstellungen freigeben. Dort wählen Sie auch die Darstellung der Übersicht.",
-    selectors: [".cms-blog-feature-status", ".cms-blog-manager", ".cms-blog-workbench"],
-  },
-  {
     view: "inquiries", area: "Anfragen", title: "Kontaktanfragen im Blick behalten.",
     text: "Nachrichten aus dem Kontaktformular erscheinen hier. Öffnen Sie eine Anfrage, wählen Sie den Bearbeitungsstatus und ergänzen Sie bei Bedarf eine interne Notiz.",
     hint: "Die Nachrichten werden auch gespeichert, wenn der E-Mail-Versand noch nicht eingerichtet ist.",
     selectors: [".cms-inbox", ".cms-inquiries-page"],
   },
   {
-    view: "club", navigation: true, area: "Vereinsverwaltung", title: "Den Verein organisieren.",
-    text: "In der Vereinsverwaltung pflegen Sie Teams und Profile, verschicken Einladungen und verwalten Trainings, Rückmeldungen und Spielergebnisse.",
-    hint: "Über diesen Menüpunkt öffnen Sie den geschützten Vereinsbereich.",
-    selectors: ['.cms-sidebar [data-admin-view="club"]'],
-  },
-  {
-    view: "coach", navigation: true, area: "Coach Studio", title: "Trainings und Spielzüge erklären.",
-    text: "Im Coach Studio zeichnen Sie Übungen und Spielzüge auf dem Taktikboard. Speichern Sie die Abläufe als Animation und teilen Sie sie mit Ihrem Team.",
-    hint: "Gespeicherte Taktiken können Sie als PDF oder interaktive HTML-Datei exportieren.",
-    selectors: ['.cms-sidebar [data-admin-view="coach"]'],
-  },
-  {
-    view: "commerce", area: "Shop", title: "Produkte und Bestellungen verwalten.",
-    text: "Im Shop finden Sie die Produktdaten und eingegangenen Bestellungen für Ihren Zugang.",
-    hint: "Öffnen Sie einen Eintrag, um seine Details zu prüfen.",
-    selectors: [".cms-commerce-tabs", ".cms-commerce .cms-page-heading", ".cms-commerce"],
-  },
-  {
-    view: "settings", settings: "design", area: "Globale Gestaltung", title: "Farben für die ganze Website.",
-    text: "Diese Farben und Grundeinstellungen gelten für den gewählten Website-Entwurf. Die Vorschau zeigt, wie Texte, Flächen und Schaltflächen zusammenwirken.",
-    hint: "Einzelne Abschnitte können eigene Farben erhalten. Abschnitte ohne eigene Farben übernehmen die globalen Einstellungen.",
-    selectors: [".cms-theme-editor"],
-  },
-  {
-    view: "settings", settings: "navigation", area: "Navigation und Fußbereich", title: "Menü und Seitenende pflegen.",
-    text: "Hier ändern Sie Bezeichnungen, Ziele und Reihenfolge Ihrer Menülinks. Über „Linkziel“ wählen Sie Seiten und Abschnitte aus einer Liste aus.",
-    hint: "Darunter bearbeiten Sie die Texte und Linkspalten im Fußbereich sowie die Anzeige von Kontaktdaten und Bürozeiten.",
-    selectors: [".cms-settings-main"],
-  },
-  {
-    view: "settings", settings: "email", area: "Einstellungen", title: "E-Mail und weitere Einstellungen.",
-    text: "Mit den Zugangsdaten Ihres E-Mail-Anbieters richten Sie Benachrichtigungen zu neuen Anfragen ein. Speichern Sie die Verbindung, bevor Sie eine Test-E-Mail senden.",
-    hint: "Weitere Bereiche enthalten Kontaktdaten, Cookie-Hinweis, Statistikdienste und das Passwort für die Verwaltung.",
-    selectors: [".cms-settings-main"],
-  },
-  {
     view: "help", area: "Hilfe", title: "Die Anleitungen bleiben hier.",
-    text: "Suchen Sie nach einem Thema oder öffnen Sie eine der kurzen Anleitungen. Hier finden Sie auch die Übersicht aller Abschnitte.",
+    text: "Gestaltung, Menü, E-Mail-Versand, App und Ihre aktivierten Bereiche erklären kurze Anleitungen. Suchen Sie einfach nach einem Thema.",
     hint: "Über „Einführung wiederholen“ starten Sie diesen Rundgang jederzeit von vorn.",
     selectors: [".cms-help-guides", ".cms-help-page"],
   },
-  { ...appStep, view: "settings", settings: "app", audience: "owner" },
   { ...appStep, view: "account", audience: "staff" },
+];
+
+export type ContextualHelpTopic = { view: AdminView; area: string; title: string; text: string; hint: string; terms: string };
+
+/** Former tour stops for optional areas. The Help page lists the ones the current account can open. */
+export const contextualHelp: ContextualHelpTopic[] = [
+  {
+    view: "appointments", area: "Termine", title: "Zeitfenster freigeben.", terms: "termine buchung erstgespräch zeitfenster kalender",
+    text: "Wählen Sie Datum, Uhrzeit und Dauer. Im selben Bereich sehen Sie Buchungen, Umbuchungen und Absagen.",
+    hint: "Mit eingerichtetem E-Mail-Versand erhalten beide Seiten eine Bestätigung. Gästen steht ein persönlicher Terminlink zur Verfügung.",
+  },
+  {
+    view: "commerce", area: "Shop", title: "Produkte und Bestellungen verwalten.", terms: "shop produkte bestellungen kasse zahlung",
+    text: "Im Shop finden Sie die Produktdaten und eingegangenen Bestellungen für Ihren Zugang.",
+    hint: "Unter Einrichtung finden Sie den Zahlungsstatus und die Vorschau für den Bestellablauf.",
+  },
+  {
+    view: "club", area: "Vereinsverwaltung", title: "Den Verein organisieren.", terms: "verein teams mitglieder training spiele einladungen",
+    text: "In der Vereinsverwaltung pflegen Sie Teams und Profile, verschicken Einladungen und verwalten Trainings, Rückmeldungen und Spielergebnisse.",
+    hint: "Über diesen Menüpunkt öffnen Sie den geschützten Vereinsbereich.",
+  },
+  {
+    view: "coach", area: "Coach Studio", title: "Trainings und Spielzüge erklären.", terms: "coach taktik spielzug training animation",
+    text: "Im Coach Studio zeichnen Sie Übungen und Spielzüge auf dem Taktikboard. Speichern Sie die Abläufe als Animation und teilen Sie sie mit Ihrem Team.",
+    hint: "Gespeicherte Taktiken können Sie als PDF oder interaktive HTML-Datei exportieren.",
+  },
+  {
+    view: "settings", area: "App & Benachrichtigungen", title: "Das CMS als App öffnen.", terms: "app installieren startbildschirm dock push benachrichtigungen",
+    text: "Fügen Sie den Arbeitsbereich zum Startbildschirm oder Dock hinzu. Verfügbare Browser-Benachrichtigungen können Sie unter „Einstellungen → App & Benachrichtigungen“ für dieses Gerät einschalten.",
+    hint: "Die Installationsschritte hängen von Browser und Gerät ab.",
+  },
 ];
 
 function visibleElement(selectors: string[]) {

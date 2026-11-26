@@ -3,6 +3,10 @@ import localFont from 'next/font/local';
 // Keep the public family names used by the existing CMS and creator designs.
 // Preload the actual self-hosted files from the document, rather than discovering
 // the display faces only after a lazily loaded component's stylesheet arrives.
+// The `declarations` rename every @font-face to its real family name. The generated
+// `variable` values do not follow that rename (Turbopack writes e.g. "bodyFont", webpack a
+// hashed name), so stylesheets name the families directly ("DM Sans Variable",
+// "Barlow Condensed") and never read these variables as a font-family.
 export const bodyFont=localFont({
   src:'../../node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2',
   weight:'100 1000',style:'normal',display:'optional',preload:false,

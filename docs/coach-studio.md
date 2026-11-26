@@ -6,7 +6,7 @@ Das Modul wird nur bei Bedarf im jeweiligen Website-Projekt aktiviert.
 node scripts/create-site.mjs --name "Rugby Club" --out "../rugby-club" --features coach-studio
 ```
 
-Alternativ im Projektbriefing `modules.coachStudio.enabled` auf `true` setzen. In einem vorhandenen Workspace kann der Eigentümer unter **Settings → General → Coach Studio** aktivieren und den Entwurf speichern. Das Playbook erscheint dann unter **Training → Coach Studio**.
+Alternativ im Projektbriefing `modules.coachStudio.enabled` auf `true` setzen. In einem vorhandenen Workspace kann der Eigentümer unter **Einstellungen → Allgemein → Coach Studio** aktivieren und den Entwurf speichern. Das Playbook erscheint dann unter **Training → Coach Studio**.
 
 ## Taktik erstellen
 

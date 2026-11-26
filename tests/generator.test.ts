@@ -1,9 +1,12 @@
 import test from 'node:test';
+import { existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { cp, mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import { createSite, normalizeBrief, parseFeatures, projectSlug } from '../scripts/lib/scaffold.mjs';
@@ -11,6 +14,44 @@ import { websiteSchema } from '../src/lib/validation';
 import { publishIssues } from '../src/lib/publish-check';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const exampleLibrary = path.join(root, 'examples/frontends');
+
+test('frontend examples generate editable pages, working navigation and only the selected design', { skip: existsSync(path.join(root, 'project/origin.json')) }, async () => {
+  await temporary(async directory => {
+    const source = await neutralSource(path.join(directory, 'starter'));
+    await cp(exampleLibrary, path.join(source, 'examples/frontends'), { recursive: true });
+    const routes = { 'material-studio': 'eisenrand', 'night-programme': 'tiefer-takt', 'field-notes': 'etappenblatt' };
+    for (const [example, detail] of Object.entries(routes)) {
+      const output = path.join(directory, example);
+      const brief = { example, projectName: 'Eigenes Beispiel', hero: { heading: 'Eigener Auftakt' }, modules: { clubManagement: { enabled: true } } };
+      await createSite({ sourceRoot: source, outputDir: output, brief });
+      const content = websiteSchema.parse(JSON.parse(await readFile(path.join(output, 'src/data/content.json'), 'utf8')));
+      const home = content.pages.find(page => page.slug === '')!;
+      assert.equal(home.sections[0].content.heading, brief.hero.heading);
+      assert.equal(content.config.name, brief.projectName);
+      assert(content.pages.find(page => page.slug === detail)?.sections.length);
+      assert.equal(content.config.navigation.filter(item => item.href === '/members').length, 1);
+      assert.equal(content.config.footer?.columns[0].links.filter(item => item.href === '/members').length, 1);
+      assert.equal(JSON.parse(await readFile(path.join(output, 'project/origin.json'), 'utf8')).example, example);
+      assert.deepEqual(await readFile(path.join(output, 'src/styles/project.css')), await readFile(path.join(exampleLibrary, example, 'style.css')));
+      assert.deepEqual(await readFile(path.join(output, 'src/components/site/project-hero-art.tsx')), await readFile(path.join(exampleLibrary, example, 'hero-art.tsx')));
+      assert.equal(existsSync(path.join(output, 'examples')), false);
+      if (example === 'field-notes') {
+        const stage = home.sections.find(section => section.id === 'grat-wegpunkte')!;
+        const unrelated = { ...stage, id: 'another-stage', content: { ...stage.content, items: [] } };
+        const { ProjectHeroArt } = await import(pathToFileURL(path.join(exampleLibrary, example, 'hero-art.tsx')).href);
+        const renderProfile = (sections: typeof home.sections) => renderToStaticMarkup(createElement(ProjectHeroArt, {
+          section: home.sections[0], pageSections: sections, language: 'de', editable: false,
+        }));
+        assert.match(renderProfile([unrelated, stage]), /Höhenprofil/);
+        assert.equal(renderProfile([unrelated, { ...stage, visible: false }]), '');
+      }
+      for (const match of JSON.stringify(content).matchAll(/"(\/media\/example\/[\w.-]+)"/g)) {
+        assert(existsSync(path.join(output, 'public', match[1])), match[1]);
+      }
+    }
+  });
+});
 async function temporary<T>(run: (directory: string) => Promise<T>) {
   const directory = await mkdtemp(path.join(tmpdir(), 'website-starter-test-'));
   try { return await run(directory); }
@@ -28,6 +69,7 @@ async function neutralSource(directory:string){await mkdir(directory,{recursive:
 test('every profile generates a valid independent CMS project with the requested identity', async () => {
   await temporary(async directory => {
     const source=await neutralSource(path.join(directory,'neutral-template'));
+    const rhythms = new Set<string>();
     for (const profile of ['services', 'portfolio', 'consulting', 'editorial','creator']) {
       const output = path.join(directory, profile);
       const result = await createSite({ sourceRoot: source, outputDir: output, profile, brief: { projectName: 'Neue Hände GmbH', legalName: 'Neue Hände GmbH', email: 'kontakt@example.org', style: 'Warm und ruhig', hero: { heading: 'Wir bauen im Bestand.', text: 'Wir klären früh, was sich erhalten lässt.' }, colors: { primary: '#243a31' }, functions: ['CMS', 'Podcast'] } });
@@ -37,6 +79,7 @@ test('every profile generates a valid independent CMS project with the requested
       assert.equal(content.config.email, 'kontakt@example.org');
       assert.equal(content.config.theme.primary, '#243a31');
       assert.equal(content.config.theme.presentation, profile === 'creator' ? undefined : profile);
+      assert.equal(content.config.theme.aesthetic, undefined);
       assert.equal(content.config.blog?.enabled, profile === 'editorial');
       assert.equal(content.config.modules?.creator?.enabled===true,profile==='creator');
       assert.notEqual(content.config.modules?.commerce?.enabled,true);
@@ -51,6 +94,8 @@ test('every profile generates a valid independent CMS project with the requested
       assert.equal(cover.design.animation, 'reveal');
       assert.equal(cover.content.heading, 'Wir bauen im Bestand.');
       assert.equal(cover.content.text, 'Wir klären früh, was sich erhalten lässt.');
+      const faces: Record<string, string> = { services: 'archivo', portfolio: 'space-grotesk', consulting: 'fraunces', editorial: 'cormorant-garamond' };
+      assert.equal(cover.design.headingTypeface, faces[profile]);
       assert.match(cover.content.image?.src ?? '', /^\/placeholders\/visual-starter\/[^/]+\.webp$/);
       if (profile !== 'creator') {
         const featureType = profile === 'services' ? 'scroll-story' : profile === 'consulting' ? 'scene-sequence' : 'project-stage';
@@ -61,6 +106,22 @@ test('every profile generates a valid independent CMS project with the requested
         assert.equal(entries.length, 3);
         assert.equal(feature.design.animation, 'reveal');
         assert.equal(cover.design.heroLayout, profile === 'portfolio' ? 'panorama' : profile === 'editorial' ? 'portrait' : 'split');
+        // A complete start page: offer, proof, process, a contact person, FAQ and a closing action.
+        assert(home.sections.length >= 7 && home.sections.length <= 9, profile);
+        assert.equal(home.sections.at(-1)?.type, 'cta');
+        assert.equal(new Set(home.sections.map(section => section.id)).size, home.sections.length);
+        rhythms.add(home.sections.map(section => `${section.type}:${section.design.theme}`).join());
+        const faq = home.sections.find(section => section.type === 'faq')!;
+        assert((faq.content.items?.length ?? 0) >= 3);
+        assert(faq.content.items!.some(item => /Preis|kostet|abgerechnet/.test(item.title)), 'FAQ covers the price logic');
+        assert(faq.content.items!.some(item => /lange|dauert/.test(item.title)), 'FAQ covers the duration');
+        const [person] = home.sections.find(section => section.type === 'team')?.content.items ?? [];
+        assert.match(person?.meta ?? '', /Beispielprofil/);
+        assert.equal(person?.email, 'kontakt@example.org');
+        assert(home.sections.some(section => section.content.items?.some(item => /Beispiel/.test(item.meta ?? '')) || /Beispiel/.test(section.content.text ?? '')), 'example data stays marked');
+        if (profile === 'editorial') {
+          assert.equal(content.posts?.filter(post => post.status === 'published' && post.excerpt.startsWith('Beispielbeitrag')).length, 3);
+        }
         const projects = content.pages.find(page => page.slug === 'projekte')?.sections[1];
         assert.equal(projects?.type, profile === 'portfolio' ? 'project-index' : 'project-stage');
         assert(projects?.content.items?.every(item => item.meta));
@@ -86,6 +147,7 @@ test('every profile generates a valid independent CMS project with the requested
         assert.equal(home.sections.some(section=>section.type==='creator-remix'),false);
       }
       assert.deepEqual(publishIssues(content), []);
+      if (profile === 'creator') assert.equal(cover.content.subheading, '', 'the brand stays in the navigation only');
       const brief = JSON.parse(await readFile(path.join(output, 'project/brief.json'), 'utf8'));
       assert.equal(brief.style, 'Warm und ruhig');
       assert.deepEqual(brief.functions, ['CMS', 'Podcast']);
@@ -96,6 +158,7 @@ test('every profile generates a valid independent CMS project with the requested
       assert.equal(await exists(path.join(output, 'src/components/admin/admin-app.tsx')), true);
       assert.equal(await exists(path.join(output, 'src/app/api/admin/[...action]/route.ts')), true);
     }
+    assert.equal(rhythms.size, 4, 'each standard profile composes its own start page');
   });
 });
 
@@ -154,6 +217,33 @@ test('briefing validates contact/domain inputs and never accepts a credential-be
   assert.throws(() => normalizeBrief({ projectName: 'Test', siteUrl: 'https://user:password@example.org' }));
   assert.throws(() => normalizeBrief({ projectName: 'Test', siteUrl: 'http://example.org' }));
   assert.equal(normalizeBrief({ projectName: 'Test', siteUrl: 'https://example.org/' }).siteUrl, 'https://example.org');
+});
+
+test('a brief imports its own hero image, alt and crop into the editable cover', async () => {
+  await temporary(async directory => {
+    const source = await neutralSource(path.join(directory, 'template'));
+    const assets = path.join(directory, 'brief', 'bilder');
+    await mkdir(assets, { recursive: true });
+    const sample = path.join(root, 'public/placeholders/visual-starter/workshop-compact.webp');
+    await cp(sample, path.join(assets, 'innenhof.webp'));
+    const brief = { projectName: 'Atelier', hero: { heading: 'Innenhof', image: {
+      file: 'bilder/innenhof.webp', alt: 'Blick in den Innenhof', position: '100% 50%',
+    } } };
+    const briefPath = path.join(directory, 'brief', 'auftrag.json');
+    await writeFile(briefPath, JSON.stringify(brief));
+    const output = path.join(directory, 'atelier');
+    await promisify(execFile)(process.execPath, [path.join(source, 'scripts/create-site.mjs'), '--brief', briefPath, '--out', output], { cwd: directory, windowsHide: true });
+    const content = websiteSchema.parse(JSON.parse(await readFile(path.join(output, 'src/data/content.json'), 'utf8')));
+    const cover = content.pages.find(page => page.slug === '')!.sections[0];
+    assert.deepEqual(cover.content.image, { src: '/media/project/hero.webp', alt: brief.hero.image.alt, position: brief.hero.image.position });
+    assert.equal(cover.content.caption, undefined);
+    assert.deepEqual(await readFile(path.join(output, 'public/media/project/hero.webp')), await readFile(sample));
+    assert.throws(() => normalizeBrief({ ...brief, hero: { ...brief.hero, image: { ...brief.hero.image, file: '../innenhof.webp' } } }), /hero.image/);
+    await writeFile(path.join(assets, 'innenhof.webp'), 'not an image');
+    const rejected = path.join(directory, 'rejected');
+    await assert.rejects(createSite({ sourceRoot: source, outputDir: rejected, briefDirectory: path.dirname(briefPath), brief }), /Dateityp/);
+    assert.equal(await exists(rejected), false);
+  });
 });
 
 test('generated customer projects are explicitly rejected as scaffold sources',async()=>{await temporary(async directory=>{const source=await neutralSource(path.join(directory,'customer'));await mkdir(path.join(source,'project'));await writeFile(path.join(source,'project/origin.json'),'{}');await assert.rejects(createSite({sourceRoot:source,outputDir:path.join(directory,'unsafe-copy'),brief:{projectName:'Blocked'}}),/neutralen Starter/);});});
@@ -269,5 +359,50 @@ test('AI assistant is independent, default off and composes with Social-Studio i
     assert.deepEqual(websiteSchema.parse(content).config.modules?.aiAssistant,{enabled:false});
     (content.config.modules!.aiAssistant as Record<string,unknown>).apiKey='never-public';
     assert.equal(websiteSchema.safeParse(content).success,false);
+  });
+});
+
+
+test('Liquid Glass is an explicit independent aesthetic in briefing and CLI', async () => {
+  assert.throws(() => normalizeBrief({ projectName: 'Studio', aesthetic: 'automatic' }), /aesthetic/);
+  await temporary(async directory => {
+    const source = await neutralSource(path.join(directory, 'source'));
+    const output = path.join(directory, 'glass');
+    await promisify(execFile)(process.execPath, [path.join(source, 'scripts/create-site.mjs'), '--name', 'Own Studio', '--out', output, '--profile', 'consulting', '--aesthetic', 'liquid-glass'], { windowsHide: true });
+    const content = websiteSchema.parse(JSON.parse(await readFile(path.join(output, 'src/data/content.json'), 'utf8')));
+    assert.equal(content.config.theme.aesthetic, 'liquid-glass');
+    assert.equal(content.config.theme.presentation, 'consulting');
+    assert.equal(content.config.designVariant, 1);
+    assert.equal(content.config.theme.glass?.background, 'aurora');
+    assert.equal(content.config.theme.palettes?.[1]?.text, '#eff3ff');
+    assert.equal(JSON.parse(await readFile(path.join(output, 'project/brief.json'), 'utf8')).aesthetic, 'liquid-glass');
+    assert.equal(content.config.modules?.scroll3d?.enabled, undefined);
+    await assert.rejects(createSite({ sourceRoot: source, outputDir: path.join(directory, 'creator-glass'), profile: 'creator', brief: { projectName: 'Studio', aesthetic: 'liquid-glass' } }), /Creator-Profil/);
+    assert.equal(await exists(path.join(directory, 'creator-glass')), false);
+  });
+});
+
+test('Photo Atlas is explicitly selected in the CLI or brief and retains editable profile content', async () => {
+  await temporary(async directory => {
+    const source = await neutralSource(path.join(directory, 'source'));
+    const output = path.join(directory, 'atlas');
+    const brief = { projectName: 'Atelier Linden', aesthetic: 'photo-atlas', colors: { accent: '#c7d5bb' } };
+    assert.equal(normalizeBrief(brief).aesthetic, 'photo-atlas');
+    const briefFile = path.join(directory, 'brief.json');
+    await writeFile(briefFile, JSON.stringify(brief));
+    await promisify(execFile)(process.execPath, [path.join(source, 'scripts/create-site.mjs'), '--name', brief.projectName, '--out', output, '--profile', 'portfolio', '--aesthetic', 'photo-atlas', '--brief', briefFile], { windowsHide: true });
+    const content = websiteSchema.parse(JSON.parse(await readFile(path.join(output, 'src/data/content.json'), 'utf8')));
+    assert.equal(content.config.theme.presentation, 'portfolio');
+    assert.equal(content.config.theme.aesthetic, 'photo-atlas');
+    assert.equal(content.config.theme.accent, brief.colors.accent);
+    assert.equal(content.config.theme.glass, undefined);
+    const home = content.pages.find(page => page.slug === '')!;
+    const hero = home.sections[0];
+    assert.equal(hero.type, 'showcase-hero');
+    assert.equal(hero.design.heroLayout, 'split');
+    assert.equal(hero.design.headingTypeface, 'dm-sans');
+    assert.ok(hero.content.image?.srcSet);
+    assert.ok(home.sections.some(section => '#' + section.id === hero.content.primaryHref));
+    await assert.rejects(createSite({ sourceRoot: source, outputDir: path.join(directory, 'creator'), profile: 'creator', brief }), /Creator-Profil/);
   });
 });

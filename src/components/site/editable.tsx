@@ -91,9 +91,9 @@ export function safeHref(href?: string) {
   return "#";
 }
 
-export function ContentLink({ href, editable, children, className = "", label, download, target, current, editField, editItemId }: {
+export function ContentLink({ href, editable, children, className = "", label, download, target, sponsored, current, editField, editItemId }: {
   href?: string; editable?: boolean; children: ReactNode; className?: string; label?: string;
-  download?: boolean; target?: "_blank"; current?: "page";
+  download?: boolean; target?: "_blank"; sponsored?: boolean; current?: "page";
   editField?: "primaryHref" | "secondaryHref" | "href"; editItemId?: string;
 }) {
   const {t} = useAdminLanguage();
@@ -107,7 +107,7 @@ export function ContentLink({ href, editable, children, className = "", label, d
   </div>;
   const destination=safeHref(href);
   const clientAnchor = clientAnchors && !download && !target && destination.length > 1 && destination.startsWith("#");
-  if(clientAnchor || isClientPageLink(destination,{download,target}))return <Link href={destination} prefetch={clientAnchor ? false : undefined} onNavigate={event => {
+  if(!sponsored&&(clientAnchor || isClientPageLink(destination,{download,target})))return <Link href={destination} prefetch={clientAnchor ? false : undefined} onNavigate={event => {
     if (pageConsentScriptsActive()) {
       event.preventDefault();
       window.location.assign(destination);
@@ -116,7 +116,7 @@ export function ContentLink({ href, editable, children, className = "", label, d
     window.dispatchEvent(new CustomEvent(siteNavigationEvent, { detail: { href: destination } }));
   }} className={className} aria-label={label} aria-current={current}>{children}</Link>;
   return <a href={destination} className={className} aria-label={label} aria-current={current}
-    download={download || undefined} target={target} rel={target ? "noopener noreferrer" : undefined}
+    download={download || undefined} target={target} rel={sponsored ? "sponsored noopener noreferrer" : target ? "noopener noreferrer" : undefined}
   >{children}</a>;
 }
 
