@@ -142,6 +142,7 @@ export function buildSubpages(current: WebsiteContent): Record<SubpageSlug, Subp
             item('anforderungen', 'Verstehen Fachbereich und Technik unter einer Anforderung dasselbe?'),
           ],
         }),
+        // Soft hyphens (\u00ad) let the long titles break at the word joint in the four narrow columns.
         section('projektmanagement-leistungen', 'comondi-service-work', 'Leistungsbild Strukturplan', {
           subheading: 'Was wir konkret tun',
           heading: 'Unsere Bausteine für Projekte und Prozesse.',
@@ -149,10 +150,10 @@ export function buildSubpages(current: WebsiteContent): Record<SubpageSlug, Subp
           attribution: 'Euer Vorhaben',
           caption: 'Passende Methodenkompetenz im Team: A-SPICE und Systems Engineering.',
           items: [
-            item('programm', 'Projekt- & Programmmanagement', 'Wir unterstützen euch dabei, Projekte und Programme zu strukturieren und im Alltag zu steuern.', { details: ['Gemeinsames Ziel festhalten', 'Aufgaben transparent machen', 'Entscheidungen vorbereiten, die das Team weiterbringen'] }),
-            item('prozesse', 'Prozessmanagement', 'Wir betrachten Abläufe und Zuständigkeiten in ihrem Zusammenhang.', { details: ['Abläufe sichtbar machen', 'Zuständigkeiten klären', 'Strukturen entwickeln, die Zusammenarbeit erleichtern'] }),
-            item('organisation', 'Organisationsaufbau', 'Gemeinsam entwickeln wir Strukturen, die Orientierung geben und sich in eure bestehende Organisation einfügen.', { details: ['Rollen und Verantwortung ordnen', 'Strukturen in machbaren Etappen einführen'] }),
-            item('anforderungen', 'Anforderungsmanagement', 'Ein klares Verständnis von Anforderungen verbindet fachliche und technische Perspektiven – auch im IT-Umfeld.', { details: ['Anforderungen erheben', 'Anforderungen einordnen', 'Fachbereich und Technik abstimmen'] }),
+            item('programm', 'Projekt- & Programm\u00admanagement', 'Wir unterstützen euch dabei, Projekte und Programme zu strukturieren und im Alltag zu steuern.', { details: ['Gemeinsames Ziel festhalten', 'Aufgaben transparent machen', 'Entscheidungen vorbereiten, die das Team weiterbringen'] }),
+            item('prozesse', 'Prozess\u00admanagement', 'Wir betrachten Abläufe und Zuständigkeiten in ihrem Zusammenhang.', { details: ['Abläufe sichtbar machen', 'Zuständigkeiten klären', 'Strukturen entwickeln, die Zusammenarbeit erleichtern'] }),
+            item('organisation', 'Organisations\u00adaufbau', 'Gemeinsam entwickeln wir Strukturen, die Orientierung geben und sich in eure bestehende Organisation einfügen.', { details: ['Rollen und Verantwortung ordnen', 'Strukturen in machbaren Etappen einführen'] }),
+            item('anforderungen', 'Anforderungs\u00admanagement', 'Ein klares Verständnis von Anforderungen verbindet fachliche und technische Perspektiven – auch im IT-Umfeld.', { details: ['Anforderungen erheben', 'Anforderungen einordnen', 'Fachbereich und Technik abstimmen'] }),
           ],
         }, 'reveal', { comondiPlanet: 'jupiter' }),
         next('projektmanagement-kontakt', 'Euer Vorhaben braucht Struktur?', 'Erzählt uns, wo euer Projekt gerade steht. Im ersten Gespräch klären wir, ob und wie wir euch unterstützen können.', 'Über euer Vorhaben sprechen', serviceLinks.projekte, people),

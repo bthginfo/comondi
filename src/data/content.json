@@ -1761,7 +1761,7 @@
             "items": [
               {
                 "id": "programm",
-                "title": "Projekt- & Programmmanagement",
+                "title": "Projekt- & Programm­management",
                 "text": "Wir unterstützen euch dabei, Projekte und Programme zu strukturieren und im Alltag zu steuern.",
                 "details": [
                   "Gemeinsames Ziel festhalten",
@@ -1771,7 +1771,7 @@
               },
               {
                 "id": "prozesse",
-                "title": "Prozessmanagement",
+                "title": "Prozess­management",
                 "text": "Wir betrachten Abläufe und Zuständigkeiten in ihrem Zusammenhang.",
                 "details": [
                   "Abläufe sichtbar machen",
@@ -1781,7 +1781,7 @@
               },
               {
                 "id": "organisation",
-                "title": "Organisationsaufbau",
+                "title": "Organisations­aufbau",
                 "text": "Gemeinsam entwickeln wir Strukturen, die Orientierung geben und sich in eure bestehende Organisation einfügen.",
                 "details": [
                   "Rollen und Verantwortung ordnen",
@@ -1790,7 +1790,7 @@
               },
               {
                 "id": "anforderungen",
-                "title": "Anforderungsmanagement",
+                "title": "Anforderungs­management",
                 "text": "Ein klares Verständnis von Anforderungen verbindet fachliche und technische Perspektiven – auch im IT-Umfeld.",
                 "details": [
                   "Anforderungen erheben",
