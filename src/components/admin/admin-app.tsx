@@ -166,7 +166,7 @@ export function AdminApp({initialView="dashboard",initialSocialProject,initialPl
       } catch { /* Storage can be blocked; recovery is optional. */ }
       const complete = browserTourComplete();
       setTourComplete(complete);
-      if (!complete) setTourOpen(true);
+      // The CMS always opens on its start view; the intro starts only on request.
     }).catch(error => { if (active) setLoadingError(errorMessage(error)); });
     return () => { active = false; timers.current.forEach(clearTimeout); };
   }, [initialView, commitData]);
@@ -245,8 +245,9 @@ export function AdminApp({initialView="dashboard",initialSocialProject,initialPl
       toast(action==="publish"?"Der Beitrag wurde veröffentlicht.":action==="unpublish"?"Der Beitrag ist jetzt ein Entwurf.":action==="delete"?"Der Beitrag wurde gelöscht.":"Die Blog-Einstellungen wurden übernommen.");
     }catch(error){handleMutationError(error);throw error;}finally{setBusy(null);}
   }
-  function startTour() { setTourOpen(true); }
-  function closeTour() { markBrowserTourComplete(); setTourComplete(true); setTourOpen(false); }
+  const tourOrigin = useRef<AdminView>(initialView);
+  function startTour() { tourOrigin.current = view; setTourOpen(true); }
+  function closeTour() { markBrowserTourComplete(); setTourComplete(true); setTourOpen(false); navigate(tourOrigin.current); }
   async function upload(file: File) { if (file.size > 4 * 1024 * 1024) throw new Error("Diese Datei ist größer als 4 MB. Bitte verkleinern Sie sie vor dem Hochladen."); const form = new FormData(); form.append("file", file); form.append("alt", ""); const result = await api<{ asset: MediaAsset }>("/api/admin/media", { method: "POST", body: form }); commitData({ ...dataRef.current!, media: [result.asset, ...dataRef.current!.media] }); toast([{ message: "„{p1}“ wurde hochgeladen.", values: { p1: file.name } }]); return result.asset; }
   async function updateMedia(asset: MediaAsset) { const result = await api<{ asset: MediaAsset }>("/api/admin/media", { method: "PATCH", body: JSON.stringify({ id: asset.id, alt: asset.alt, position: asset.position }) }); commitData({ ...dataRef.current!, media: dataRef.current!.media.map(item => item.id === asset.id ? result.asset || asset : item) }); toast("Die Dateiangaben wurden gespeichert."); }
   async function deleteMedia(asset: MediaAsset) { if (JSON.stringify(contentRef.current).includes(asset.url)) throw new Error("Diese Datei wird im aktuellen Entwurf verwendet. Entfernen oder ersetzen Sie sie dort zuerst und speichern Sie den Entwurf."); await api("/api/admin/media", { method: "DELETE", body: JSON.stringify({ id: asset.id }) }); commitData({ ...dataRef.current!, media: dataRef.current!.media.filter(item => item.id !== asset.id) }); toast("Die Datei wurde gelöscht."); }
