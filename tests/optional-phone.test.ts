@@ -29,3 +29,8 @@ test('contact forms ask for a callback number only when the site has a phone num
   for(const match of source.matchAll(/<ContactForm (?![^>]*kind=)[^>]*>/g))assert.match(match[0],/askPhone=\{Boolean\(site\.phone\?\.trim\(\)\)\}/,`${file}: ${match[0]}`);
  }
 });
+test('an inquiry without a phone field is accepted (the form sends no number when the site has none)',async()=>{
+ const {inquirySchema}=await import('../src/lib/validation');
+ const base={name:'Test Person',email:'test@example.com',subject:'Frage',message:'Eine Nachricht mit genug Zeichen.',consent:true};
+ for(const phone of [null,undefined,'']){const parsed=inquirySchema.safeParse({...base,phone});assert.equal(parsed.success,true,`phone=${phone}: ${parsed.success?'':parsed.error.message}`);if(parsed.success)assert.equal(parsed.data.phone,'');}
+});

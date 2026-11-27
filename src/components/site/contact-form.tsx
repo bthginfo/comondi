@@ -45,7 +45,7 @@ export function ContactForm({ editable = false, copy, informal = false, compact 
       const response = await fetch("/api/contact", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: data.get("name"), email: data.get("email"), phone: data.get("phone"),
+          name: data.get("name"), email: data.get("email"), phone: data.get("phone") ?? "",
           subject: compact ? String(data.get("subject") || "").trim() || undefined : data.get("subject"), message: data.get("message"), kind,
           consent: data.get("consent") === "on", website: data.get("website") ?? "", startedAt,
         }),
